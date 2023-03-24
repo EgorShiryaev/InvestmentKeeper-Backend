@@ -1,4 +1,4 @@
-import { Database, verbose as initSqlite3 } from "sqlite3";
+import { Database as DatabaseSqlite3, verbose as initSqlite3 } from "sqlite3";
 
 export type RunResult = {
   lastId: number;
@@ -11,15 +11,16 @@ export type GetAllResult = Object[];
 
 type VoidCallback = () => void;
 
-export interface DatabaseHelper {
+export interface Database {
   run: (sqlScript: string) => Promise<RunResult>;
   get: (sqlScript: string) => Promise<GetResult>;
   getAll: (sqlScript: string) => Promise<GetAllResult>;
   close: () => Promise<void>;
+  serialize: (fun: VoidCallback) => void;
 }
 
-const DatabaseHelperImpl = (databasePath: string) => {
-  const initDatabase = (): Database => {
+const DatabaseImpl = (databasePath: string): Database => {
+  const initDatabase = (): DatabaseSqlite3 => {
     const sqlite3 = initSqlite3();
     return new sqlite3.Database(databasePath, (error) => {
       if (error) {
@@ -96,4 +97,4 @@ const DatabaseHelperImpl = (databasePath: string) => {
   };
 };
 
-export default DatabaseHelperImpl;
+export default DatabaseImpl;
