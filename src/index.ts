@@ -1,5 +1,4 @@
-import dependencyInjection from "./dependency_injection";
+import dependencyInjection from './dependency_injection';
 
-const app = dependencyInjection();
+dependencyInjection().then((app) => app.run());
 
-app.run();
