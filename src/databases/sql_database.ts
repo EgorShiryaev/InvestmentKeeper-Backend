@@ -1,26 +1,18 @@
-import { Database as DatabaseSqlite3, verbose as initSqlite3 } from "sqlite3";
+import { Database, verbose as initSqlite3 } from "sqlite3";
+import {
+  GetAllResult,
+  GetResult,
+  RunResult,
+  SqlDatabaseModel,
+  VoidCallback,
+} from "../types/sql_database";
 
-export type RunResult = {
-  lastId: number;
-  changes: number;
+type Params = {
+  databasePath: string;
 };
 
-export type GetResult = Object | undefined;
-
-export type GetAllResult = Object[];
-
-type VoidCallback = () => void;
-
-export interface Database {
-  run: (sqlScript: string) => Promise<RunResult>;
-  get: (sqlScript: string) => Promise<GetResult>;
-  getAll: (sqlScript: string) => Promise<GetAllResult>;
-  close: () => Promise<void>;
-  serialize: (fun: VoidCallback) => void;
-}
-
-const DatabaseImpl = (databasePath: string): Database => {
-  const initDatabase = (): DatabaseSqlite3 => {
+const SqlDatabase = ({ databasePath }: Params): SqlDatabaseModel => {
+  const initDatabase = (): Database => {
     const sqlite3 = initSqlite3();
     return new sqlite3.Database(databasePath, (error) => {
       if (error) {
@@ -60,9 +52,9 @@ const DatabaseImpl = (databasePath: string): Database => {
     });
   };
 
-  const get = (sqlScript: string): Promise<GetResult> => {
+  const get = <T>(sqlScript: string): Promise<GetResult<T>> => {
     return new Promise((resolve, reject) => {
-      database.get(sqlScript, (error, row: GetResult) => {
+      database.get(sqlScript, (error, row: GetResult<T>) => {
         if (error) {
           reject(error);
           return;
@@ -72,9 +64,9 @@ const DatabaseImpl = (databasePath: string): Database => {
     });
   };
 
-  const getAll = (sqlScript: string): Promise<GetAllResult> => {
+  const getAll = <T>(sqlScript: string): Promise<GetAllResult<T>> => {
     return new Promise((resolve, reject) => {
-      database.all(sqlScript, (error, rows: GetAllResult) => {
+      database.all(sqlScript, (error, rows: GetAllResult<T>) => {
         if (error) {
           reject(error);
           return;
@@ -97,4 +89,4 @@ const DatabaseImpl = (databasePath: string): Database => {
   };
 };
 
-export default DatabaseImpl;
+export default SqlDatabase;
