@@ -1,4 +1,4 @@
-import ExceptionType from "./exception_type";
+import ExceptionType from '../core/exceptions/exception_type';
 
 type Params = {
   type: ExceptionType;

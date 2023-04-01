@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
 type Api = {
   handler: (request: Request, response: Response) => void;

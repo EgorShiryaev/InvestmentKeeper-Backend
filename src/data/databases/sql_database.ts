@@ -1,27 +1,27 @@
-import { Database, verbose as initSqlite3 } from "sqlite3";
+import { Database, verbose as initSqlite3 } from 'sqlite3';
 import {
   GetAllResult,
   GetResult,
   RunResult,
-  SqlDatabaseModel,
+  SqlDatabase,
   VoidCallback,
-} from "../types/sql_database";
+} from './types';
 
 type Params = {
-  databasePath: string;
+    databasePath: string;
 };
 
-const SqlDatabase = ({ databasePath }: Params): SqlDatabaseModel => {
+const SqlDatabaseImpl = ({ databasePath }: Params): SqlDatabase => {
   const initDatabase = (): Database => {
     const sqlite3 = initSqlite3();
     return new sqlite3.Database(databasePath, (error) => {
       if (error) {
         //TODO: после реализации logger заменить
-        console.log("Database failure open", error);
+        console.log('Database failure open', error);
         return;
       }
       //TODO: после реализации logger заменить
-      console.log("Database success open");
+      console.log('Database success open');
     });
   };
 
@@ -32,46 +32,55 @@ const SqlDatabase = ({ databasePath }: Params): SqlDatabaseModel => {
       database.close((error) => {
         if (error) {
           reject(error);
-          console.log("Database failure close", error);
+          console.log('Database failure close', error);
           return;
         }
         resolve();
-        console.log("Database success close");
+        console.log('Database success close');
       });
     });
   };
 
   const run = (sqlScript: string): Promise<RunResult> => {
+    console.log(sqlScript);
     return new Promise((resolve) => {
-      database.run(sqlScript, function () {
-        resolve({
-          lastId: this.lastID,
-          changes: this.changes,
+      serialize(() => {
+        database.run(sqlScript, function () {
+          resolve({
+            lastId: this.lastID,
+            changes: this.changes,
+          });
         });
       });
     });
   };
 
   const get = <T>(sqlScript: string): Promise<GetResult<T>> => {
+    console.log(sqlScript);
     return new Promise((resolve, reject) => {
-      database.get(sqlScript, (error, row: GetResult<T>) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(row);
+      serialize(() => {
+        database.get(sqlScript, (error, row: GetResult<T>) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve(row);
+        });
       });
     });
   };
 
   const getAll = <T>(sqlScript: string): Promise<GetAllResult<T>> => {
+    console.log(sqlScript);
     return new Promise((resolve, reject) => {
-      database.all(sqlScript, (error, rows: GetAllResult<T>) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(rows);
+      serialize(() => {
+        database.all(sqlScript, (error, rows: GetAllResult<T>) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve(rows);
+        });
       });
     });
   };
@@ -89,4 +98,5 @@ const SqlDatabase = ({ databasePath }: Params): SqlDatabaseModel => {
   };
 };
 
-export default SqlDatabase;
+export default SqlDatabaseImpl;
+

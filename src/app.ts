@@ -1,15 +1,25 @@
-import express from "express";
-import https from "https";
+import express from 'express';
+import http from 'http';
+import Api from './presentation/api';
 
 type Params = {
-  url: string;
-  port: number;
+    url: string;
+    port: number;
+    api: { registration: Api };
 };
 
-const App = ({ url, port }: Params) => {
+export type App = {
+    run: () => void;
+};
+
+const AppImpl = ({ url, port, api }: Params) => {
   const run = () => {
     const app = express();
-    const server = https.createServer(app);
+    app.use(express.json());
+
+    app.post('/registration', api.registration.handler);
+
+    const server = http.createServer(app);
     server.listen(port, url, () => {
       console.log(`Success start server ${url}:${port}`);
     });
@@ -20,4 +30,5 @@ const App = ({ url, port }: Params) => {
   };
 };
 
-export default App;
+export default AppImpl;
+
