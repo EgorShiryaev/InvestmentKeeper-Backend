@@ -1,7 +1,8 @@
-type UserEntity = {
+import AuthData from './auth_data';
+
+type UserEntity = AuthData & {
   name: string;
-  email: string;
-  password: string;
 };
 
 export default UserEntity;
+

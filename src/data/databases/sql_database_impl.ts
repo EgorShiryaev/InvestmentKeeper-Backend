@@ -1,4 +1,5 @@
 import { Database, verbose as initSqlite3 } from 'sqlite3';
+import DatabaseException from '../../core/exceptions/database_exception';
 import {
   GetAllResult,
   GetResult,
@@ -43,9 +44,13 @@ const SqlDatabaseImpl = ({ databasePath }: Params): SqlDatabase => {
 
   const run = (sqlScript: string): Promise<RunResult> => {
     console.log(sqlScript);
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       serialize(() => {
-        database.run(sqlScript, function () {
+        database.run(sqlScript, function (error) {
+          if (error) {
+            reject(DatabaseException({ message: error.message }));
+            return;
+          }
           resolve({
             lastId: this.lastID,
             changes: this.changes,

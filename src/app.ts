@@ -3,13 +3,13 @@ import http from 'http';
 import Api from './presentation/api';
 
 type Params = {
-    url: string;
-    port: number;
-    api: { registration: Api };
+  url: string;
+  port: number;
+  api: { registration: Api; login: Api };
 };
 
 export type App = {
-    run: () => void;
+  run: () => void;
 };
 
 const AppImpl = ({ url, port, api }: Params) => {
@@ -18,6 +18,7 @@ const AppImpl = ({ url, port, api }: Params) => {
     app.use(express.json());
 
     app.post('/registration', api.registration.handler);
+    app.post('/login', api.login.handler);
 
     const server = http.createServer(app);
     server.listen(port, url, () => {
