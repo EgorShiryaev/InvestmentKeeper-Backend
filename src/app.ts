@@ -1,11 +1,11 @@
 import express from 'express';
 import http from 'http';
-import Api from './presentation/api';
+import Api from './presentation/apis/api';
 
 type Params = {
   url: string;
   port: number;
-  api: { registration: Api; login: Api };
+  api: { registration: Api; login: Api; getUserInvestmentAccounts: Api };
 };
 
 export type App = {
@@ -19,6 +19,7 @@ const AppImpl = ({ url, port, api }: Params) => {
 
     app.post('/registration', api.registration.handler);
     app.post('/login', api.login.handler);
+    app.get('/userInvestmentAccounts', api.getUserInvestmentAccounts.handler);
 
     const server = http.createServer(app);
     server.listen(port, url, () => {
