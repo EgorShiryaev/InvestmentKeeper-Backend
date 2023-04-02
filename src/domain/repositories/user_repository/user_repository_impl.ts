@@ -1,12 +1,12 @@
-import UserDatasource from '../../data/datasources/user_datasource';
-import NotFoundException from '../../core/exceptions/not_found_exception';
-import UserRepository from '../../data/repositories/user_repository';
-import UserEntity from '../entities/user';
-import RecordAlreadyExistsException from '../../core/exceptions/record_already_exists_exception';
-import InsertException from '../../core/exceptions/insert_exception';
+import UserDatasource from '../../../data/datasources/user_datasource/user_datasource';
+import NotFoundException from '../../../core/exceptions/not_found_exception';
+import UserRepository from './user_repository';
+import UserEntity from '../../entities/user/user';
+import RecordAlreadyExistsException from '../../../core/exceptions/record_already_exists_exception';
+import InsertException from '../../../core/exceptions/insert_exception';
 
 type Params = {
-    localDatasource: UserDatasource;
+  localDatasource: UserDatasource;
 };
 
 const UserRepositoryImpl = ({ localDatasource }: Params): UserRepository => {

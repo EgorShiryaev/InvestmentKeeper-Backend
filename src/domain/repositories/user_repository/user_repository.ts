@@ -1,5 +1,5 @@
-import UserEntity from '../../domain/entities/user';
-import UserModel from '../models/user';
+import UserEntity from '../../entities/user/user';
+import UserModel from '../../../data/models/user';
 
 type UserRepository = {
   getByEmail: (email: string) => Promise<UserModel>;
@@ -7,3 +7,4 @@ type UserRepository = {
 };
 
 export default UserRepository;
+

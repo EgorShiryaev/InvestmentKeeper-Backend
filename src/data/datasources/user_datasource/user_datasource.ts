@@ -1,6 +1,6 @@
-import UserEntity from '../../domain/entities/user';
-import { RunResult } from '../databases/types';
-import UserModel from '../models/user';
+import UserEntity from '../../../domain/entities/user/user';
+import { RunResult } from '../../databases/types';
+import UserModel from '../../models/user';
 
 type UserDatasource = {
   getByEmail: (email: string) => Promise<UserModel | undefined>;
@@ -8,3 +8,4 @@ type UserDatasource = {
 };
 
 export default UserDatasource;
+

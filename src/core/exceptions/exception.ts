@@ -5,7 +5,12 @@ type Params = {
   message: string;
 };
 
-const Exception = ({ type, message }: Params): Params => {
+export interface IException {
+  type: ExceptionType;
+  message: string;
+}
+
+const Exception = ({ type, message }: Params): IException => {
   return {
     type,
     message,
@@ -13,3 +18,4 @@ const Exception = ({ type, message }: Params): Params => {
 };
 
 export default Exception;
+
