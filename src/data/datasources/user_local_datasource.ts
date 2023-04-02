@@ -2,14 +2,13 @@ import UserDatasource from './user_datasource';
 import UserModel from '../models/user';
 import UserEntity from '../../domain/entities/user';
 import { SqlDatabase } from '../databases/types';
+import { encodePassword } from '../../core/utils/crypt_password';
 
 type Params = {
-    sqlDatabase: SqlDatabase;
+  sqlDatabase: SqlDatabase;
 };
 
-const UserLocalDatasource = async ({
-  sqlDatabase,
-}: Params): Promise<UserDatasource> => {
+const UserLocalDatasource = ({ sqlDatabase }: Params): UserDatasource => {
   const tableTitle = 'Users';
 
   const createTableIfNotExists = async () => {
@@ -22,7 +21,7 @@ const UserLocalDatasource = async ({
     await sqlDatabase.run(script);
   };
 
-  await createTableIfNotExists();
+  createTableIfNotExists();
 
   const getByEmail = async (email: string) => {
     const script = `SELECT * FROM ${tableTitle} WHERE email = "${email}"`;
@@ -30,8 +29,9 @@ const UserLocalDatasource = async ({
   };
 
   const add = async (user: UserEntity) => {
+    const encodedPassword = await encodePassword(user.password);
     const script = `INSERT INTO ${tableTitle} (name, email, password ) 
-    VALUES("${user.name}", "${user.email}", "${user.password}")`;
+    VALUES("${user.name}", "${user.email}", "${encodedPassword}")`;
     return sqlDatabase.run(script);
   };
 
