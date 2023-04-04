@@ -1,4 +1,4 @@
-import createTables from '../../../core/utils/create_tables';
+import createTables from '../../utils/create_tables';
 import SqlDatabaseImpl from '../../../data/databases/sql_database_impl';
 import { SqlDatabase } from '../../../data/databases/types';
 

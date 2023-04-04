@@ -1,15 +1,15 @@
-import ExceptionType from '../../core/exceptions/exception_type';
-import FailureAuthException from '../../core/exceptions/failure_auth_exception';
-import checkRequiredParams from '../../core/utils/required_params/check_required_params';
-import { compareEncodedPassword } from '../../core/utils/encoded_password/compare_encoded_password';
-import generateAuthToken from '../../core/utils/auth_token/generate_auth_token';
-import generateRequiredParamsError from '../../core/utils/required_params/generate_required_params_error';
-import UserRepository from '../../domain/repositories/user_repository/user_repository';
-import AuthData from '../../domain/entities/api_data/auth_data';
-import StatusCode from '../status_codes/status_code';
-import Api from './api';
-import { IException } from '../../core/exceptions/exception';
-import { addUserToAuthTokenUserRepository } from '../../core/utils/auth_token/auth_token_user_repository';
+import { IException } from '../../../core/exceptions/exception';
+import ExceptionType from '../../../core/exceptions/exception_type';
+import FailureAuthException from '../../../core/exceptions/failure_auth_exception';
+import { addUserToAuthTokenUserRepository } from '../../../core/utils/auth_token/auth_token_user_repository';
+import generateAuthToken from '../../../core/utils/auth_token/generate_auth_token';
+import { compareEncodedPassword } from '../../../core/utils/encoded_password/compare_encoded_password';
+import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
+import generateRequiredParamsError from '../../../core/utils/required_params/generate_required_params_error';
+import LoginData from '../../../domain/entities/api/auth_module/login_data';
+import StatusCode from '../../../domain/entities/api/status_code';
+import UserRepository from '../../../domain/repositories/user_repository/user_repository';
+import Api from '../api';
 
 type Params = {
   repository: UserRepository;
@@ -27,7 +27,7 @@ const LoginApi = ({ repository }: Params): Api => {
         response.status(StatusCode.badRequest).json({ error: error });
         return;
       }
-      const authData: AuthData = request.body;
+      const authData: LoginData = request.body;
 
       try {
         const user = await repository.getByEmail(authData.email);

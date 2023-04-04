@@ -25,7 +25,12 @@ const UserInvestmentAccountsLocalDatasource = ({
 
       const insertAccountId = `INSERT INTO ${userInvestmentAccountsTitle} VALUES(${userId}, ${resultInsert.lastId})`;
 
-      await sqlDatabase.run(insertAccountId);
+      return sqlDatabase.run(insertAccountId);
+    },
+    update: ({ id, title }) => {
+      const script = `UPDATE ${investmentAccountsTitle} SET title = "${title}" WHERE id = ${id}`;
+
+      return sqlDatabase.run(script);
     },
   };
 };
