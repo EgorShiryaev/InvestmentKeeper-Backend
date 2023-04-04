@@ -3,6 +3,7 @@ import InvestmentAccountType from '../../../domain/entities/investment_account/i
 type InvestmentAccountModel = {
   title: string;
   type: InvestmentAccountType;
+  visibility: number,
   itemsId: number[];
 };
 

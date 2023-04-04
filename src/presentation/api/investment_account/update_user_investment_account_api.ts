@@ -14,7 +14,7 @@ type Params = {
 };
 
 const UpdateUserInvestmentAccountApi = ({ repository }: Params): Api => {
-  const requiredParams = ['title'];
+  const requiredParams = ['id'];
 
   return {
     handler: async (request, response) => {
@@ -31,15 +31,32 @@ const UpdateUserInvestmentAccountApi = ({ repository }: Params): Api => {
         response.sendStatus(StatusCode.forbidden);
         return;
       }
+      const updateInstrumentAccountData: UpdateInvestmentAccountData =
+        request.body;
 
-      if (!checkRequiredParams(request.body, requiredParams)) {
-        const error = generateRequiredParamsError(request.body, requiredParams);
+      if (!checkRequiredParams(updateInstrumentAccountData, requiredParams)) {
+        const error = generateRequiredParamsError(
+          updateInstrumentAccountData,
+          requiredParams,
+        );
         response.status(StatusCode.badRequest).json({ error: error });
         return;
       }
 
-      const updateInstrumentAccountData: UpdateInvestmentAccountData =
-        request.body;
+      const optionalParams = [
+        updateInstrumentAccountData.title,
+        updateInstrumentAccountData.visibility !== undefined,
+      ];
+
+
+
+      if (!optionalParams.reduce((prev, current) => prev || current, false)) {
+        const optionalParamsTitle = ['title', 'visibility'];
+        const fields = optionalParamsTitle.map((v) => `"${v}"`).join(', ');
+        const error = `${fields} are optional parameters, but one of them must be specified`;
+        response.status(StatusCode.badRequest).json({ error: error });
+        return;
+      }
 
       try {
         await repository.update(updateInstrumentAccountData);

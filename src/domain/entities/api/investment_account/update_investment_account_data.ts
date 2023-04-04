@@ -1,6 +1,7 @@
 type UpdateInvestmentAccountData = {
   id: number,
-  title: string;
+  title?: string;
+  visibility?: boolean;
 };
 
 export default UpdateInvestmentAccountData;

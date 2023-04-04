@@ -10,8 +10,10 @@ const UserInvestmentAccountsRepositoryImpl = ({
   userInvestmentAccountsDatasource,
 }: Params): UserInvestmentAccountsRepository => {
   return {
-    getAll: (userId) => {
-      return userInvestmentAccountsDatasource.getAll(userId);
+    getAll: async (userId) => {
+      const records = await userInvestmentAccountsDatasource.getAll(userId);
+
+      return records.map((v) => ({ ...v, visibility: v.visibility ? true : false }));
     },
     create: (params) => {
       return userInvestmentAccountsDatasource.create(params);
