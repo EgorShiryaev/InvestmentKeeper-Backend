@@ -2,7 +2,7 @@ import { getUserFromAuthTokenUserRepository } from '../../../core/utils/auth_tok
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import generateRequiredParamsError from '../../../core/utils/required_params/generate_required_params_error';
-import UserInvestmentAccountsRepository from '../../../domain/repositories/user_investment_accounts_repository/user_investment_accounts_repository';
+import UserInvestmentAccountsRepository from '../../../domain/repositories/investment_accounts_repository/user_investment_accounts_repository';
 import StatusCode from '../../../domain/entities/api/status_code';
 import Api from '../api';
 import UpdateInvestmentAccountData from '../../../domain/entities/api/investment_account/update_investment_account_data';
@@ -47,8 +47,6 @@ const UpdateUserInvestmentAccountApi = ({ repository }: Params): Api => {
         updateInstrumentAccountData.title,
         updateInstrumentAccountData.visibility !== undefined,
       ];
-
-
 
       if (!optionalParams.reduce((prev, current) => prev || current, false)) {
         const optionalParamsTitle = ['title', 'visibility'];

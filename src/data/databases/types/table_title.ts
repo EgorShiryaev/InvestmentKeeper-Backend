@@ -1,6 +1,5 @@
 enum TableTitle {
   users = 'Users',
-  userInvestmentAccounts = 'UserInvestmentAccounts',
   investmentAccounts = 'InvestmentAccounts',
 }
 

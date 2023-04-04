@@ -1,10 +1,10 @@
 import Api from '../../../presentation/api/api';
 
-type UserInvestmentAccountsModule = {
+type InvestmentAccountsModule = {
   getUserInvestmentAccounts: Api;
   createInvestmentAccount: Api;
   updateInvestmentAccount: Api;
 };
 
-export default UserInvestmentAccountsModule;
+export default InvestmentAccountsModule;
 

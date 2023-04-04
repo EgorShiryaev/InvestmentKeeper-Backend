@@ -9,11 +9,11 @@ type CreateParams = {
   type: InvestmentAccountType;
 };
 
-type UserInvestmentAccountsDatasource = {
+type InvestmentAccountsDatasource = {
   getAll: (userId: number) => Promise<InvestmentAccountModel[]>;
   create: (params: CreateParams) => Promise<RunResult>;
   update: (params: UpdateInvestmentAccountData) => Promise<RunResult>;
 };
 
-export default UserInvestmentAccountsDatasource;
+export default InvestmentAccountsDatasource;
 

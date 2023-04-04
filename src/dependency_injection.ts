@@ -2,7 +2,7 @@ import path from 'path';
 import AppImpl from './app_impl';
 import authModuleDependencyInjection from './core/dependency_injection/auth_module/auth_module_dependency_injection';
 import sqlDatabaseDependencyInjection from './core/dependency_injection/sql_database/sql_database_dependency_injection';
-import userInvestmentAccountsModuleDependencyInjection from './core/dependency_injection/user_investment_accounts_module/user_investment_accounts_module_dependency_injection';
+import investmentAccountsModuleDependencyInjection from './core/dependency_injection/investment_accounts_module/investment_accounts_module_dependency_injection';
 import App from './app';
 
 const dependencyInjection = async (): Promise<App> => {
@@ -13,7 +13,7 @@ const dependencyInjection = async (): Promise<App> => {
 
   const authModule = authModuleDependencyInjection(sqlDatabase);
   const userInvestmentAccountsModule =
-    userInvestmentAccountsModuleDependencyInjection(sqlDatabase);
+    investmentAccountsModuleDependencyInjection(sqlDatabase);
 
   const app = AppImpl({
     url: '127.0.0.1',
