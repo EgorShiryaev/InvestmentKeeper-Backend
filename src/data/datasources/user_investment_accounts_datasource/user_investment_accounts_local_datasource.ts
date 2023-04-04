@@ -11,15 +11,16 @@ const UserInvestmentAccountsLocalDatasource = ({
 
   return {
     getAll: (userId) => {
-      const script = `SELECT id, title, "type" FROM ${userInvestmentAccountsTitle} 
+      const script = `SELECT id, title, "type", visibility 
+      FROM ${userInvestmentAccountsTitle} 
       RIGHT JOIN ${investmentAccountsTitle} ON ${userInvestmentAccountsTitle}.accountId = ${investmentAccountsTitle}.id 
       WHERE userId = ${userId}`;
 
       return sqlDatabase.getAll<InvestmentAccountModel>(script);
     },
     create: async ({ userId, title, type }) => {
-      const insertScript = `INSERT INTO ${investmentAccountsTitle} (title, type)
-      VALUES ("${title}", "${type}")`;
+      const insertScript = `INSERT INTO ${investmentAccountsTitle} (title, type, visibility)
+      VALUES ("${title}", "${type}", 1)`;
 
       const resultInsert = await sqlDatabase.run(insertScript);
 
@@ -27,8 +28,14 @@ const UserInvestmentAccountsLocalDatasource = ({
 
       return sqlDatabase.run(insertAccountId);
     },
-    update: ({ id, title }) => {
-      const script = `UPDATE ${investmentAccountsTitle} SET title = "${title}" WHERE id = ${id}`;
+    update: ({ id, title, visibility }) => {
+      const set = [
+        title && `title = "${title}"`,
+        visibility !== undefined && `visibility = "${visibility ? 1 : 0}"`,
+      ]
+        .filter((v) => v)
+        .join(', ');
+      const script = `UPDATE ${investmentAccountsTitle} SET ${set} WHERE id = ${id}`;
 
       return sqlDatabase.run(script);
     },

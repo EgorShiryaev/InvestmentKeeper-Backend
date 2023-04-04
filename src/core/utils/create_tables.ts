@@ -20,7 +20,8 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     const script = `CREATE TABLE IF NOT EXISTS ${investmentAccountsTableTitle} (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
-      type TEXT NOT NULL
+      type TEXT NOT NULL,
+      visibility BOOL NOT NULL
   )`;
     await sqlDatabase.run(script);
   };
