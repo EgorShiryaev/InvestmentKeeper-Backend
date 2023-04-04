@@ -1,8 +1,8 @@
 import { SqlDatabase } from '../../../data/databases/types';
 import UserLocalDatasource from '../../../data/datasources/user_datasource/user_local_datasource';
 import UserRepositoryImpl from '../../../domain/repositories/user_repository/user_repository_impl';
-import LoginApi from '../../apis/login_api';
-import RegistrationApi from '../../apis/registration_api';
+import LoginApi from '../../../presentation/api/auth_module/login_api';
+import RegistrationApi from '../../../presentation/api/auth_module/registration_api';
 import AuthModule from './auth_module';
 
 const authModuleDependencyInjection = (
@@ -30,3 +30,4 @@ const authModuleDependencyInjection = (
 };
 
 export default authModuleDependencyInjection;
+

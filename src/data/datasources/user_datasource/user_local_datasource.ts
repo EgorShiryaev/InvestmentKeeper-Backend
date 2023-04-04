@@ -14,7 +14,7 @@ const UserLocalDatasource = ({
       const script = `SELECT * FROM ${tableTitle} WHERE email = "${email}"`;
       return sqlDatabase.get<UserModel>(script);
     },
-    add: async (user) => {
+    create: async (user) => {
       const encodedPassword = await encodePassword(user.password);
       const script = `INSERT INTO ${tableTitle} (name, email, password) 
       VALUES("${user.name}", "${user.email}", "${encodedPassword}")`;

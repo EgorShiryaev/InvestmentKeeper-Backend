@@ -1,4 +1,4 @@
-import InvestmentAccountType from '../investment_account/investment_account_type';
+import InvestmentAccountType from '../../investment_account/investment_account_type';
 
 type CreateInvestmentAccountData = {
   title: string;
@@ -6,3 +6,4 @@ type CreateInvestmentAccountData = {
 };
 
 export default CreateInvestmentAccountData;
+

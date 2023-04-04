@@ -1,6 +1,6 @@
-import AuthData from '../api_data/auth_data';
-
-type UserEntity = AuthData & {
+type UserEntity = {
+  email: string;
+  password: string;
   name: string;
 };
 
