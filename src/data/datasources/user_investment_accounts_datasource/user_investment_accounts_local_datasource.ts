@@ -17,6 +17,16 @@ const UserInvestmentAccountsLocalDatasource = ({
 
       return sqlDatabase.getAll<InvestmentAccountModel>(script);
     },
+    create: async ({ userId, title, type }) => {
+      const insertScript = `INSERT INTO ${investmentAccountsTitle} (title, type)
+      VALUES ("${title}", "${type}")`;
+
+      const resultInsert = await sqlDatabase.run(insertScript);
+
+      const insertAccountId = `INSERT INTO ${userInvestmentAccountsTitle} VALUES(${userId}, ${resultInsert.lastId})`;
+
+      await sqlDatabase.run(insertAccountId);
+    },
   };
 };
 

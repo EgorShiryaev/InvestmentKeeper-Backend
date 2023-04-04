@@ -3,18 +3,18 @@ import UserInvestmentAccountsRepository from './user_investment_accounts_reposit
 
 type Params = {
   userInvestmentAccountsDatasource: UserInvestmentAccountsDatasource;
-  // investmentInstrumentsDatasource:
 };
 
 const UserInvestmentAccountsRepositoryImpl = ({
   userInvestmentAccountsDatasource,
 }: Params): UserInvestmentAccountsRepository => {
   return {
-    getAll: async (userId) => {
-      const records = await userInvestmentAccountsDatasource.getAll(userId);
-
-      return records;
+    getAll:  (userId) => {
+      return userInvestmentAccountsDatasource.getAll(userId);
     },
+    create: (params) => {
+      return userInvestmentAccountsDatasource.create(params);
+    }
   };
 };
 

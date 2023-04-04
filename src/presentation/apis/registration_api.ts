@@ -3,10 +3,10 @@ import UserRepository from '../../domain/repositories/user_repository/user_repos
 import checkRequiredParams from '../../core/utils/required_params/check_required_params';
 import generateRequiredParamsError from '../../core/utils/required_params/generate_required_params_error';
 import UserEntity from '../../domain/entities/user/user';
-import generateAuthToken from '../../core/utils/bearer_token/generate_auth_token';
+import generateAuthToken from '../../core/utils/auth_token/generate_auth_token';
 import StatusCode from '../status_codes/status_code';
 import { IException } from '../../core/exceptions/exception';
-import { addUserToAuthTokenUserRepository } from '../../core/utils/bearer_token/auth_token_user_repository';
+import { addUserToAuthTokenUserRepository } from '../../core/utils/auth_token/auth_token_user_repository';
 
 type Params = {
   repository: UserRepository;
