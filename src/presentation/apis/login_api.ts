@@ -2,14 +2,14 @@ import ExceptionType from '../../core/exceptions/exception_type';
 import FailureAuthException from '../../core/exceptions/failure_auth_exception';
 import checkRequiredParams from '../../core/utils/required_params/check_required_params';
 import { compareEncodedPassword } from '../../core/utils/encoded_password/compare_encoded_password';
-import generateAuthToken from '../../core/utils/bearer_token/generate_auth_token';
+import generateAuthToken from '../../core/utils/auth_token/generate_auth_token';
 import generateRequiredParamsError from '../../core/utils/required_params/generate_required_params_error';
 import UserRepository from '../../domain/repositories/user_repository/user_repository';
-import AuthData from '../../domain/entities/user/auth_data';
+import AuthData from '../../domain/entities/api_data/auth_data';
 import StatusCode from '../status_codes/status_code';
 import Api from './api';
 import { IException } from '../../core/exceptions/exception';
-import { addUserToAuthTokenUserRepository } from '../../core/utils/bearer_token/auth_token_user_repository';
+import { addUserToAuthTokenUserRepository } from '../../core/utils/auth_token/auth_token_user_repository';
 
 type Params = {
   repository: UserRepository;

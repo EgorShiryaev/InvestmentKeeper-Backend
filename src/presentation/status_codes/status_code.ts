@@ -5,7 +5,7 @@ enum StatusCode {
   badRequest = 400,
   authFailure = 401,
   forbidden = 403,
-  notFonud = 404,
+  notFound = 404,
   serverError = 500,
 }
 

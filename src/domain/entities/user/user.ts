@@ -1,4 +1,4 @@
-import AuthData from './auth_data';
+import AuthData from '../api_data/auth_data';
 
 type UserEntity = AuthData & {
   name: string;

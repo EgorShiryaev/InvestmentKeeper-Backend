@@ -16,7 +16,7 @@ const UserLocalDatasource = ({
     },
     add: async (user) => {
       const encodedPassword = await encodePassword(user.password);
-      const script = `INSERT INTO ${tableTitle} (name, email, password ) 
+      const script = `INSERT INTO ${tableTitle} (name, email, password) 
       VALUES("${user.name}", "${user.email}", "${encodedPassword}")`;
       return sqlDatabase.run(script);
     },

@@ -1,11 +1,12 @@
 import express from 'express';
 import http from 'http';
-import Api from './presentation/apis/api';
+import AuthModule from './presentation/dependency_injection/auth_module/auth_module';
+import UserInvestmentAccountsModule from './presentation/dependency_injection/user_investment_accounts_module/user_investment_accounts_module';
 
 type Params = {
   url: string;
   port: number;
-  api: { registration: Api; login: Api; getUserInvestmentAccounts: Api };
+  api: AuthModule & UserInvestmentAccountsModule;
 };
 
 export type App = {
@@ -19,7 +20,10 @@ const AppImpl = ({ url, port, api }: Params) => {
 
     app.post('/registration', api.registration.handler);
     app.post('/login', api.login.handler);
-    app.get('/userInvestmentAccounts', api.getUserInvestmentAccounts.handler);
+
+    const investmentAccountsPath = '/investmentAccounts';
+    app.get(investmentAccountsPath, api.getUserInvestmentAccounts.handler);
+    app.post(investmentAccountsPath, api.createUserInvestmentAccount.handler);
 
     const server = http.createServer(app);
     server.listen(port, url, () => {
