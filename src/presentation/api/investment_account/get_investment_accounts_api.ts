@@ -1,7 +1,7 @@
 import { getUserFromAuthTokenUserRepository } from '../../../core/utils/auth_token/auth_token_user_repository';
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
 import StatusCode from '../../../domain/entities/api/status_code';
-import UserInvestmentAccountsRepository from '../../../domain/repositories/user_investment_accounts_repository/user_investment_accounts_repository';
+import UserInvestmentAccountsRepository from '../../../domain/repositories/investment_accounts_repository/user_investment_accounts_repository';
 import Api from '../api';
 
 type Params = {

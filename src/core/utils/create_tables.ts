@@ -4,7 +4,6 @@ import TableTitle from '../../data/databases/types/table_title';
 const createTables = async (sqlDatabase: SqlDatabase) => {
   const usersTableTitle = TableTitle.users;
   const investmentAccountsTableTitle = TableTitle.investmentAccounts;
-  const userInvestmentAccountsTableTitle = TableTitle.userInvestmentAccounts;
 
   const createUsersTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${usersTableTitle} (
@@ -16,30 +15,20 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     await sqlDatabase.run(script);
   };
 
+
+
   const createInvestmentAccountsTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${investmentAccountsTableTitle} (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      type TEXT NOT NULL,
-      visibility BOOL NOT NULL
-  )`;
-    await sqlDatabase.run(script);
-  };
-
-  const createUsersInvestmentAccountsTableIfNotExists = async () => {
-    const script = `CREATE TABLE IF NOT EXISTS ${userInvestmentAccountsTableTitle} (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         userId INT NOT NULL, 
-        accountId INT NOT NULL,
-        PRIMARY KEY(userId, accountId),
+        title TEXT NOT NULL,
+        type TEXT NOT NULL,
+        visibility BOOL NOT NULL,
         FOREIGN KEY (userId)
           REFERENCES ${usersTableTitle} (id) 
             ON UPDATE CASCADE
-            ON DELETE CASCADE,
-        FOREIGN KEY (accountId)
-          REFERENCES ${investmentAccountsTableTitle} (id) 
-            ON UPDATE CASCADE
             ON DELETE CASCADE
-    ) WITHOUT ROWID`;
+    )`;
     await sqlDatabase.run(script);
   };
 
@@ -47,7 +36,6 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     return Promise.all([
       createUsersTableIfNotExists(),
       createInvestmentAccountsTableIfNotExists(),
-      createUsersInvestmentAccountsTableIfNotExists(),
     ]);
   };
 
@@ -55,3 +43,4 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
 };
 
 export default createTables;
+
