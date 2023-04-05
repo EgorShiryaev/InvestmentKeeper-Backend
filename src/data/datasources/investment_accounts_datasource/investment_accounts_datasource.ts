@@ -1,7 +1,7 @@
 import UpdateInvestmentAccountData from '../../../domain/entities/api/investment_account/update_investment_account_data';
 import InvestmentAccountType from '../../../domain/entities/investment_account/investment_account_type';
 import { RunResult } from '../../databases/types';
-import InvestmentAccountModel from '../../models/investment_account/investment_account';
+import InvestmentAccountModel from '../../models/investment_account';
 
 type CreateParams = {
   userId: number;

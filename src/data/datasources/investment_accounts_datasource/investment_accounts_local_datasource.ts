@@ -1,5 +1,5 @@
 import TableTitle from '../../databases/types/table_title';
-import InvestmentAccountModel from '../../models/investment_account/investment_account';
+import InvestmentAccountModel from '../../models/investment_account';
 import DatasourceParameters from '../datasource_parameters';
 import InvestmentAccountsDatasource from './investment_accounts_datasource';
 

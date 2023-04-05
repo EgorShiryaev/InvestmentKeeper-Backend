@@ -1,14 +1,11 @@
-
 // import InvestmentAccountInstrumentEntity from './investment_account_instrument';
 import InvestmentAccountType from './investment_account_type';
 
 type InvestmentAccountEntity = {
+  id: number;
   title: string;
   type: InvestmentAccountType;
-  visibility: boolean,
-  // TODO: раскомментировать как будет готово выдавать инструменты
-  // items: InvestmentAccountInstrumentEntity[];
-  itemsId: number[];
+  visibility: boolean;
 };
 
 export default InvestmentAccountEntity;
