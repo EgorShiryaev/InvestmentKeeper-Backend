@@ -24,6 +24,8 @@ const AppImpl = ({ url, port, api }: Params): App => {
       app.post(investmentAccountsPath, api.createInvestmentAccount.handler);
       app.put(investmentAccountsPath, api.updateInvestmentAccount.handler);
 
+
+
       const server = http.createServer(app);
       server.listen(port, url, () => {
         console.log(`Success start server ${url}:${port}`);
