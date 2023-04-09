@@ -9,9 +9,9 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
 
   const createUsersTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${usersTableTitle} (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
+            id INT PRIMARY KEY AUTOINCREMENT,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
             password TEXT NOT NULL
         )`;
     await sqlDatabase.run(script);
@@ -19,10 +19,10 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
 
   const createInvestmentAccountsTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${investmentAccountsTableTitle} (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INT PRIMARY KEY AUTOINCREMENT,
         userId INT NOT NULL, 
-        title TEXT NOT NULL,
-        type TEXT NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        type VARCHAR(255) NOT NULL,
         visibility BOOL NOT NULL,
         FOREIGN KEY (userId)
           REFERENCES ${usersTableTitle} (id) 
@@ -34,23 +34,25 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
 
   const createInvestmentInstrumentsTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${investmentInstrumentsTableTitle} (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            ticker TEXT NOT NULL,
-            title TEXT NOT NULL,
+            id INT PRIMARY KEY AUTOINCREMENT,
+            ticker VARCHAR(255) NOT NULL,
+            title VARCHAR(255 NOT NULL,
             numberInLot INT NOT NULL,
             aboutInstrument TEXT NOT NULL,
-            type TEXT NOT NULL
+            type TEXT NOT NULL,
+            currency 
         )`;
     await sqlDatabase.run(script);
   };
 
   const createInvestmentAccountItemsTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${investmentAccountItemsTableTitle} (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INT PRIMARY KEY AUTOINCREMENT,
         accountId INT NOT NULL, 
         instrumentId INT NOT NULL, 
         lotsNumber INT NOT NULL,
         lotAveragePrice DOUBLE NOT NULL,
+        averageCurrencyPrice DOUBLE,
         FOREIGN KEY (accountId)
           REFERENCES ${investmentAccountsTableTitle} (id) 
             ON UPDATE CASCADE
