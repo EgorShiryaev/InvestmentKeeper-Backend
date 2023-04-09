@@ -1,3 +1,4 @@
+import InstrumentCurrency from './instrument_currency';
 import InvestmentInstrumentType from './investment_instrument_type';
 
 type InvestmentInstrument = {
@@ -6,6 +7,8 @@ type InvestmentInstrument = {
   numberInLot: number;
   aboutInstrument: string;
   type: InvestmentInstrumentType;
+  currency: InstrumentCurrency;
 };
 
 export default InvestmentInstrument;
+
