@@ -1,5 +1,3 @@
-import InvestmentInstrumentType from '../../../domain/entities/investment_instrument/investment_instrument_type';
-import { GetResult, RunResult } from '../../databases/types';
 import TableTitle from '../../databases/types/table_title';
 import DatasourceParameters from '../datasource_parameters';
 import InvestmentInstrumentsDatasource from './investment_instruments_datasource';
@@ -16,8 +14,8 @@ const InvestmentInstrumentsLocalDatasource = ({
 
       return sqlDatabase.get(script);
     },
-    create: ({ticker, title, numberInLot, aboutInstrument, type}) => {
-      const script = `INSERT INTO ${tableTitle} (ticker, title, numberInLot, aboutInstrument, type) VALUES ("${ticker}", "${title}", ${numberInLot}, "${aboutInstrument}", "${type}" )`;
+    create: (data) => {
+      const script = `INSERT INTO ${tableTitle} (figi, ticker, title, numberInLot, aboutInstrument, type, currency) VALUES ("${data.figi}","${data.ticker}", "${data.title}", ${data.numberInLot}, "${data.aboutInstrument}", "${data.type}", "${data.currency}")`;
 
       return sqlDatabase.run(script);
     },

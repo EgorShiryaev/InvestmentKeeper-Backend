@@ -1,8 +1,9 @@
 enum InvestmentInstrumentType {
-  share = 'share',
-  bonds = 'bonds',
+  stock = 'stock',
+  bond = 'bond',
   etf = 'etf',
   curency = 'currency',
 }
 
 export default InvestmentInstrumentType;
+

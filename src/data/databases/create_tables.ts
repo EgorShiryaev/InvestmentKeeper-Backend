@@ -9,7 +9,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
 
   const createUsersTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${usersTableTitle} (
-            id INT PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
             password TEXT NOT NULL
@@ -19,7 +19,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
 
   const createInvestmentAccountsTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${investmentAccountsTableTitle} (
-        id INT PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         userId INT NOT NULL, 
         title VARCHAR(255) NOT NULL,
         type VARCHAR(255) NOT NULL,
@@ -34,20 +34,21 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
 
   const createInvestmentInstrumentsTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${investmentInstrumentsTableTitle} (
-            id INT PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            figi VARCHAR(12) NOT NULL,
             ticker VARCHAR(255) NOT NULL,
-            title VARCHAR(255 NOT NULL,
+            title VARCHAR(255) NOT NULL,
             numberInLot INT NOT NULL,
             aboutInstrument TEXT NOT NULL,
             type TEXT NOT NULL,
-            currency 
+            currency TEXT NOT NULL
         )`;
     await sqlDatabase.run(script);
   };
 
   const createInvestmentAccountItemsTableIfNotExists = async () => {
     const script = `CREATE TABLE IF NOT EXISTS ${investmentAccountItemsTableTitle} (
-        id INT PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         accountId INT NOT NULL, 
         instrumentId INT NOT NULL, 
         lotsNumber INT NOT NULL,
