@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 
-type Api = {
+type ApiMethod = {
   handler: (request: Request, response: Response) => void;
 };
 
-export default Api;
+export default ApiMethod;
+
