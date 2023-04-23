@@ -12,9 +12,7 @@ const UsersLocalDatasource = ({
     getByEmail: (email) => {
       const script = `SELECT * FROM ${table} WHERE email = "${email}"`;
 
-      return sqlDatabase
-        .get<UserModel>(script)
-        .then((v) => v as UserModel | undefined);
+      return sqlDatabase.get<UserModel>(script);
     },
     create: (data) => {
       const script = `INSERT INTO ${table} (name, email, password) 
@@ -25,10 +23,8 @@ const UsersLocalDatasource = ({
     getById: (id) => {
       const script = `SELECT * FROM ${table} WHERE id = ${id}`;
 
-      return sqlDatabase
-        .get<UserModel>(script)
-        .then((v) => v as UserModel | undefined);
-    }
+      return sqlDatabase.get<UserModel>(script);
+    },
   };
 };
 

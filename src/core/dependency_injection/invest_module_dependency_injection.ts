@@ -1,8 +1,10 @@
-import AccountItemsLocalDatasource from '../../data/datasources/account_items_datasource.ts/account_items_local_datasource';
+import AccountItemsLocalDatasource from '../../data/datasources/account_items_datasource/account_items_local_datasource';
 import AccountsLocalDatasource from '../../data/datasources/accounts_datasource/accounts_local_datasource';
+import InvestInstrumentsLocalDatasource from '../../data/datasources/invest_instruments_datasource/invest_instruments_local_datasource';
 import ChangeVisibilityAccount from '../../presentation/api/invest_module/change_visibility_account';
 import CreateAccount from '../../presentation/api/invest_module/create_account';
 import GetAccounts from '../../presentation/api/invest_module/get_accounts';
+import SearchInvestInstrument from '../../presentation/api/invest_module/search_invest_instrument';
 import UpdateAccount from '../../presentation/api/invest_module/update_account';
 import InvestModule from '../../presentation/types/modules/invest_module';
 import ModuleDIParams from './module_di_params';
@@ -13,6 +15,9 @@ const investModuleDependencyInjection = ({
 }: ModuleDIParams): InvestModule => {
   const accountsDatasource = AccountsLocalDatasource({ sqlDatabase });
   const accountItemsDatasource = AccountItemsLocalDatasource({ sqlDatabase });
+  const investInstrumentsDatasource = InvestInstrumentsLocalDatasource({
+    sqlDatabase: sqlDatabase,
+  });
 
   const getAccounts = GetAccounts({
     accountsDatasource: accountsDatasource,
@@ -35,11 +40,17 @@ const investModuleDependencyInjection = ({
     authentificatedUsersRepository: authentificatedUsersRepository,
   });
 
+  const searchInstrument = SearchInvestInstrument({
+    datasource: investInstrumentsDatasource,
+    authentificatedUsersRepository: authentificatedUsersRepository,
+  });
+
   return {
     getAccounts: getAccounts,
     createAccount: createAccount,
     updateAccount: updateAccount,
     changeVisibilityAccount: changeVisibilityAccount,
+    searchInvestInstrument: searchInstrument,
   };
 };
 

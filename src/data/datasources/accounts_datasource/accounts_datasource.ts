@@ -15,7 +15,7 @@ interface AccountsDatasource {
   getAllByUserId: (userId: number) => Promise<AccountModel[]>;
   create: (data: CreateAccountData) => Promise<number>;
   update: (data: UpdateAccountData) => Promise<number>;
-  getById: (id: number) => Promise<AccountModel>;
+  getById: (id: number) => Promise<AccountModel | undefined>;
 }
 
 export default AccountsDatasource;

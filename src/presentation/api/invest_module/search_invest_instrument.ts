@@ -1,23 +1,24 @@
-import CreateException from '../../../core/exceptions/create_exception';
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
+import convertToInvestInstrumentEntity from '../../../core/utils/convectors/convert_to_invest_instrument_entity';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
-import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
+import InvestInstrumentsDatasource from '../../../data/datasources/invest_instruments_datasource/invest_instruments_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
-import CreateAccountRequestData from '../../types/request_data/create_accounts_request_data';
+import SearchInvestInstrumentRequestData from '../../types/request_data/search_invest_instrument_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
+import SearchInvestInstrumentResponseData from '../../types/response_data/search_invest_instrument_response_data';
 import ApiMethod from '../api';
 
 type Params = {
-  datasource: AccountsDatasource;
+  datasource: InvestInstrumentsDatasource;
   authentificatedUsersRepository: AuthentificatedUsersRepository;
 };
 
-const CreateAccount = ({
+const SearchInvestInstrument = ({
   datasource,
   authentificatedUsersRepository,
 }: Params): ApiMethod => {
-  const requiredParams = ['title'];
+  const requiredParams = ['query'];
 
   return {
     handler: async (request, response) => {
@@ -30,13 +31,8 @@ const CreateAccount = ({
           return;
         }
 
-        const user = authentificatedUsersRepository.get(authToken);
-        if (!user) {
-          response.sendStatus(StatusCode.forbidden);
-          return;
-        }
-
-        const params: CreateAccountRequestData = request.body;
+        const params: SearchInvestInstrumentRequestData =
+          request.query as SearchInvestInstrumentRequestData;
 
         const checkResult = checkRequiredParams(params, requiredParams);
         if (!checkResult.success) {
@@ -47,16 +43,25 @@ const CreateAccount = ({
           return;
         }
 
-        const id = await datasource.create({
-          userId: user.id,
-          ...params,
-        });
-
-        if (!id && id !== 0) {
-          response.status(StatusCode.serverError).json(CreateException());
+        const user = authentificatedUsersRepository.get(authToken);
+        if (!user) {
+          response.sendStatus(StatusCode.forbidden);
           return;
         }
-        response.sendStatus(StatusCode.noContent);
+
+        const trimmedQuery = params.query.trim();
+
+        const instrumentsFullData =
+          await datasource.getAllLikeTitleOrTickerOrFigi(trimmedQuery);
+
+        const instruments = instrumentsFullData.map((instrument) =>
+          convertToInvestInstrumentEntity(instrument),
+        );
+
+        const responseData: SearchInvestInstrumentResponseData = {
+          instruments: instruments,
+        };
+        response.status(StatusCode.success).json(responseData);
       } catch (error) {
         response.status(StatusCode.serverError).json(error);
       }
@@ -64,5 +69,5 @@ const CreateAccount = ({
   };
 };
 
-export default CreateAccount;
+export default SearchInvestInstrument;
 

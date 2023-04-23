@@ -2,13 +2,13 @@ import FailureAuthException from '../../../core/exceptions/failure_auth_exceptio
 import generateAuthToken from '../../../core/utils/auth_token/generate_auth_token';
 import { compareEncodedPassword } from '../../../core/utils/encoded_password/compare_encoded_password';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
-import generateRequiredParamsError from '../../../core/utils/required_params/generate_required_params_error';
 import UsersDatasource from '../../../data/datasources/users_datasource/users_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
 import AuthResponseData from '../../types/response_data/auth_response_data';
 import LoginRequestData from '../../types/request_data/login_request_data';
 import ApiMethod from '../api';
+import ErrorResponseData from '../../types/response_data/error_response_data';
 
 type Params = {
   datasource: UsersDatasource;
@@ -26,27 +26,25 @@ const Login = ({
       try {
         console.log(request.method, request.url);
 
-        if (!checkRequiredParams(request.body, requiredParams)) {
-          const error = generateRequiredParamsError(
-            request.body,
-            requiredParams,
-          );
-          response.status(StatusCode.badRequest).json({ error: error });
+        const params: LoginRequestData = request.body;
+
+        const checkResult = checkRequiredParams(params, requiredParams);
+        if (!checkResult.success) {
+          const responseData: ErrorResponseData = {
+            error: checkResult.message,
+          };
+          response.status(StatusCode.badRequest).json(responseData);
           return;
         }
 
-        const loginData: LoginRequestData = request.body;
-
-        const user = await datasource.getByEmail(loginData.email);
+        const user = await datasource.getByEmail(params.email);
         if (!user) {
-          response
-            .status(StatusCode.authFailure)
-            .json(FailureAuthException());
+          response.status(StatusCode.authFailure).json(FailureAuthException());
           return;
         }
 
         const passwordIsCompared = await compareEncodedPassword({
-          password: loginData.password,
+          password: params.password,
           hash: user.password,
         });
         if (!passwordIsCompared) {

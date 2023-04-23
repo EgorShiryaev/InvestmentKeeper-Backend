@@ -15,9 +15,9 @@ const AccountItemsLocalDatasource = ({
       const currenciesTable = TableTitle.currencies;
 
       const script = `SELECT 
-      ${table}.id, 
-      ${table}.lots, 
-      ${table}.averagePrice,
+      ${table}.id AS "accountItemId", 
+      ${table}.lots AS "accountItemLots", 
+      ${table}.averagePrice AS "accountItemAveragePrice",
       ${investInstrumentsTable}.id AS "instrumentId",
       ${investInstrumentsTable}.figi AS "instrumentFigi",
       ${investInstrumentsTable}.ticker AS "instrumentTicker",
@@ -33,8 +33,7 @@ const AccountItemsLocalDatasource = ({
       WHERE accountId = ${accountId}`;
 
       return sqlDatabase
-        .getAll<AccountItemFullModel>(script)
-        .then((v) => v as AccountItemFullModel[]);
+        .getAll<AccountItemFullModel>(script);
     },
   };
 };
