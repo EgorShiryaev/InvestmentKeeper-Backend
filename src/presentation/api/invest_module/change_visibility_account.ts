@@ -1,13 +1,11 @@
-import FailureAuthException from '../../../core/exceptions/failure_auth_exception';
 import UpdateException from '../../../core/exceptions/update_exception';
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
-import generateRequiredParamsError from '../../../core/utils/required_params/generate_required_params_error';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
 import ChangeVisibilityAccountRequestData from '../../types/request_data/change_visibility_account_request_data';
-import UpdateAccountRequestData from '../../types/request_data/update_account_request_data';
+import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../api';
 
 type Params = {
@@ -37,26 +35,19 @@ const ChangeVisibilityAccount = ({
           response.sendStatus(StatusCode.forbidden);
           return;
         }
-        const changeVisibilityAccountRequestData: ChangeVisibilityAccountRequestData =
-          request.body;
 
-        if (
-          !checkRequiredParams(
-            changeVisibilityAccountRequestData,
-            requiredParams,
-          )
-        ) {
-          const error = generateRequiredParamsError(
-            changeVisibilityAccountRequestData,
-            requiredParams,
-          );
-          response.status(StatusCode.badRequest).json({ error: error });
+        const params: ChangeVisibilityAccountRequestData = request.body;
+
+        const checkResult = checkRequiredParams(params, requiredParams);
+        if (!checkResult.success) {
+          const responseData: ErrorResponseData = {
+            error: checkResult.message,
+          };
+          response.status(StatusCode.badRequest).json(responseData);
           return;
         }
 
-        const record = await datasource.getById(
-          changeVisibilityAccountRequestData.id,
-        );
+        const record = await datasource.getById(params.id);
 
         if (!record) {
           response.sendStatus(StatusCode.notFound);
@@ -64,7 +55,7 @@ const ChangeVisibilityAccount = ({
         }
 
         const changes = await datasource.update({
-          id: changeVisibilityAccountRequestData.id,
+          id: params.id,
           visibility: !record.visibility,
         });
         if (!changes && changes !== 0) {

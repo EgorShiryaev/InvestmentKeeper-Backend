@@ -1,18 +1,15 @@
 import CreateException from '../../../core/exceptions/create_exception';
-import FailureAuthException from '../../../core/exceptions/failure_auth_exception';
 import RecordAlreadyExistsException from '../../../core/exceptions/record_already_exists_exception';
 import generateAuthToken from '../../../core/utils/auth_token/generate_auth_token';
-import { compareEncodedPassword } from '../../../core/utils/encoded_password/compare_encoded_password';
 import { encodePassword } from '../../../core/utils/encoded_password/encode_password';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
-import generateRequiredParamsError from '../../../core/utils/required_params/generate_required_params_error';
 import UsersDatasource from '../../../data/datasources/users_datasource/users_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
 import RegistrationRequestData from '../../types/request_data/registration_request_data';
 import AuthResponseData from '../../types/response_data/auth_response_data';
+import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../api';
-
 
 type Params = {
   datasource: UsersDatasource;
@@ -30,18 +27,19 @@ const Registration = ({
       try {
         console.log(request.method, request.url);
 
-        if (!checkRequiredParams(request.body, requiredParams)) {
-          const error = generateRequiredParamsError(
-            request.body,
-            requiredParams,
-          );
-          response.status(StatusCode.badRequest).json({ error: error });
+        const params: RegistrationRequestData = request.body;
+
+        const checkResult = checkRequiredParams(params, requiredParams);
+        if (!checkResult.success) {
+          const responseData: ErrorResponseData = {
+            error: checkResult.message,
+          };
+          response.status(StatusCode.badRequest).json(responseData);
           return;
         }
 
-        const registrationData: RegistrationRequestData = request.body;
         const userIsAlreadyExists = !!(await datasource.getByEmail(
-          registrationData.email,
+          params.email,
         ));
 
         if (userIsAlreadyExists) {
@@ -52,8 +50,8 @@ const Registration = ({
         }
 
         const newUser = {
-          ...registrationData,
-          password: await encodePassword(registrationData.password),
+          ...params,
+          password: await encodePassword(params.password),
         };
 
         const id = await datasource.create(newUser);

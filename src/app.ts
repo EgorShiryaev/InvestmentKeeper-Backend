@@ -26,6 +26,8 @@ const App = ({ url, port, api }: Params) => {
 
         app.put('/accountVisibility', api.changeVisibilityAccount.handler);
 
+        app.get('/searchInvestInstrument', api.searchInvestInstrument.handler);
+
         const server = http.createServer(app);
         server.listen(port, url, () => {
           console.log(`Success start server ${url}:${port}`);

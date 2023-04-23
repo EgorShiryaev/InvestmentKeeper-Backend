@@ -13,9 +13,7 @@ const AccountsLocalDatasource = ({
       const script = `SELECT * FROM ${table}
       WHERE userId = ${userId}`;
 
-      return sqlDatabase
-        .getAll<AccountModel>(script)
-        .then((v) => v as AccountModel[]);
+      return sqlDatabase.getAll<AccountModel>(script);
     },
     create: ({ userId, title }) => {
       const script = `INSERT INTO ${table} (userId, title, visibility)
@@ -37,9 +35,7 @@ const AccountsLocalDatasource = ({
       const script = `SELECT * FROM ${table}
       WHERE id = ${id}`;
 
-      return sqlDatabase
-        .get<AccountModel>(script)
-        .then((v) => v as AccountModel);
+      return sqlDatabase.get<AccountModel>(script);
     },
   };
 };
