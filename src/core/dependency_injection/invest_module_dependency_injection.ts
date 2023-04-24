@@ -1,9 +1,11 @@
 import AccountItemsLocalDatasource from '../../data/datasources/account_items_datasource/account_items_local_datasource';
 import AccountsLocalDatasource from '../../data/datasources/accounts_datasource/accounts_local_datasource';
 import InvestInstrumentsLocalDatasource from '../../data/datasources/invest_instruments_datasource/invest_instruments_local_datasource';
+import PurchasesLocalDatasource from '../../data/datasources/purchases_datasource/purchases_local_datasource';
 import SalesLocalDatasource from '../../data/datasources/sales_datasource/sales_local_datasource';
 import ChangeVisibilityAccount from '../../presentation/api/invest_module/change_visibility_account';
 import CreateAccount from '../../presentation/api/invest_module/create_account';
+import CreatePurchase from '../../presentation/api/invest_module/create_purchase';
 import CreateSale from '../../presentation/api/invest_module/create_sale';
 import GetAccounts from '../../presentation/api/invest_module/get_accounts';
 import SearchInvestInstrument from '../../presentation/api/invest_module/search_invest_instrument';
@@ -21,6 +23,9 @@ const investModuleDependencyInjection = ({
     sqlDatabase: sqlDatabase,
   });
   const salesDatasource = SalesLocalDatasource({
+    sqlDatabase: sqlDatabase,
+  });
+  const purchasesDatasource = PurchasesLocalDatasource({
     sqlDatabase: sqlDatabase,
   });
 
@@ -48,6 +53,16 @@ const investModuleDependencyInjection = ({
   const createSale = CreateSale({
     accountItemsDatasource: accountItemsDatasource,
     salesDatasource: salesDatasource,
+    accountsDatasource: accountsDatasource,
+    investInstrumentsDatasource: investInstrumentsDatasource,
+    authentificatedUsersRepository: authentificatedUsersRepository,
+  });
+
+  const createPurchase = CreatePurchase({
+    accountItemsDatasource: accountItemsDatasource,
+    purchasesDatasource: purchasesDatasource,
+    accountsDatasource: accountsDatasource,
+    investInstrumentsDatasource: investInstrumentsDatasource,
     authentificatedUsersRepository: authentificatedUsersRepository,
   });
 
@@ -58,6 +73,7 @@ const investModuleDependencyInjection = ({
     changeVisibilityAccount: changeVisibilityAccount,
     searchInvestInstrument: searchInstrument,
     createSale: createSale,
+    createPurchase: createPurchase,
   };
 };
 

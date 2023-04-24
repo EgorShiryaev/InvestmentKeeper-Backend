@@ -1,4 +1,3 @@
-import FailureAuthException from '../../../core/exceptions/failure_auth_exception';
 import generateAuthToken from '../../../core/utils/auth_token/generate_auth_token';
 import { compareEncodedPassword } from '../../../core/utils/encoded_password/compare_encoded_password';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
@@ -8,6 +7,10 @@ import AuthentificatedUsersRepository from '../../../domain/repositories/authent
 import AuthResponseData from '../../types/response_data/auth_response_data';
 import LoginRequestData from '../../types/request_data/login_request_data';
 import ApiMethod from '../api';
+import { IException } from '../../../core/exception/exception';
+import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
+import BadRequestException from '../../../core/exception/bad_request_exception';
+import FailedAuthException from '../../../core/exception/failed_auth_exception';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 
 type Params = {
@@ -25,33 +28,22 @@ const Login = ({
     handler: async (request, response) => {
       try {
         console.log(request.method, request.url);
-
         const params: LoginRequestData = request.body;
-
         const checkResult = checkRequiredParams(params, requiredParams);
         if (!checkResult.success) {
-          const responseData: ErrorResponseData = {
-            error: checkResult.message,
-          };
-          response.status(StatusCode.badRequest).json(responseData);
-          return;
+          throw BadRequestException(checkResult.message);
         }
-
         const user = await datasource.getByPhoneNumber(params.phoneNumber);
         if (!user) {
-          response.status(StatusCode.authFailure).json(FailureAuthException());
-          return;
+          throw FailedAuthException();
         }
-
         const passwordIsCompared = await compareEncodedPassword({
           password: params.password,
           hash: user.password,
         });
         if (!passwordIsCompared) {
-          response.status(StatusCode.authFailure).json(FailureAuthException());
-          return;
+          throw FailedAuthException();
         }
-
         const token = generateAuthToken(user);
         authentificatedUsersRepository.set(token, user);
         const responseData: AuthResponseData = {
@@ -60,7 +52,12 @@ const Login = ({
         };
         response.status(StatusCode.success).json(responseData);
       } catch (error) {
-        response.status(StatusCode.serverError).json(error);
+        const exception = error as IException;
+        const statusCode = getStatusCodeByExceptionCode(exception.code);
+        const errorResponseData: ErrorResponseData = {
+          message: exception.message,
+        };
+        response.status(statusCode).json(errorResponseData);
       }
     },
   };

@@ -4,35 +4,67 @@ import ForbiddenException from '../../../core/exception/forbidden_exception';
 import NotFoundException from '../../../core/exception/not_found_exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
+import calculateAveragePrice from '../../../core/utils/calculate_utils/calculate_average_price';
 import calculateBalance from '../../../core/utils/calculate_utils/calculate_balance';
+import calculateTotalPrice from '../../../core/utils/calculate_utils/calculate_total_price';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import AccountItemsDatasource from '../../../data/datasources/account_items_datasource/account_items_datasource';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
 import InvestInstrumentsDatasource from '../../../data/datasources/invest_instruments_datasource/invest_instruments_datasource';
 import SalesDatasource from '../../../data/datasources/sales_datasource/sales_datasource';
+import AccountModel from '../../../data/models/account_model';
 import StatusCode from '../../../domain/entities/status_code';
 import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
+import CreatePurchaseRequestData from '../../types/request_data/create_purchase_request_data';
 import CreateSaleRequestData from '../../types/request_data/create_sale_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../api';
 
 type Params = {
   accountItemsDatasource: AccountItemsDatasource;
-  salesDatasource: SalesDatasource;
+  purchasesDatasource: SalesDatasource;
   accountsDatasource: AccountsDatasource;
   investInstrumentsDatasource: InvestInstrumentsDatasource;
   authentificatedUsersRepository: AuthentificatedUsersRepository;
 };
 
-const CreateSale = ({
+const CreatePurchase = ({
   accountItemsDatasource,
-  salesDatasource,
+  purchasesDatasource,
   accountsDatasource,
   investInstrumentsDatasource,
   authentificatedUsersRepository,
 }: Params): ApiMethod => {
   const requiredParams = ['accountId', 'instrumentId', 'lots', 'price'];
+
+  const getAccountItem = async (params: CreatePurchaseRequestData) => {
+    const accountItem =
+      await accountItemsDatasource.getByAccountIdAndInstrumentId(
+        params.accountId,
+        params.instrumentId,
+      );
+    if (accountItem) {
+      return accountItem;
+    }
+    const id = await accountItemsDatasource.create({
+      accountId: params.accountId,
+      instrumentId: params.instrumentId,
+    });
+
+    return accountItemsDatasource.getById(id);
+  };
+
+  const checkTotalPriceIsGreaterAccountBalance = (
+    params: CreatePurchaseRequestData,
+    account: AccountModel,
+  ) => {
+    const totalPrice = calculateTotalPrice({
+      price: params.price,
+      lots: params.lots,
+    });
+    return totalPrice > account.balance;
+  };
 
   return {
     handler: async (request, response) => {
@@ -51,43 +83,45 @@ const CreateSale = ({
         if (!user) {
           throw ForbiddenException();
         }
-        const account = await accountsDatasource.getById(params.accountId);
-        if (!account) {
-          throw NotFoundException('Account not found');
-        }
         const instrument = await investInstrumentsDatasource.getById(
           params.accountId,
         );
         if (!instrument) {
           throw NotFoundException('Invest instrument not found');
         }
-        const accountItem =
-          await accountItemsDatasource.getByAccountIdAndInstrumentId(
-            params.accountId,
-            params.instrumentId,
+        const account = await accountsDatasource.getById(params.accountId);
+        if (!account) {
+          throw NotFoundException('Account not found');
+        }
+        if (checkTotalPriceIsGreaterAccountBalance(params, account)) {
+          throw BadRequestException(
+            'You can`t buy this instrument because there are not enough funds on your account',
           );
+        }
+        const accountItem = await getAccountItem(params);
         if (!accountItem) {
-          throw BadRequestException(
-            'You can`t sell this instrument because it is not in your account',
-          );
+          throw ServerErrorException('Failed account item creation');
         }
-        if (params.lots > accountItem.lots) {
-          throw BadRequestException(
-            'You can`t sell this instrument, because the number of lots on the account is less than you want to sell',
-          );
-        }
+        const newAveragePrice = calculateAveragePrice({
+          price: accountItem.averagePrice,
+          lots: accountItem.lots,
+          newPrice: params.price,
+          newLots: params.lots,
+        });
         const accountItemsChanges = await accountItemsDatasource.update({
           id: accountItem.id,
-          lots: accountItem.lots - params.lots,
+          lots: accountItem.lots + params.lots,
+          averagePrice: newAveragePrice,
         });
         if (!accountItemsChanges) {
           throw ServerErrorException('Failed account item update');
         }
-        const id = await salesDatasource.create({
+        const id = await purchasesDatasource.create({
           accountItemId: accountItem.id,
           lots: params.lots,
           price: params.price,
         });
+
         if (!id && id !== 0) {
           throw ServerErrorException('Failed sale creation');
         }
@@ -95,14 +129,14 @@ const CreateSale = ({
           balance: account.balance,
           price: params.price,
           lots: params.lots,
-          isAddition: true,
+          isAddition: false,
         });
         const accountsChanges = await accountsDatasource.update({
-          id: params.accountId,
+          id: account.id,
           balance: newBalance,
         });
         if (!accountsChanges) {
-          throw ServerErrorException('Failed account update');
+          throw ServerErrorException('Failed account item update');
         }
         response.sendStatus(StatusCode.noContent);
       } catch (error) {
@@ -117,5 +151,5 @@ const CreateSale = ({
   };
 };
 
-export default CreateSale;
+export default CreatePurchase;
 

@@ -30,6 +30,7 @@ const App = ({ url, port, api }: Params) => {
         app.get('/searchInvestInstrument', api.searchInvestInstrument.handler);
 
         app.post('/sales', api.createSale.handler);
+        app.post('/purchases', api.createPurchase.handler);
 
         const server = http.createServer(app);
         server.listen(port, url, () => {

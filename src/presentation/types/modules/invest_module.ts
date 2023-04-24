@@ -7,6 +7,7 @@ type InvestModule = {
   changeVisibilityAccount: ApiMethod;
   searchInvestInstrument: ApiMethod;
   createSale: ApiMethod;
+  createPurchase: ApiMethod;
 };
 
 export default InvestModule;

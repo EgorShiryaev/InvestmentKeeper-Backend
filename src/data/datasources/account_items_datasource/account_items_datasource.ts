@@ -22,6 +22,7 @@ interface AccountItemsDatasource {
   ) => Promise<AccountItemModel | undefined>;
   create: (data: CreateAccountItemData) => Promise<number>;
   update: (data: UpdateAccountItemData) => Promise<number>;
+  getById: (id: number) => Promise<AccountItemModel | undefined>;
 }
 
 export default AccountItemsDatasource;

@@ -1,5 +1,4 @@
 import TableTitle from '../../databases/types/table_title';
-import InvestInstrumentFullModel from '../../models/invest_instrument_full_model';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import InvestInstrumentsDatasource from './invest_instruments_datasource';
 
@@ -47,7 +46,13 @@ const InvestInstrumentsLocalDatasource = ({
         END
         `;
 
-      return sqlDatabase.getAll<InvestInstrumentFullModel>(script);
+      return sqlDatabase.getAll(script);
+    },
+    getById: (id) => {
+      const script = `SELECT * FROM ${table}
+      WHERE id = ${id}`;
+
+      return sqlDatabase.get(script);
     },
   };
 };

@@ -1,8 +1,7 @@
 import TableTitle from '../../databases/types/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import AccountItemsDatasource from './account_items_datasource';
-import AccountItemFullModel from '../../models/account_item_full_model';
-import AccountItemModel from '../../models/account_item_model';
+
 
 const AccountItemsLocalDatasource = ({
   sqlDatabase,
@@ -33,14 +32,14 @@ const AccountItemsLocalDatasource = ({
       JOIN ${currenciesTable} On ${investInstrumentsTable}.currencyId = ${currenciesTable}.id
       WHERE accountId = ${accountId} AND accountItemLots > 0`;
 
-      return sqlDatabase.getAll<AccountItemFullModel>(script);
+      return sqlDatabase.getAll(script);
     },
     getByAccountIdAndInstrumentId: (accountId, instrumentId) => {
       const script = `SELECT * FROM ${table}
         WHERE  accountId = ${accountId} AND instrumentId = ${instrumentId}
       `;
 
-      return sqlDatabase.get<AccountItemModel>(script);
+      return sqlDatabase.get(script);
     },
     create: ({ accountId, instrumentId }) => {
       const script = `INSERT INTO ${table} (accountId, instrumentId)
@@ -60,6 +59,11 @@ const AccountItemsLocalDatasource = ({
       const script = `UPDATE ${table} SET ${set} WHERE id = ${id}`;
 
       return sqlDatabase.run(script).then((v) => v.changes);
+    },
+    getById: (id) => {
+      const script = `SELECT * FROM ${table} WHERE id = ${id}`;
+
+      return sqlDatabase.get(script);
     },
   };
 };

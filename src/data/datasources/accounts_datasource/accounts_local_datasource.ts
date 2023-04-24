@@ -1,5 +1,4 @@
 import TableTitle from '../../databases/types/table_title';
-import AccountModel from '../../models/account_model';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import AccountsDatasource from './accounts_datasource';
 
@@ -13,7 +12,7 @@ const AccountsLocalDatasource = ({
       const script = `SELECT * FROM ${table}
       WHERE userId = ${userId}`;
 
-      return sqlDatabase.getAll<AccountModel>(script);
+      return sqlDatabase.getAll(script);
     },
     create: ({ userId, title }) => {
       const script = `INSERT INTO ${table} (userId, title)
@@ -21,10 +20,11 @@ const AccountsLocalDatasource = ({
 
       return sqlDatabase.run(script).then((v) => v.lastId);
     },
-    update: ({ id, title, visibility }) => {
+    update: ({ id, title, visibility, balance }) => {
       const setFields = [
         title && `title = "${title}"`,
         visibility !== undefined && `visibility = "${visibility ? 1 : 0}"`,
+        (balance || balance === 0) && `balance = ${balance}`,
       ];
       const set = setFields.filter((v) => v).join(', ');
       const script = `UPDATE ${table} SET ${set} WHERE id = ${id}`;
@@ -34,7 +34,7 @@ const AccountsLocalDatasource = ({
       const script = `SELECT * FROM ${table}
       WHERE id = ${id}`;
 
-      return sqlDatabase.get<AccountModel>(script);
+      return sqlDatabase.get(script);
     },
   };
 };

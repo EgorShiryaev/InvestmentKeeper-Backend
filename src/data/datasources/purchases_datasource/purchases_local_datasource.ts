@@ -2,7 +2,7 @@ import TableTitle from '../../databases/types/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import PurchasesDatasource from './purchases_datasource';
 
-const SalesLocalDatasource = ({
+const PurchasesLocalDatasource = ({
   sqlDatabase,
 }: LocalDatasourceParameters): PurchasesDatasource => {
   const table = TableTitle.purchases;
@@ -17,5 +17,5 @@ const SalesLocalDatasource = ({
   };
 };
 
-export default SalesLocalDatasource;
+export default PurchasesLocalDatasource;
 
