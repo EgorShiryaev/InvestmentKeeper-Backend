@@ -31,6 +31,7 @@ const App = ({ url, port, api }: Params) => {
 
         app.post('/sales', api.createSale.handler);
         app.post('/purchases', api.createPurchase.handler);
+        app.post('/refills', api.createRefill.handler);
 
         const server = http.createServer(app);
         server.listen(port, url, () => {
