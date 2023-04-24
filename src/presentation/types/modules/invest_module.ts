@@ -8,7 +8,8 @@ type InvestModule = {
   searchInvestInstrument: ApiMethod;
   createSale: ApiMethod;
   createPurchase: ApiMethod;
-  createRefill: ApiMethod
+  createRefill: ApiMethod;
+  createWithdrawal: ApiMethod;
 };
 
 export default InvestModule;

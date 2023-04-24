@@ -7,7 +7,7 @@ import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
-import RefillsDatasource from '../../../data/datasources/refills_datasource/refills_datasource';
+import WithdrawalsDatasource from '../../../data/datasources/withdrawals_datasource/withdrawals_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
 import CreateRefillRequestData from '../../types/request_data/create_refill_request_data';
@@ -15,13 +15,13 @@ import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../api';
 
 type Params = {
-  refillsDatasource: RefillsDatasource;
+  withdrawalsDatasource: WithdrawalsDatasource;
   accountsDatasource: AccountsDatasource;
   authentificatedUsersRepository: AuthentificatedUsersRepository;
 };
 
-const CreateRefill = ({
-  refillsDatasource: refillDatasource,
+const CreateWithdrawal = ({
+  withdrawalsDatasource,
   accountsDatasource,
   authentificatedUsersRepository,
 }: Params): ApiMethod => {
@@ -48,14 +48,19 @@ const CreateRefill = ({
         if (!account) {
           throw NotFoundException('Account not found');
         }
-        const id = await refillDatasource.create({
+        if (params.value > account.balance) {
+          throw BadRequestException(
+            'You can`t withdraw this amount because there are not enough funds on your account',
+          );
+        }
+        const id = await withdrawalsDatasource.create({
           accountId: params.accountId,
           value: params.value,
         });
         if (!id && id !== 0) {
           throw ServerErrorException('Failed refill creation');
         }
-        const newBalance = account.balance + params.value;
+        const newBalance = account.balance - params.value;
         const accountsChanges = await accountsDatasource.update({
           id: account.id,
           balance: newBalance,
@@ -76,5 +81,5 @@ const CreateRefill = ({
   };
 };
 
-export default CreateRefill;
+export default CreateWithdrawal;
 

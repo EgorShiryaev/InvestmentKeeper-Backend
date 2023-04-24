@@ -4,11 +4,13 @@ import InvestInstrumentsLocalDatasource from '../../data/datasources/invest_inst
 import PurchasesLocalDatasource from '../../data/datasources/purchases_datasource/purchases_local_datasource';
 import RefillsLocalDatasource from '../../data/datasources/refills_datasource/refills_local_datasource';
 import SalesLocalDatasource from '../../data/datasources/sales_datasource/sales_local_datasource';
+import WithdrawalsLocalDatasource from '../../data/datasources/withdrawals_datasource/withdrawals_local_datasource';
 import ChangeVisibilityAccount from '../../presentation/api/invest_module/change_visibility_account';
 import CreateAccount from '../../presentation/api/invest_module/create_account';
 import CreatePurchase from '../../presentation/api/invest_module/create_purchase';
 import CreateRefill from '../../presentation/api/invest_module/create_refill';
 import CreateSale from '../../presentation/api/invest_module/create_sale';
+import CreateWithdrawal from '../../presentation/api/invest_module/create_withdrawal';
 import GetAccounts from '../../presentation/api/invest_module/get_accounts';
 import SearchInvestInstrument from '../../presentation/api/invest_module/search_invest_instrument';
 import UpdateAccount from '../../presentation/api/invest_module/update_account';
@@ -31,6 +33,9 @@ const investModuleDependencyInjection = ({
     sqlDatabase: sqlDatabase,
   });
   const refillsDatasource = RefillsLocalDatasource({
+    sqlDatabase: sqlDatabase,
+  });
+  const withdrawalsDatasource = WithdrawalsLocalDatasource({
     sqlDatabase: sqlDatabase,
   });
 
@@ -70,7 +75,12 @@ const investModuleDependencyInjection = ({
     authentificatedUsersRepository: authentificatedUsersRepository,
   });
   const createRefill = CreateRefill({
-    refillDatasource: refillsDatasource,
+    refillsDatasource: refillsDatasource,
+    accountsDatasource: accountsDatasource,
+    authentificatedUsersRepository: authentificatedUsersRepository,
+  });
+  const createWithdrawal = CreateWithdrawal({
+    withdrawalsDatasource: withdrawalsDatasource,
     accountsDatasource: accountsDatasource,
     authentificatedUsersRepository: authentificatedUsersRepository,
   });
@@ -84,6 +94,7 @@ const investModuleDependencyInjection = ({
     createSale: createSale,
     createPurchase: createPurchase,
     createRefill: createRefill,
+    createWithdrawal: createWithdrawal,
   };
 };
 

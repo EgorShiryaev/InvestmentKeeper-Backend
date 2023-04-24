@@ -131,7 +131,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
           ON DELETE CASCADE
     )`,
     withdrawals: `
-    ${TableTitle.refills} (
+    ${TableTitle.withdrawals} (
       ${IdColumnConfig},
       accountId INTEGER NOT NULL,
       date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
