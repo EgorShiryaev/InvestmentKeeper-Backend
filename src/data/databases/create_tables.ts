@@ -22,7 +22,8 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       ${IdColumnConfig},
       userId INTEGER NOT NULL,
       title VARCHAR(25) NOT NULL, 
-      visibility BOOL NOT NULL,
+      visibility BOOL NOT NULL DEFAULT 1,
+      balance DOUBLE NOT NULL DEFAULT 0,
       FOREIGN KEY (userId)
         REFERENCES ${TableTitle.users} (id) 
           ON UPDATE CASCADE
@@ -82,8 +83,8 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       ${IdColumnConfig},
       accountId INTEGER NOT NULL,
       instrumentId INTEGER NOT NULL,
-      lots INTEGER NOT NULL,
-      averagePrice DOUBLE NOT NULL,
+      lots INTEGER NOT NULL DEFAULT 0,
+      averagePrice DOUBLE NOT NULL DEFAULT 0,
       FOREIGN KEY (accountId)
         REFERENCES ${TableTitle.accounts} (id) 
           ON UPDATE CASCADE
@@ -94,50 +95,47 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
           ON DELETE CASCADE
     )
     `,
-    instrumentAccountHistoryItemTypes: `
-    ${TableTitle.instrumentAccountHistoryItemTypes} (
+    sales: `
+    ${TableTitle.sales} (
       ${IdColumnConfig},
-      value VARCHAR(25) NOT NULL
-    )`,
-    instrumentAccountHistory: `
-    ${TableTitle.instrumentAccountHistory} (
-      ${IdColumnConfig},
-      typeId INTEGER NOT NULL,
-      accountId INTEGER NOT NULL,
-      instrumentId INTEGER NOT NULL,
-      dateTimeUnix INTEGER NOT NULL,
+      accountItemId INTEGER NOT NULL,
+      date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       lots INTEGER NOT NULL,
       price DOUBLE NOT NULL,
-      FOREIGN KEY (typeId)
-        REFERENCES ${TableTitle.instrumentAccountHistoryItemTypes} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE,
-      FOREIGN KEY (accountId)
-        REFERENCES ${TableTitle.accounts} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE,
-      FOREIGN KEY (instrumentId)
-        REFERENCES ${TableTitle.investInstruments} (id) 
+      FOREIGN KEY (accountItemId)
+        REFERENCES ${TableTitle.accountItems} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
     )`,
-    moneyAccountHistoryItemTypes: `
-    ${TableTitle.moneyAccountHistoryItemTypes} (
+    purchases: `
+    ${TableTitle.purchases} (
       ${IdColumnConfig},
-      value VARCHAR(25) NOT NULL
-    )`,
-    moneyAccountHistory: `
-    ${TableTitle.moneyAccountHistory} (
-      ${IdColumnConfig},
-      typeId INTEGER NOT NULL,
-      accountId INTEGER NOT NULL,
-      instrumentId INTEGER NOT NULL,
-      dateTimeUnix  INTEGER NOT NULL,
-      value DOUBLE NOT NULL,
-      FOREIGN KEY (typeId)
-        REFERENCES ${TableTitle.moneyAccountHistoryItemTypes} (id) 
+      accountItemId INTEGER NOT NULL,
+      date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      lots INTEGER NOT NULL,
+      price DOUBLE NOT NULL,
+      FOREIGN KEY (accountItemId)
+        REFERENCES ${TableTitle.accountItems} (id) 
           ON UPDATE CASCADE
-          ON DELETE CASCADE,
+          ON DELETE CASCADE
+    )`,
+    refills: `
+    ${TableTitle.refills} (
+      ${IdColumnConfig},
+      accountId INTEGER NOT NULL,
+      date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      value DOUBLE NOT NULL,
+      FOREIGN KEY (accountId)
+        REFERENCES ${TableTitle.accounts} (id) 
+          ON UPDATE CASCADE
+          ON DELETE CASCADE
+    )`,
+    withdrawals: `
+    ${TableTitle.withdrawals} (
+      ${IdColumnConfig},
+      accountId INTEGER NOT NULL,
+      date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      value DOUBLE NOT NULL,
       FOREIGN KEY (accountId)
         REFERENCES ${TableTitle.accounts} (id) 
           ON UPDATE CASCADE
@@ -145,7 +143,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     )`,
   };
 
-  const create =  () => {
+  const create = () => {
     return Promise.all([
       createTable(tablesConfigs.users),
       createTable(tablesConfigs.accounts),
@@ -154,10 +152,10 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       createTable(tablesConfigs.investInstruments),
       createTable(tablesConfigs.instrumentComments),
       createTable(tablesConfigs.accountItems),
-      createTable(tablesConfigs.instrumentAccountHistoryItemTypes),
-      createTable(tablesConfigs.instrumentAccountHistory),
-      createTable(tablesConfigs.moneyAccountHistoryItemTypes),
-      createTable(tablesConfigs.moneyAccountHistory),
+      createTable(tablesConfigs.sales),
+      createTable(tablesConfigs.purchases),
+      createTable(tablesConfigs.refills),
+      createTable(tablesConfigs.withdrawals),
     ]);
   };
 

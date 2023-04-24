@@ -6,10 +6,10 @@ enum TableTitle {
   investInstruments = 'InvestInstruments',
   investInstrumentTypes = 'InvestInstrumentTypes',
   currencies = 'Currencies',
-  instrumentAccountHistory = 'InstrumentAccountHistory',
-  instrumentAccountHistoryItemTypes = 'InstrumentAccountHistoryItemTypes',
-  moneyAccountHistory = 'MoneyAccountHistory',
-  moneyAccountHistoryItemTypes = 'MoneyAccountHistoryItemTypes',
+  sales = 'Sales',
+  purchases = 'Purchases',
+  refills = 'Refills',
+  withdrawals = 'Withdrawals',
 }
 
 export default TableTitle;

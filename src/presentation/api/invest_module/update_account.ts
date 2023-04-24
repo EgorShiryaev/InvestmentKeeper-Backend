@@ -1,6 +1,12 @@
-import UpdateException from '../../../core/exceptions/update_exception';
+import BadRequestException from '../../../core/exception/bad_request_exception';
+import { IException } from '../../../core/exception/exception';
+import ForbiddenException from '../../../core/exception/forbidden_exception';
+import NotFoundException from '../../../core/exception/not_found_exception';
+import ServerErrorException from '../../../core/exception/server_error_exception';
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
+import checkChangesIsCorrect from '../../../core/utils/check_changes_is_correct';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
+import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
@@ -23,45 +29,35 @@ const UpdateAccount = ({
     handler: async (request, response) => {
       try {
         console.log(request.method, request.url);
-
-        const authToken = getAuthToken(request.headers);
-        if (!authToken) {
-          response.sendStatus(StatusCode.forbidden);
-          return;
-        }
-
-        const user = authentificatedUsersRepository.get(authToken);
-        if (!user) {
-          response.sendStatus(StatusCode.forbidden);
-          return;
-        }
-
         const params: UpdateAccountRequestData = request.body;
-
         const checkResult = checkRequiredParams(params, requiredParams);
         if (!checkResult.success) {
-          const responseData: ErrorResponseData = {
-            error: checkResult.message,
-          };
-          response.status(StatusCode.badRequest).json(responseData);
-          return;
+          throw BadRequestException(checkResult.message);
         }
-
+        const authToken = getAuthToken(request.headers);
+        if (!authToken) {
+          throw ForbiddenException();
+        }
+        const user = authentificatedUsersRepository.get(authToken);
+        if (!user) {
+          throw ForbiddenException();
+        }
         const record = await datasource.getById(params.id);
-
         if (!record) {
-          response.sendStatus(StatusCode.notFound);
-          return;
+          throw NotFoundException('Account not found');
         }
-
         const changes = await datasource.update(params);
-        if (!changes && changes !== 0) {
-          response.status(StatusCode.serverError).json(UpdateException());
-          return;
+        if (!checkChangesIsCorrect(changes)) {
+          throw ServerErrorException('Failed account update');
         }
         response.sendStatus(StatusCode.noContent);
       } catch (error) {
-        response.status(StatusCode.serverError).json(error);
+        const exception = error as IException;
+        const statusCode = getStatusCodeByExceptionCode(exception.code);
+        const errorResponseData: ErrorResponseData = {
+          message: exception.message
+        };
+        response.status(statusCode).json(errorResponseData);
       }
     },
   };

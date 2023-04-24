@@ -10,6 +10,7 @@ const convertToAccountEntity = (
     id: model.id,
     title: model.title,
     visibility: model.visibility ? true : false,
+    balance: model.balance,
     items: items,
   };
 };
