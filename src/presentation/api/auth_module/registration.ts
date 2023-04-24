@@ -2,6 +2,7 @@ import BadRequestException from '../../../core/exception/bad_request_exception';
 import { IException } from '../../../core/exception/exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
 import generateAuthToken from '../../../core/utils/auth_token/generate_auth_token';
+import checkIdIsCorrect from '../../../core/utils/check_id_is_correct';
 import { encodePassword } from '../../../core/utils/encoded_password/encode_password';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
@@ -44,7 +45,7 @@ const Registration = ({
           password: await encodePassword(params.password),
         };
         const id = await datasource.create(newUser);
-        if (!id && id !== 0) {
+        if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed user creation');
         }
         const user = {

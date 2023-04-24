@@ -3,6 +3,7 @@ import { IException } from '../../../core/exception/exception';
 import ForbiddenException from '../../../core/exception/forbidden_exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
+import checkIdIsCorrect from '../../../core/utils/check_id_is_correct';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
@@ -44,7 +45,7 @@ const CreateAccount = ({
           userId: user.id,
           ...params,
         });
-        if (!id && id !== 0) {
+        if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed account creation');
         }
         response.sendStatus(StatusCode.noContent);

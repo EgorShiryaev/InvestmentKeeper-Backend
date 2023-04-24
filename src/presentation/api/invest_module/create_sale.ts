@@ -5,6 +5,8 @@ import NotFoundException from '../../../core/exception/not_found_exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
 import calculateBalance from '../../../core/utils/calculate_utils/calculate_balance';
+import checkChangesIsCorrect from '../../../core/utils/check_changes_is_correct';
+import checkIdIsCorrect from '../../../core/utils/check_id_is_correct';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import AccountItemsDatasource from '../../../data/datasources/account_items_datasource/account_items_datasource';
@@ -80,7 +82,7 @@ const CreateSale = ({
           id: accountItem.id,
           lots: accountItem.lots - params.lots,
         });
-        if (!accountItemsChanges) {
+        if (!checkChangesIsCorrect(accountItemsChanges)) {
           throw ServerErrorException('Failed account item update');
         }
         const id = await salesDatasource.create({
@@ -88,7 +90,7 @@ const CreateSale = ({
           lots: params.lots,
           price: params.price,
         });
-        if (!id && id !== 0) {
+        if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed sale creation');
         }
         const newBalance = calculateBalance({
@@ -101,7 +103,7 @@ const CreateSale = ({
           id: params.accountId,
           balance: newBalance,
         });
-        if (!accountsChanges) {
+        if (!checkChangesIsCorrect(accountsChanges)) {
           throw ServerErrorException('Failed account update');
         }
         response.sendStatus(StatusCode.noContent);

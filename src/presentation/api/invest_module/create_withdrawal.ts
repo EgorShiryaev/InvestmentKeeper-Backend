@@ -4,6 +4,8 @@ import ForbiddenException from '../../../core/exception/forbidden_exception';
 import NotFoundException from '../../../core/exception/not_found_exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
 import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
+import checkChangesIsCorrect from '../../../core/utils/check_changes_is_correct';
+import checkIdIsCorrect from '../../../core/utils/check_id_is_correct';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
@@ -57,7 +59,7 @@ const CreateWithdrawal = ({
           accountId: params.accountId,
           value: params.value,
         });
-        if (!id && id !== 0) {
+        if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed refill creation');
         }
         const newBalance = account.balance - params.value;
@@ -65,7 +67,7 @@ const CreateWithdrawal = ({
           id: account.id,
           balance: newBalance,
         });
-        if (!accountsChanges) {
+        if (!checkChangesIsCorrect(accountsChanges)) {
           throw ServerErrorException('Failed account item update');
         }
         response.sendStatus(StatusCode.noContent);
