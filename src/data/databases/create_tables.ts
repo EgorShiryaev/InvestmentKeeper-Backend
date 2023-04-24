@@ -13,7 +13,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     ${TableTitle.users} (
       ${IdColumnConfig}, 
       name VARCHAR(255) NOT NULL,
-      email VARCHAR(255) NOT NULL UNIQUE,
+      phoneNumber VARCHAR(18) NOT NULL UNIQUE,
       password TEXT NOT NULL
     )
     `,

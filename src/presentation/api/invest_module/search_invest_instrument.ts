@@ -31,8 +31,7 @@ const SearchInvestInstrument = ({
           return;
         }
 
-        const params: SearchInvestInstrumentRequestData =
-          request.query as SearchInvestInstrumentRequestData;
+        const params = request.query as SearchInvestInstrumentRequestData;
 
         const checkResult = checkRequiredParams(params, requiredParams);
         if (!checkResult.success) {

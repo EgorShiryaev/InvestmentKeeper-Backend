@@ -1,6 +1,7 @@
 type LoginRequestData = {
-  email: string;
+  phoneNumber: string;
   password: string;
 };
 
 export default LoginRequestData;
+

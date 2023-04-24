@@ -20,7 +20,7 @@ const Registration = ({
   datasource,
   authentificatedUsersRepository,
 }: Params): ApiMethod => {
-  const requiredParams = ['name', 'password', 'email'];
+  const requiredParams = ['name', 'password', 'phoneNumber'];
 
   return {
     handler: async (request, response) => {
@@ -38,8 +38,8 @@ const Registration = ({
           return;
         }
 
-        const userIsAlreadyExists = !!(await datasource.getByEmail(
-          params.email,
+        const userIsAlreadyExists = !!(await datasource.getByPhoneNumber(
+          params.phoneNumber,
         ));
 
         if (userIsAlreadyExists) {

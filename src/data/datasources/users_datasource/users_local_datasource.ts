@@ -9,14 +9,15 @@ const UsersLocalDatasource = ({
   const table = TableTitle.users;
 
   return {
-    getByEmail: (email) => {
-      const script = `SELECT * FROM ${table} WHERE email = "${email}"`;
+    getByPhoneNumber: (phoneNumber) => {
+      const script = `SELECT * FROM ${table} 
+        WHERE phoneNumber = "${phoneNumber}"`;
 
       return sqlDatabase.get<UserModel>(script);
     },
     create: (data) => {
-      const script = `INSERT INTO ${table} (name, email, password) 
-        VALUES ("${data.name}", "${data.email}", "${data.password}")`;
+      const script = `INSERT INTO ${table} (name, phoneNumber, password) 
+        VALUES ("${data.name}", "${data.phoneNumber}", "${data.password}")`;
 
       return sqlDatabase.run(script).then((v) => v.lastId);
     },

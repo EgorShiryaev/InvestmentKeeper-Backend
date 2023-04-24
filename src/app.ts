@@ -16,6 +16,7 @@ const App = ({ url, port, api }: Params) => {
         const app = express();
         app.use(express.json());
 
+        app.get('/isUser', api.isUser.handler);
         app.post('/registration', api.registration.handler);
         app.post('/login', api.login.handler);
 

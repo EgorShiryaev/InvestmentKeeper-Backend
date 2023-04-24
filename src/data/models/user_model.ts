@@ -2,7 +2,7 @@ import BaseModel from './base_model';
 
 type UserModel = BaseModel & {
   name: string;
-  email: string;
+  phoneNumber: string;
   password: string;
 };
 

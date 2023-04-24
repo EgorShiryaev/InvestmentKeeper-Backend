@@ -19,7 +19,7 @@ const Login = ({
   datasource,
   authentificatedUsersRepository,
 }: Params): ApiMethod => {
-  const requiredParams = ['password', 'email'];
+  const requiredParams = ['password', 'phoneNumber'];
 
   return {
     handler: async (request, response) => {
@@ -37,7 +37,7 @@ const Login = ({
           return;
         }
 
-        const user = await datasource.getByEmail(params.email);
+        const user = await datasource.getByPhoneNumber(params.phoneNumber);
         if (!user) {
           response.status(StatusCode.authFailure).json(FailureAuthException());
           return;
