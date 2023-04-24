@@ -16,6 +16,7 @@
         "@tinkoff/invest-openapi-js-sdk": "^1.5.0",
         "base-64": "^1.0.0",
         "bcrypt": "^5.1.0",
+        "currency.js": "^2.0.4",
         "dotenv": "^16.0.3",
         "express": "^4.18.2",
         "fs": "0.0.1-security",

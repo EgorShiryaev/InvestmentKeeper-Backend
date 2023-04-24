@@ -29,6 +29,8 @@ const App = ({ url, port, api }: Params) => {
 
         app.get('/searchInvestInstrument', api.searchInvestInstrument.handler);
 
+        app.post('/sales', api.createSale.handler);
+
         const server = http.createServer(app);
         server.listen(port, url, () => {
           console.log(`Success start server ${url}:${port}`);

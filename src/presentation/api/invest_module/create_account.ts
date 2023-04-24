@@ -51,7 +51,6 @@ const CreateAccount = ({
           userId: user.id,
           ...params,
         });
-
         if (!id && id !== 0) {
           response.status(StatusCode.serverError).json(CreateException());
           return;

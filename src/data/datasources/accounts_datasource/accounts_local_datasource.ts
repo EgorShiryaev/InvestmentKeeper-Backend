@@ -16,18 +16,17 @@ const AccountsLocalDatasource = ({
       return sqlDatabase.getAll<AccountModel>(script);
     },
     create: ({ userId, title }) => {
-      const script = `INSERT INTO ${table} (userId, title, visibility, balance)
-      VALUES (${userId}, "${title}", true, 0)`;
+      const script = `INSERT INTO ${table} (userId, title)
+      VALUES (${userId}, "${title}")`;
 
       return sqlDatabase.run(script).then((v) => v.lastId);
     },
     update: ({ id, title, visibility }) => {
-      const set = [
+      const setFields = [
         title && `title = "${title}"`,
         visibility !== undefined && `visibility = "${visibility ? 1 : 0}"`,
-      ]
-        .filter((v) => v)
-        .join(', ');
+      ];
+      const set = setFields.filter((v) => v).join(', ');
       const script = `UPDATE ${table} SET ${set} WHERE id = ${id}`;
       return sqlDatabase.run(script).then((v) => v.changes);
     },

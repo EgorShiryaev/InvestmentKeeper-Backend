@@ -22,9 +22,11 @@ const GetAccounts = ({
   authentificatedUsersRepository,
 }: Params): ApiMethod => {
   const getItems = (accountId: number): Promise<AccountItemEntity[]> => {
-    return accountItemsDatasource.getAllByAccountId(accountId).then((items) => {
-      return items.map((v) => convertToAccountItemEntity(v));
-    });
+    return accountItemsDatasource
+      .getAllByAccountIdAndLotsGreaterZero(accountId)
+      .then((items) => {
+        return items.map((v) => convertToAccountItemEntity(v));
+      });
   };
 
   const getAccounts = (userId: number): Promise<AccountEntity[]> => {
