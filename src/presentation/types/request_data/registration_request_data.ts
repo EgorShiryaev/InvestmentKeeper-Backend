@@ -1,7 +1,8 @@
 type RegistrationRequestData = {
   name: string;
-  email: string;
+  phoneNumber: string;
   password: string;
 };
 
 export default RegistrationRequestData;
+

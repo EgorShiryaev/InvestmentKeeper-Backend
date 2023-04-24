@@ -47,7 +47,7 @@ const UpdateAccount = ({
           return;
         }
 
-        const record = datasource.getById(params.id);
+        const record = await datasource.getById(params.id);
 
         if (!record) {
           response.sendStatus(StatusCode.notFound);

@@ -1,7 +1,8 @@
 type UserEntity = {
   name: string;
-  email: string;
+  phoneNumber: string;
   password: string;
 };
 
 export default UserEntity;
+
