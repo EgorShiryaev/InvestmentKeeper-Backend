@@ -16,8 +16,8 @@ const AccountsLocalDatasource = ({
       return sqlDatabase.getAll<AccountModel>(script);
     },
     create: ({ userId, title }) => {
-      const script = `INSERT INTO ${table} (userId, title, visibility)
-      VALUES (${userId}, "${title}", true)`;
+      const script = `INSERT INTO ${table} (userId, title, visibility, balance)
+      VALUES (${userId}, "${title}", true, 0)`;
 
       return sqlDatabase.run(script).then((v) => v.lastId);
     },
