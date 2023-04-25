@@ -7,22 +7,19 @@ import ModuleDIParams from './module_di_params';
 
 const authModuleDependencyInjection = ({
   sqlDatabase,
-  authentificatedUsersRepository,
 }: ModuleDIParams): AuthModule => {
   const usersDatasource = UsersLocalDatasource({ sqlDatabase });
 
   const login = Login({
-    datasource: usersDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
+    usersDatasource: usersDatasource,
   });
 
   const registration = Registration({
-    datasource: usersDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
+    usersDatasource: usersDatasource,
   });
 
   const isUser = IsUser({
-    datasource: usersDatasource,
+    usersDatasource: usersDatasource,
   });
 
   return {

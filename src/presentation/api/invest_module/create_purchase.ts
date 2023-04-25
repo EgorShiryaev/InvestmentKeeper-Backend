@@ -3,12 +3,12 @@ import { IException } from '../../../core/exception/exception';
 import ForbiddenException from '../../../core/exception/forbidden_exception';
 import NotFoundException from '../../../core/exception/not_found_exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
-import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
 import calculateAveragePrice from '../../../core/utils/calculate_utils/calculate_average_price';
 import calculateBalance from '../../../core/utils/calculate_utils/calculate_balance';
 import calculateTotalPrice from '../../../core/utils/calculate_utils/calculate_total_price';
 import checkChangesIsCorrect from '../../../core/utils/check_changes_is_correct';
 import checkIdIsCorrect from '../../../core/utils/check_id_is_correct';
+import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import AccountItemsDatasource from '../../../data/datasources/account_items_datasource/account_items_datasource';
@@ -17,7 +17,6 @@ import InvestInstrumentsDatasource from '../../../data/datasources/invest_instru
 import SalesDatasource from '../../../data/datasources/sales_datasource/sales_datasource';
 import AccountModel from '../../../data/models/account_model';
 import StatusCode from '../../../domain/entities/status_code';
-import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
 import CreatePurchaseRequestData from '../../types/request_data/create_purchase_request_data';
 import CreateSaleRequestData from '../../types/request_data/create_sale_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
@@ -28,7 +27,6 @@ type Params = {
   purchasesDatasource: SalesDatasource;
   accountsDatasource: AccountsDatasource;
   investInstrumentsDatasource: InvestInstrumentsDatasource;
-  authentificatedUsersRepository: AuthentificatedUsersRepository;
 };
 
 const CreatePurchase = ({
@@ -36,7 +34,6 @@ const CreatePurchase = ({
   purchasesDatasource,
   accountsDatasource,
   investInstrumentsDatasource,
-  authentificatedUsersRepository,
 }: Params): ApiMethod => {
   const requiredParams = ['accountId', 'instrumentId', 'lots', 'price'];
 
@@ -77,16 +74,12 @@ const CreatePurchase = ({
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }
-        const authToken = getAuthToken(request.headers);
-        if (!authToken) {
-          throw ForbiddenException();
-        }
-        const user = authentificatedUsersRepository.get(authToken);
+        const user = getRequestUser(request.headers);
         if (!user) {
           throw ForbiddenException();
         }
         const instrument = await investInstrumentsDatasource.getById(
-          params.accountId,
+          params.instrumentId,
         );
         if (!instrument) {
           throw NotFoundException('Invest instrument not found');

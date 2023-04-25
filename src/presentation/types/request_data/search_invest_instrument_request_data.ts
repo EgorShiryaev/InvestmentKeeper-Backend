@@ -3,3 +3,4 @@ type SearchInvestInstrumentRequestData = {
 };
 
 export default SearchInvestInstrumentRequestData;
+

@@ -3,7 +3,7 @@ import { compareEncodedPassword } from '../../../core/utils/encoded_password/com
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import UsersDatasource from '../../../data/datasources/users_datasource/users_datasource';
 import StatusCode from '../../../domain/entities/status_code';
-import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
+import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository';
 import AuthResponseData from '../../types/response_data/auth_response_data';
 import LoginRequestData from '../../types/request_data/login_request_data';
 import ApiMethod from '../api';
@@ -14,14 +14,10 @@ import FailedAuthException from '../../../core/exception/failed_auth_exception';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 
 type Params = {
-  datasource: UsersDatasource;
-  authentificatedUsersRepository: AuthentificatedUsersRepository;
+  usersDatasource: UsersDatasource;
 };
 
-const Login = ({
-  datasource,
-  authentificatedUsersRepository,
-}: Params): ApiMethod => {
+const Login = ({ usersDatasource }: Params): ApiMethod => {
   const requiredParams = ['password', 'phoneNumber'];
 
   return {
@@ -33,7 +29,7 @@ const Login = ({
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }
-        const user = await datasource.getByPhoneNumber(params.phoneNumber);
+        const user = await usersDatasource.getByPhoneNumber(params.phoneNumber);
         if (!user) {
           throw FailedAuthException();
         }
@@ -45,7 +41,7 @@ const Login = ({
           throw FailedAuthException();
         }
         const token = generateAuthToken(user);
-        authentificatedUsersRepository.set(token, user);
+        AuthentificatedUsersRepository.set(token, user);
         const responseData: AuthResponseData = {
           token: token,
           name: user.name,

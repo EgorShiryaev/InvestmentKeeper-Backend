@@ -8,21 +8,17 @@ import checkRequiredParams from '../../../core/utils/required_params/check_requi
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import UsersDatasource from '../../../data/datasources/users_datasource/users_datasource';
 import StatusCode from '../../../domain/entities/status_code';
-import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
+import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository';
 import RegistrationRequestData from '../../types/request_data/registration_request_data';
 import AuthResponseData from '../../types/response_data/auth_response_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../api';
 
 type Params = {
-  datasource: UsersDatasource;
-  authentificatedUsersRepository: AuthentificatedUsersRepository;
+  usersDatasource: UsersDatasource;
 };
 
-const Registration = ({
-  datasource,
-  authentificatedUsersRepository,
-}: Params): ApiMethod => {
+const Registration = ({ usersDatasource }: Params): ApiMethod => {
   const requiredParams = ['name', 'password', 'phoneNumber'];
 
   return {
@@ -34,7 +30,7 @@ const Registration = ({
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }
-        const userIsAlreadyExists = !!(await datasource.getByPhoneNumber(
+        const userIsAlreadyExists = !!(await usersDatasource.getByPhoneNumber(
           params.phoneNumber,
         ));
         if (userIsAlreadyExists) {
@@ -44,7 +40,7 @@ const Registration = ({
           ...params,
           password: await encodePassword(params.password),
         };
-        const id = await datasource.create(newUser);
+        const id = await usersDatasource.create(newUser);
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed user creation');
         }
@@ -53,7 +49,7 @@ const Registration = ({
           ...newUser,
         };
         const token = generateAuthToken(user);
-        authentificatedUsersRepository.set(token, user);
+        AuthentificatedUsersRepository.set(token, user);
         const responseData: AuthResponseData = {
           token: token,
           name: user.name,

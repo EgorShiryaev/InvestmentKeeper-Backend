@@ -15,24 +15,20 @@ const App = ({ url, port, api }: Params) => {
       try {
         const app = express();
         app.use(express.json());
-
         app.get('/isUser', api.isUser.handler);
         app.post('/registration', api.registration.handler);
         app.post('/login', api.login.handler);
-
         const accountsPath = '/accounts';
         app.get(accountsPath, api.getAccounts.handler);
         app.post(accountsPath, api.createAccount.handler);
         app.put(accountsPath, api.updateAccount.handler);
-
         app.put('/accountVisibility', api.changeVisibilityAccount.handler);
-
         app.get('/searchInvestInstrument', api.searchInvestInstrument.handler);
-
         app.post('/sales', api.createSale.handler);
         app.post('/purchases', api.createPurchase.handler);
         app.post('/refills', api.createRefill.handler);
         app.post('/withdrawals', api.createWithdrawal.handler);
+        app.get('/instrumentComments', api.getComment.handler);
 
         const server = http.createServer(app);
         server.listen(port, url, () => {

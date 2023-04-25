@@ -10,10 +10,10 @@ import NotFoundException from '../../../core/exception/not_found_exception';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 
 type Params = {
-  datasource: UsersDatasource;
+  usersDatasource: UsersDatasource;
 };
 
-const IsUser = ({ datasource }: Params): ApiMethod => {
+const IsUser = ({ usersDatasource }: Params): ApiMethod => {
   const requiredParams = ['phoneNumber'];
 
   return {
@@ -25,7 +25,7 @@ const IsUser = ({ datasource }: Params): ApiMethod => {
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }
-        const user = await datasource.getByPhoneNumber(params.phoneNumber);
+        const user = await usersDatasource.getByPhoneNumber(params.phoneNumber);
         if (!user) {
           throw NotFoundException('User not found');
         }
