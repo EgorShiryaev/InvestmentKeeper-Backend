@@ -31,6 +31,7 @@ const App = ({ url, port, api }: Params) => {
         const instrumentCommentsPath = '/instrumentComments';
         app.get(instrumentCommentsPath, api.getInstrumentComment.handler);
         app.put(instrumentCommentsPath, api.updateInstrumentComment.handler);
+        app.get('/candles', api.getCandles.handler);
 
         const server = http.createServer(app);
         server.listen(port, url, () => {

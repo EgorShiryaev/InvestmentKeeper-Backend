@@ -4,8 +4,7 @@ import ForbiddenException from '../../../core/exception/forbidden_exception';
 import NotFoundException from '../../../core/exception/not_found_exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
 import calculateBalance from '../../../core/utils/calculate_utils/calculate_balance';
-import checkChangesIsCorrect from '../../../core/utils/check_changes_is_correct';
-import checkIdIsCorrect from '../../../core/utils/check_id_is_correct';
+import checkChangesIsCorrect from '../../../core/utils/required_params/check_changes_is_correct';
 import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
@@ -17,6 +16,7 @@ import StatusCode from '../../../domain/entities/status_code';
 import CreateSaleRequestData from '../../types/request_data/create_sale_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../api';
+import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 
 type Params = {
   accountItemsDatasource: AccountItemsDatasource;
