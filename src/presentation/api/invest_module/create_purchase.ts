@@ -79,7 +79,7 @@ const CreatePurchase = ({
           throw ForbiddenException();
         }
         const instrument = await investInstrumentsDatasource.getById(
-          params.accountId,
+          params.instrumentId,
         );
         if (!instrument) {
           throw NotFoundException('Invest instrument not found');

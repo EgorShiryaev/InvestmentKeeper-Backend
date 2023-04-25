@@ -1,5 +1,6 @@
 import AccountItemsLocalDatasource from '../../data/datasources/account_items_datasource/account_items_local_datasource';
 import AccountsLocalDatasource from '../../data/datasources/accounts_datasource/accounts_local_datasource';
+import InstrumentCommentsLocalDatasource from '../../data/datasources/instrument_comments_datasource/instrument_comments_local_datasource';
 import InvestInstrumentsLocalDatasource from '../../data/datasources/invest_instruments_datasource/invest_instruments_local_datasource';
 import PurchasesLocalDatasource from '../../data/datasources/purchases_datasource/purchases_local_datasource';
 import RefillsLocalDatasource from '../../data/datasources/refills_datasource/refills_local_datasource';
@@ -12,6 +13,7 @@ import CreateRefill from '../../presentation/api/invest_module/create_refill';
 import CreateSale from '../../presentation/api/invest_module/create_sale';
 import CreateWithdrawal from '../../presentation/api/invest_module/create_withdrawal';
 import GetAccounts from '../../presentation/api/invest_module/get_accounts';
+import GetComment from '../../presentation/api/invest_module/get_comment';
 import SearchInvestInstrument from '../../presentation/api/invest_module/search_invest_instrument';
 import UpdateAccount from '../../presentation/api/invest_module/update_account';
 import InvestModule from '../../presentation/types/modules/invest_module';
@@ -20,8 +22,12 @@ import ModuleDIParams from './module_di_params';
 const investModuleDependencyInjection = ({
   sqlDatabase,
 }: ModuleDIParams): InvestModule => {
-  const accountsDatasource = AccountsLocalDatasource({ sqlDatabase });
-  const accountItemsDatasource = AccountItemsLocalDatasource({ sqlDatabase });
+  const accountsDatasource = AccountsLocalDatasource({
+    sqlDatabase: sqlDatabase,
+  });
+  const accountItemsDatasource = AccountItemsLocalDatasource({
+    sqlDatabase: sqlDatabase,
+  });
   const investInstrumentsDatasource = InvestInstrumentsLocalDatasource({
     sqlDatabase: sqlDatabase,
   });
@@ -35,6 +41,9 @@ const investModuleDependencyInjection = ({
     sqlDatabase: sqlDatabase,
   });
   const withdrawalsDatasource = WithdrawalsLocalDatasource({
+    sqlDatabase: sqlDatabase,
+  });
+  const instrumentCommentsDatasource = InstrumentCommentsLocalDatasource({
     sqlDatabase: sqlDatabase,
   });
 
@@ -74,6 +83,10 @@ const investModuleDependencyInjection = ({
     withdrawalsDatasource: withdrawalsDatasource,
     accountsDatasource: accountsDatasource,
   });
+  const getComment = GetComment({
+    investInstrumentsDatasource: investInstrumentsDatasource,
+    instrumentCommentsDatasource: instrumentCommentsDatasource,
+  });
 
   return {
     getAccounts: getAccounts,
@@ -85,6 +98,7 @@ const investModuleDependencyInjection = ({
     createPurchase: createPurchase,
     createRefill: createRefill,
     createWithdrawal: createWithdrawal,
+    getComment: getComment,
   };
 };
 
