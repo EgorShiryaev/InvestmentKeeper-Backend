@@ -12,6 +12,7 @@ type InvestModule = {
   createWithdrawal: ApiMethod;
   getInstrumentComment: ApiMethod;
   updateInstrumentComment: ApiMethod;
+  getCandles: ApiMethod;
 };
 
 export default InvestModule;

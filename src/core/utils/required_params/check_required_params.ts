@@ -54,7 +54,6 @@ const checkRequiredParams = ({
       value = value.trim();
     }
 
-    console.log(value);
     if (value && value !== 0) {
       requiredParams = removeValueOfArray(key, requiredParams);
     }

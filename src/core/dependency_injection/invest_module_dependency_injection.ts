@@ -1,5 +1,8 @@
+import OpenAPI from '@tinkoff/invest-openapi-js-sdk';
+import { SqlDatabase } from '../../data/databases/types';
 import AccountItemsLocalDatasource from '../../data/datasources/account_items_datasource/account_items_local_datasource';
 import AccountsLocalDatasource from '../../data/datasources/accounts_datasource/accounts_local_datasource';
+import CandlesRemoteDatasource from '../../data/datasources/candles_datasource/candles_remote_datasource';
 import InstrumentCommentsLocalDatasource from '../../data/datasources/instrument_comments_datasource/instrument_comments_local_datasource';
 import InvestInstrumentsLocalDatasource from '../../data/datasources/invest_instruments_datasource/invest_instruments_local_datasource';
 import PurchasesLocalDatasource from '../../data/datasources/purchases_datasource/purchases_local_datasource';
@@ -18,11 +21,17 @@ import SearchInvestInstrument from '../../presentation/api/invest_module/search_
 import UpdateAccount from '../../presentation/api/invest_module/update_account';
 import UpdateInstrumentComment from '../../presentation/api/invest_module/update_instrument_comment';
 import InvestModule from '../../presentation/types/modules/invest_module';
-import ModuleDIParams from './module_di_params';
+import GetCandles from '../../presentation/api/invest_module/get_candles';
+
+type Params = {
+  sqlDatabase: SqlDatabase;
+  remoteApi: OpenAPI;
+};
 
 const investModuleDependencyInjection = ({
   sqlDatabase,
-}: ModuleDIParams): InvestModule => {
+  remoteApi,
+}: Params): InvestModule => {
   const accountsDatasource = AccountsLocalDatasource({
     sqlDatabase: sqlDatabase,
   });
@@ -46,6 +55,9 @@ const investModuleDependencyInjection = ({
   });
   const instrumentCommentsDatasource = InstrumentCommentsLocalDatasource({
     sqlDatabase: sqlDatabase,
+  });
+  const candlesDatasource = CandlesRemoteDatasource({
+    api: remoteApi,
   });
 
   const getAccounts = GetAccounts({
@@ -92,6 +104,10 @@ const investModuleDependencyInjection = ({
     investInstrumentsDatasource: investInstrumentsDatasource,
     instrumentCommentsDatasource: instrumentCommentsDatasource,
   });
+  const getCandles = GetCandles({
+    investInstrumentsDatasource: investInstrumentsDatasource,
+    candlesDatasource: candlesDatasource,
+  });
 
   return {
     getAccounts: getAccounts,
@@ -105,6 +121,7 @@ const investModuleDependencyInjection = ({
     createWithdrawal: createWithdrawal,
     getInstrumentComment: getInstrumentComment,
     updateInstrumentComment: updateInstrumentComment,
+    getCandles: getCandles,
   };
 };
 
