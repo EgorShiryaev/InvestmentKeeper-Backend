@@ -19,7 +19,6 @@ import ModuleDIParams from './module_di_params';
 
 const investModuleDependencyInjection = ({
   sqlDatabase,
-  authentificatedUsersRepository,
 }: ModuleDIParams): InvestModule => {
   const accountsDatasource = AccountsLocalDatasource({ sqlDatabase });
   const accountItemsDatasource = AccountItemsLocalDatasource({ sqlDatabase });
@@ -42,47 +41,38 @@ const investModuleDependencyInjection = ({
   const getAccounts = GetAccounts({
     accountsDatasource: accountsDatasource,
     accountItemsDatasource: accountItemsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
   });
   const createAccount = CreateAccount({
-    datasource: accountsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
+    accountsDatasource: accountsDatasource,
   });
   const updateAccount = UpdateAccount({
-    datasource: accountsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
+    accountsDatasource: accountsDatasource,
   });
   const changeVisibilityAccount = ChangeVisibilityAccount({
-    datasource: accountsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
+    accountsDatasource: accountsDatasource,
   });
   const searchInstrument = SearchInvestInstrument({
-    datasource: investInstrumentsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
+    investInstrumentsDatasource: investInstrumentsDatasource,
   });
   const createSale = CreateSale({
     accountItemsDatasource: accountItemsDatasource,
     salesDatasource: salesDatasource,
     accountsDatasource: accountsDatasource,
     investInstrumentsDatasource: investInstrumentsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
   });
   const createPurchase = CreatePurchase({
     accountItemsDatasource: accountItemsDatasource,
     purchasesDatasource: purchasesDatasource,
     accountsDatasource: accountsDatasource,
     investInstrumentsDatasource: investInstrumentsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
   });
   const createRefill = CreateRefill({
     refillsDatasource: refillsDatasource,
     accountsDatasource: accountsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
   });
   const createWithdrawal = CreateWithdrawal({
     withdrawalsDatasource: withdrawalsDatasource,
     accountsDatasource: accountsDatasource,
-    authentificatedUsersRepository: authentificatedUsersRepository,
   });
 
   return {

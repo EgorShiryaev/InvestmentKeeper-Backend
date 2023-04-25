@@ -1,26 +1,23 @@
 import BadRequestException from '../../../core/exception/bad_request_exception';
 import { IException } from '../../../core/exception/exception';
 import ForbiddenException from '../../../core/exception/forbidden_exception';
-import getAuthToken from '../../../core/utils/auth_token/get_auth_token';
 import convertToInvestInstrumentEntity from '../../../core/utils/convectors/convert_to_invest_instrument_entity';
+import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import InvestInstrumentsDatasource from '../../../data/datasources/invest_instruments_datasource/invest_instruments_datasource';
 import StatusCode from '../../../domain/entities/status_code';
-import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository/authentificated_users_repository';
 import SearchInvestInstrumentRequestData from '../../types/request_data/search_invest_instrument_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import SearchInvestInstrumentResponseData from '../../types/response_data/search_invest_instrument_response_data';
 import ApiMethod from '../api';
 
 type Params = {
-  datasource: InvestInstrumentsDatasource;
-  authentificatedUsersRepository: AuthentificatedUsersRepository;
+  investInstrumentsDatasource: InvestInstrumentsDatasource;
 };
 
 const SearchInvestInstrument = ({
-  datasource,
-  authentificatedUsersRepository,
+  investInstrumentsDatasource,
 }: Params): ApiMethod => {
   const requiredParams = ['query'];
 
@@ -33,17 +30,15 @@ const SearchInvestInstrument = ({
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }
-        const authToken = getAuthToken(request.headers);
-        if (!authToken) {
-          throw ForbiddenException();
-        }
-        const user = authentificatedUsersRepository.get(authToken);
+        const user = getRequestUser(request.headers);
         if (!user) {
           throw ForbiddenException();
         }
         const trimmedQuery = params.query.trim();
         const instrumentsFullData =
-          await datasource.getAllLikeTitleOrTickerOrFigi(trimmedQuery);
+          await investInstrumentsDatasource.getAllLikeTitleOrTickerOrFigi(
+            trimmedQuery,
+          );
         const instruments = instrumentsFullData.map((instrument) =>
           convertToInvestInstrumentEntity(instrument),
         );
