@@ -14,6 +14,25 @@ const InstrumentCommentsLocalDatasource = ({
 
       return sqlDatabase.get(script);
     },
+    update: ({ id, comment }) => {
+      const script = `UPDATE ${table} SET comment = ${comment} 
+        WHERE id = ${id}
+      `;
+
+      return sqlDatabase.run(script).then((v) => v.changes);
+    },
+    delete: (id) => {
+      const script = `DELETE FROM ${table} WHERE id = ${id}`;
+
+      return sqlDatabase.run(script).then((v) => v.changes);
+    },
+    create: ({ userId, instrumentId, comment }) => {
+      const script = `INSERT INTO ${table} (userId, instrumentId, comment)
+        VALUES(${userId}, ${instrumentId}, "${comment}")
+      `;
+
+      return sqlDatabase.run(script).then((v) => v.lastId);
+    },
   };
 };
 

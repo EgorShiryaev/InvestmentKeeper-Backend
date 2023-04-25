@@ -10,7 +10,8 @@ type InvestModule = {
   createPurchase: ApiMethod;
   createRefill: ApiMethod;
   createWithdrawal: ApiMethod;
-  getComment: ApiMethod;
+  getInstrumentComment: ApiMethod;
+  updateInstrumentComment: ApiMethod;
 };
 
 export default InvestModule;

@@ -13,9 +13,10 @@ import CreateRefill from '../../presentation/api/invest_module/create_refill';
 import CreateSale from '../../presentation/api/invest_module/create_sale';
 import CreateWithdrawal from '../../presentation/api/invest_module/create_withdrawal';
 import GetAccounts from '../../presentation/api/invest_module/get_accounts';
-import GetComment from '../../presentation/api/invest_module/get_comment';
+import GetInstrumentComment from '../../presentation/api/invest_module/get_instrument_comment';
 import SearchInvestInstrument from '../../presentation/api/invest_module/search_invest_instrument';
 import UpdateAccount from '../../presentation/api/invest_module/update_account';
+import UpdateInstrumentComment from '../../presentation/api/invest_module/update_instrument_comment';
 import InvestModule from '../../presentation/types/modules/invest_module';
 import ModuleDIParams from './module_di_params';
 
@@ -83,7 +84,11 @@ const investModuleDependencyInjection = ({
     withdrawalsDatasource: withdrawalsDatasource,
     accountsDatasource: accountsDatasource,
   });
-  const getComment = GetComment({
+  const getInstrumentComment = GetInstrumentComment({
+    investInstrumentsDatasource: investInstrumentsDatasource,
+    instrumentCommentsDatasource: instrumentCommentsDatasource,
+  });
+  const updateInstrumentComment = UpdateInstrumentComment({
     investInstrumentsDatasource: investInstrumentsDatasource,
     instrumentCommentsDatasource: instrumentCommentsDatasource,
   });
@@ -98,7 +103,8 @@ const investModuleDependencyInjection = ({
     createPurchase: createPurchase,
     createRefill: createRefill,
     createWithdrawal: createWithdrawal,
-    getComment: getComment,
+    getInstrumentComment: getInstrumentComment,
+    updateInstrumentComment: updateInstrumentComment,
   };
 };
 

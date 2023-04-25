@@ -18,7 +18,7 @@ type Params = {
   investInstrumentsDatasource: InvestInstrumentsDatasource;
 };
 
-const GetComment = ({
+const GetInstrumentComment = ({
   instrumentCommentsDatasource,
   investInstrumentsDatasource,
 }: Params): ApiMethod => {
@@ -29,7 +29,10 @@ const GetComment = ({
       try {
         console.log(request.method, request.url);
         const params = request.query as unknown as GetCommentRequestData;
-        const checkResult = checkRequiredParams(params, requiredParams);
+        const checkResult = checkRequiredParams({
+          body: params,
+          params: requiredParams,
+        });
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }
@@ -65,4 +68,5 @@ const GetComment = ({
   };
 };
 
-export default GetComment;
+export default GetInstrumentComment;
+
