@@ -25,7 +25,10 @@ const ChangeVisibilityAccount = ({ accountsDatasource }: Params): ApiMethod => {
       try {
         console.log(request.method, request.url);
         const params: ChangeVisibilityAccountRequestData = request.body;
-        const checkResult = checkRequiredParams(params, requiredParams);
+        const checkResult = checkRequiredParams({
+          body: params,
+          params: requiredParams,
+        });
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }

@@ -1,5 +1,5 @@
 import generateNotFoundedRequiredParamsErrorMessage from './generate_not_founded_required_params_error_message';
-import generaterequiredParamsErrorMessage from './generate_required_params_values_error_message';
+import generateRequiredParamsErrorMessage from './generate_required_params_values_error_message';
 
 type CheckResult =
   | {
@@ -14,15 +14,26 @@ type StringDictionary = {
   [key: string]: unknown;
 };
 
-const checkRequiredParams = (
-  body: StringDictionary,
-  params: string[],
-): CheckResult => {
+type Params = {
+  body: StringDictionary;
+  params: string[];
+  emptyStringIsCorrect?: true;
+};
+
+const removeValueOfArray = (value: string, array: string[]) => {
+  return array.filter((v) => {
+    return v !== value;
+  });
+};
+
+const checkRequiredParams = ({
+  body,
+  params,
+  emptyStringIsCorrect,
+}: Params): CheckResult => {
   let requiredParams = [...params];
   for (const key in body) {
-    requiredParams = requiredParams.filter((value) => {
-      return value !== key;
-    });
+    requiredParams = removeValueOfArray(key, requiredParams);
   }
 
   if (requiredParams.length > 0) {
@@ -43,15 +54,18 @@ const checkRequiredParams = (
       value = value.trim();
     }
 
+    console.log(value);
     if (value && value !== 0) {
-      requiredParams = requiredParams.filter((v) => {
-        return v !== key;
-      });
+      requiredParams = removeValueOfArray(key, requiredParams);
     }
+    if (emptyStringIsCorrect && typeof value === 'string') {
+      requiredParams = removeValueOfArray(key, requiredParams);
+      
+    } 
   }
 
   if (requiredParams.length > 0) {
-    const message = generaterequiredParamsErrorMessage(requiredParams);
+    const message = generateRequiredParamsErrorMessage(requiredParams);
     return {
       success: false,
       message: message,

@@ -26,7 +26,10 @@ const SearchInvestInstrument = ({
       try {
         console.log(request.method, request.url);
         const params = request.query as SearchInvestInstrumentRequestData;
-        const checkResult = checkRequiredParams(params, requiredParams);
+        const checkResult = checkRequiredParams({
+          body: params,
+          params: requiredParams,
+        });
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }

@@ -28,7 +28,9 @@ const App = ({ url, port, api }: Params) => {
         app.post('/purchases', api.createPurchase.handler);
         app.post('/refills', api.createRefill.handler);
         app.post('/withdrawals', api.createWithdrawal.handler);
-        app.get('/instrumentComments', api.getComment.handler);
+        const instrumentCommentsPath = '/instrumentComments';
+        app.get(instrumentCommentsPath, api.getInstrumentComment.handler);
+        app.put(instrumentCommentsPath, api.updateInstrumentComment.handler);
 
         const server = http.createServer(app);
         server.listen(port, url, () => {
