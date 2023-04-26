@@ -25,7 +25,6 @@ const InstrumentSubscribesRepositoryImpl = (
         newValue = 1;
       }
       storage.set(figi, newValue);
-      console.log(figi, newValue);
     },
     decrement: (figi) => {
       const value = storage.get(figi);
@@ -40,7 +39,6 @@ const InstrumentSubscribesRepositoryImpl = (
         newValue = value - 1;
       }
       storage.set(figi, newValue);
-      console.log(figi, newValue);
     },
   };
 };

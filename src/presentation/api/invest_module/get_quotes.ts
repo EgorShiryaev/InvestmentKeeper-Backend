@@ -47,19 +47,17 @@ const GetQuotes = ({
       if (!instrument) {
         throw NotFoundException('Invest instrument not found');
       }
-      console.log(params.operation, instrument.figi);
-
       const figis = UserQuotesSubscibesRepository.getAll(userId);
-
       const figiIsIncludes = !!figis?.includes(instrument.figi);
-
       if (params.operation === QuotesOperation.subscribe && !figiIsIncludes) {
+        console.log(params.operation, instrument.figi);
         UserQuotesSubscibesRepository.add(userId, instrument.figi);
         instrumentSubscribesRepository.increment(instrument.figi);
       } else if (
         params.operation === QuotesOperation.unsubscribe &&
         figiIsIncludes
       ) {
+        console.log(params.operation, instrument.figi);
         UserQuotesSubscibesRepository.remove(userId, instrument.figi);
         instrumentSubscribesRepository.decrement(instrument.figi);
       }
