@@ -1,6 +1,7 @@
-import { Candle } from '@tinkoff/invest-openapi-js-sdk';
+import { HistoricCandle } from 'tinkoff-invest-api/cjs/generated/marketdata';
 
-type CandleModel = Candle;
+
+type CandleModel = HistoricCandle;
 
 export default CandleModel;
 

@@ -12,7 +12,7 @@ import InvestInstrumentsDatasource from '../../../data/datasources/invest_instru
 import StatusCode from '../../../domain/entities/status_code';
 import UpdateCommentRequestData from '../../types/request_data/update_comment_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 
 type Params = {

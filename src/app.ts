@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import AuthModule from './presentation/types/modules/auth_module';
 import InvestModule from './presentation/types/modules/invest_module';
+import { WebSocketServer } from 'ws';
 
 type Params = {
   url: string;
@@ -32,11 +33,16 @@ const App = ({ url, port, api }: Params) => {
         app.get(instrumentCommentsPath, api.getInstrumentComment.handler);
         app.put(instrumentCommentsPath, api.updateInstrumentComment.handler);
         app.get('/candles', api.getCandles.handler);
-
         const server = http.createServer(app);
         server.listen(port, url, () => {
           console.log(`Success start server ${url}:${port}`);
         });
+        const websocketServer = new WebSocketServer({
+          server: server,
+          path: '/quotes',
+        });
+        websocketServer.on('connection', api.getQuotes.connectionHandler);
+        process.setMaxListeners(Infinity);
       } catch (error) {
         console.log('Run app error', error);
       }

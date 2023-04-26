@@ -11,7 +11,7 @@ import StatusCode from '../../../domain/entities/status_code';
 import GetCommentRequestData from '../../types/request_data/get_comment_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import GetCommentResponseData from '../../types/response_data/get_comment_response_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 
 type Params = {
   instrumentCommentsDatasource: InstrumentCommentsDatasource;

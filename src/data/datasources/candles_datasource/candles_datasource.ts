@@ -1,15 +1,15 @@
 import CandleModel from '../../models/candle_model';
-import CandleTimesizeEntity from '../../../domain/entities/candle_timesize_model';
+import CandleTimesizeModel from '../../models/candle_timesize_model';
 
-type GetData = {
-  from: string;
-  to: string;
+export type GetCandleData = {
+  from: Date;
+  to: Date;
   figi: string;
-  candleTimesize: CandleTimesizeEntity;
+  candleTimesize: CandleTimesizeModel;
 };
 
 interface CandlesDatasource {
-  get: (data: GetData) => Promise<CandleModel[]>;
+  get: (data: GetCandleData) => Promise<CandleModel[]>;
 }
 
 export default CandlesDatasource;

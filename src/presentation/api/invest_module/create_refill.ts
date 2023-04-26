@@ -12,7 +12,7 @@ import RefillsDatasource from '../../../data/datasources/refills_datasource/refi
 import StatusCode from '../../../domain/entities/status_code';
 import CreateRefillRequestData from '../../types/request_data/create_refill_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 
 type Params = {

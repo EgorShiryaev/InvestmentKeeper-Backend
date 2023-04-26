@@ -1,7 +1,5 @@
 type IsUserRequestData = {
-    phoneNumber: string;
-  };
-  
+  phoneNumber: string;
+};
+
 export default IsUserRequestData;
-  
-  

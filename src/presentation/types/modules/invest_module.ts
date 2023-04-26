@@ -1,4 +1,5 @@
-import ApiMethod from '../../api/api';
+import ApiMethod from '../methods/api_method';
+import WebSocketMethod from '../methods/websocket_method';
 
 type InvestModule = {
   getAccounts: ApiMethod;
@@ -13,6 +14,7 @@ type InvestModule = {
   getInstrumentComment: ApiMethod;
   updateInstrumentComment: ApiMethod;
   getCandles: ApiMethod;
+  getQuotes: WebSocketMethod;
 };
 
 export default InvestModule;

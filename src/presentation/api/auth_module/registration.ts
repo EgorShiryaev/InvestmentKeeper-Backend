@@ -12,7 +12,7 @@ import AuthentificatedUsersRepository from '../../../domain/repositories/authent
 import RegistrationRequestData from '../../types/request_data/registration_request_data';
 import AuthResponseData from '../../types/response_data/auth_response_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 
 type Params = {
   usersDatasource: UsersDatasource;
