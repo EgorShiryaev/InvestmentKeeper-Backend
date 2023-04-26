@@ -4,12 +4,14 @@ import convertToInvestInstrumentEntity from './convert_to_invest_instrument_enti
 
 const convertToAccountItemEntity = (
   model: AccountItemFullModel,
+  currentPrice?: number,
 ): AccountItemEntity => {
   return {
     id: model.accountItemId,
     lots: model.accountItemLots,
-    averagePrice: model.accountItemAveragePrice,
+    averagePurchasePrice: model.accountItemAveragePurchasePrice,
     instrument: convertToInvestInstrumentEntity(model),
+    currentPrice: currentPrice,
   };
 };
 

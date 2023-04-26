@@ -2,7 +2,6 @@ import TableTitle from '../../databases/types/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import AccountItemsDatasource from './account_items_datasource';
 
-
 const AccountItemsLocalDatasource = ({
   sqlDatabase,
 }: LocalDatasourceParameters): AccountItemsDatasource => {
@@ -17,7 +16,7 @@ const AccountItemsLocalDatasource = ({
       const script = `SELECT 
       ${table}.id AS "accountItemId", 
       ${table}.lots AS "accountItemLots", 
-      ${table}.averagePrice AS "accountItemAveragePrice",
+      ${table}.averagePurchasePrice AS "accountItemAveragePurchasePrice",
       ${investInstrumentsTable}.id AS "instrumentId",
       ${investInstrumentsTable}.figi AS "instrumentFigi",
       ${investInstrumentsTable}.ticker AS "instrumentTicker",
@@ -48,12 +47,12 @@ const AccountItemsLocalDatasource = ({
 
       return sqlDatabase.run(script).then((v) => v.lastId);
     },
-    update: ({ id, lots, averagePrice }) => {
+    update: ({ id, lots, averagePurchasePrice }) => {
       const setFields = [
         `lots = ${lots}`,
-        averagePrice !== null &&
-          averagePrice !== undefined &&
-          `averagePrice = ${averagePrice}`,
+        averagePurchasePrice !== null &&
+          averagePurchasePrice !== undefined &&
+          `averagePurchasePrice = ${averagePurchasePrice}`,
       ];
       const set = setFields.filter((v) => v).join(', ');
       const script = `UPDATE ${table} SET ${set} WHERE id = ${id}`;

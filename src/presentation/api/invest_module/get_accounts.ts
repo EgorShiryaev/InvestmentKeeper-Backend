@@ -12,21 +12,29 @@ import StatusCode from '../../../domain/entities/status_code';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import GetAccountsResponseData from '../../types/response_data/get_accounts_response_data';
 import ApiMethod from '../../types/methods/api_method';
+import InstrumentPriceDatasource from '../../../data/datasources/instrument_price_datasource/instrument_price_datasource';
 
 type Params = {
   accountsDatasource: AccountsDatasource;
   accountItemsDatasource: AccountItemsDatasource;
+  instrumentPriceDatasource: InstrumentPriceDatasource;
 };
 
 const GetAccounts = ({
   accountsDatasource,
   accountItemsDatasource,
+  instrumentPriceDatasource,
 }: Params): ApiMethod => {
   const getItems = (accountId: number): Promise<AccountItemEntity[]> => {
     return accountItemsDatasource
       .getAllByAccountIdAndLotsGreaterZero(accountId)
       .then((items) => {
-        return items.map((v) => convertToAccountItemEntity(v));
+        return Promise.all(
+          items.map(async (v) => {
+            const price = await instrumentPriceDatasource.get(v.instrumentFigi);
+            return convertToAccountItemEntity(v, price);
+          }),
+        );
       });
   };
 

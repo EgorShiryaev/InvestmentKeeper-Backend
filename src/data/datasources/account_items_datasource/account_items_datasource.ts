@@ -9,7 +9,7 @@ type CreateAccountItemData = {
 type UpdateAccountItemData = {
   id: number;
   lots: number;
-  averagePrice?: number;
+  averagePurchasePrice?: number;
 };
 
 interface AccountItemsDatasource {

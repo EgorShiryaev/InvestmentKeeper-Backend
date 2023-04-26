@@ -5,7 +5,9 @@ type AccountItemEntity = BaseEntity & {
   id: number;
   instrument: InvestInstrumentEntity;
   lots: number;
-  averagePrice: number;
+  averagePurchasePrice: number;
+  currentPrice?: number;
 };
 
 export default AccountItemEntity;
+
