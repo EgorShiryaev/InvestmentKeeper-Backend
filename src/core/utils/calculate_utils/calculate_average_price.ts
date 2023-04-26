@@ -14,9 +14,8 @@ const calculateAveragePrice = ({
   newLots,
 }: CalcParams): number => {
   const totalLots = lots + newLots;
-  const averagePrice = currency(price * lots)
-    .add(newPrice * newLots)
-    .distribute(totalLots)[0].value;
+  const averagePrice =
+    currency(price * lots).add(newPrice * newLots).value / totalLots;
   return averagePrice;
 };
 

@@ -13,7 +13,9 @@ const calculateBalance = ({
   lots,
   isAddition,
 }: CalcParams): number => {
-  return currency(balance + (isAddition ? +price : -price) * lots).value;
+  return currency(balance + (isAddition ? +price : -price) * lots, {
+    
+  }).value;
 };
 
 export default calculateBalance;
