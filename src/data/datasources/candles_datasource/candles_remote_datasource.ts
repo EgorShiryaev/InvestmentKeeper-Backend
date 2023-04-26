@@ -6,16 +6,16 @@ const CandlesRemoteDatasource = ({
 }: RemoteDatasourceParameters): CandlesDatasource => {
   return {
     get: ({ from, to, figi, candleTimesize }) => {
-      return api
-        .candlesGet({
+      return api.marketdata
+        .getCandles({
+          figi: figi,
           from: from,
           to: to,
-          figi: figi,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           interval: candleTimesize,
         })
-        .then((v) => {
-          return v.candles;
-        });
+        .then((v) => v.candles);
     },
   };
 };

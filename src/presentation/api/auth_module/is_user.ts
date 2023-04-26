@@ -1,7 +1,7 @@
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import UsersDatasource from '../../../data/datasources/users_datasource/users_datasource';
 import StatusCode from '../../../domain/entities/status_code';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 import IsUserRequestData from '../../types/request_data/is_user_request_data';
 import { IException } from '../../../core/exception/exception';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';

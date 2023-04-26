@@ -11,7 +11,7 @@ import AccountItemEntity from '../../../domain/entities/account_item_entity';
 import StatusCode from '../../../domain/entities/status_code';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import GetAccountsResponseData from '../../types/response_data/get_accounts_response_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 
 type Params = {
   accountsDatasource: AccountsDatasource;

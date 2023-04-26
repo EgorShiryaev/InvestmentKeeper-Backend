@@ -7,6 +7,7 @@ type InvestInstrumentFullModel = {
   instrumentAbout: string;
   instrumentType: string;
   instrumentCurrency: string;
+  instrumentComment: string;
 };
 
 export default InvestInstrumentFullModel;

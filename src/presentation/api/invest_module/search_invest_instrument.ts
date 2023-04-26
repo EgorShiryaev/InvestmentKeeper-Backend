@@ -10,7 +10,7 @@ import StatusCode from '../../../domain/entities/status_code';
 import SearchInvestInstrumentRequestData from '../../types/request_data/search_invest_instrument_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import SearchInvestInstrumentResponseData from '../../types/response_data/search_invest_instrument_response_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 
 type Params = {
   investInstrumentsDatasource: InvestInstrumentsDatasource;

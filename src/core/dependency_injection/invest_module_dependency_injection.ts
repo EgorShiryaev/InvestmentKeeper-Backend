@@ -1,4 +1,3 @@
-import OpenAPI from '@tinkoff/invest-openapi-js-sdk';
 import { SqlDatabase } from '../../data/databases/types';
 import AccountItemsLocalDatasource from '../../data/datasources/account_items_datasource/account_items_local_datasource';
 import AccountsLocalDatasource from '../../data/datasources/accounts_datasource/accounts_local_datasource';
@@ -22,10 +21,14 @@ import UpdateAccount from '../../presentation/api/invest_module/update_account';
 import UpdateInstrumentComment from '../../presentation/api/invest_module/update_instrument_comment';
 import InvestModule from '../../presentation/types/modules/invest_module';
 import GetCandles from '../../presentation/api/invest_module/get_candles';
+import GetQuotes from '../../presentation/api/invest_module/get_quotes';
+import InstrumentSubscribesRepositoryImpl from '../../domain/repositories/instrument_subscribes_repository/instrument_subscribes_repository_impl';
+import QuotesRemoteDatasource from '../../data/datasources/quotes_datasource/quotes_remote_datasource';
+import { TinkoffInvestApi } from 'tinkoff-invest-api';
 
 type Params = {
   sqlDatabase: SqlDatabase;
-  remoteApi: OpenAPI;
+  remoteApi: TinkoffInvestApi;
 };
 
 const investModuleDependencyInjection = ({
@@ -59,6 +62,12 @@ const investModuleDependencyInjection = ({
   const candlesDatasource = CandlesRemoteDatasource({
     api: remoteApi,
   });
+  const quotesDatasource = QuotesRemoteDatasource({
+    api: remoteApi,
+  });
+
+  const instrumentSubscribesRepository =
+    InstrumentSubscribesRepositoryImpl(quotesDatasource);
 
   const getAccounts = GetAccounts({
     accountsDatasource: accountsDatasource,
@@ -108,6 +117,10 @@ const investModuleDependencyInjection = ({
     investInstrumentsDatasource: investInstrumentsDatasource,
     candlesDatasource: candlesDatasource,
   });
+  const getQuotes = GetQuotes({
+    investInstrumentsDatasource: investInstrumentsDatasource,
+    instrumentSubscribesRepository: instrumentSubscribesRepository,
+  });
 
   return {
     getAccounts: getAccounts,
@@ -122,6 +135,7 @@ const investModuleDependencyInjection = ({
     getInstrumentComment: getInstrumentComment,
     updateInstrumentComment: updateInstrumentComment,
     getCandles: getCandles,
+    getQuotes: getQuotes,
   };
 };
 

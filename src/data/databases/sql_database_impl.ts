@@ -47,7 +47,7 @@ const SqlDatabaseImpl = ({ databasePath }: Params): SqlDatabase => {
   };
 
   const run = (sqlScript: string): Promise<RunResult> => {
-    console.log(sqlScript);
+    // console.log(sqlScript);
     return new Promise((resolve, reject) => {
       serialize(() => {
         database.run(sqlScript, function (error) {
@@ -65,7 +65,7 @@ const SqlDatabaseImpl = ({ databasePath }: Params): SqlDatabase => {
   };
 
   const get = <T>(sqlScript: string): Promise<GetResult<T>> => {
-    console.log(sqlScript);
+    // console.log(sqlScript);
     return new Promise((resolve, reject) => {
       serialize(() => {
         database.get(sqlScript, (error, row: GetResult<T>) => {
@@ -80,7 +80,7 @@ const SqlDatabaseImpl = ({ databasePath }: Params): SqlDatabase => {
   };
 
   const getAll = <T>(sqlScript: string): Promise<GetAllResult<T>> => {
-    console.log(sqlScript);
+    // console.log(sqlScript);
     return new Promise((resolve, reject) => {
       serialize(() => {
         database.all(sqlScript, (error, rows: GetAllResult<T>) => {

@@ -6,7 +6,7 @@ import StatusCode from '../../../domain/entities/status_code';
 import AuthentificatedUsersRepository from '../../../domain/repositories/authentificated_users_repository';
 import AuthResponseData from '../../types/response_data/auth_response_data';
 import LoginRequestData from '../../types/request_data/login_request_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 import { IException } from '../../../core/exception/exception';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import BadRequestException from '../../../core/exception/bad_request_exception';

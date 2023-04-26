@@ -1,7 +1,7 @@
-import OpenAPI from '@tinkoff/invest-openapi-js-sdk';
+import { TinkoffInvestApi } from 'tinkoff-invest-api';
 
 type RemoteDatasourceParameters = {
-  api: OpenAPI;
+  api: TinkoffInvestApi;
 };
 
 export default RemoteDatasourceParameters;

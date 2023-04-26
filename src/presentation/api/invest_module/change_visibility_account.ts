@@ -11,7 +11,7 @@ import AccountsDatasource from '../../../data/datasources/accounts_datasource/ac
 import StatusCode from '../../../domain/entities/status_code';
 import ChangeVisibilityAccountRequestData from '../../types/request_data/change_visibility_account_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
 
 type Params = {
   accountsDatasource: AccountsDatasource;

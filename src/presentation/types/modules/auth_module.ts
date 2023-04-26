@@ -1,4 +1,4 @@
-import ApiMethod from '../../api/api';
+import ApiMethod from '../methods/api_method';
 
 type AuthModule = {
   isUser: ApiMethod;
@@ -7,4 +7,3 @@ type AuthModule = {
 };
 
 export default AuthModule;
-

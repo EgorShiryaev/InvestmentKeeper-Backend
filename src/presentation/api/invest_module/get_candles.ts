@@ -11,23 +11,16 @@ import getCandleTimesizeValues from '../../../core/utils/required_params/get_can
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import CandlesDatasource from '../../../data/datasources/candles_datasource/candles_datasource';
 import InvestInstrumentsDatasource from '../../../data/datasources/invest_instruments_datasource/invest_instruments_datasource';
-import CandleTimesizeEntity from '../../../domain/entities/candle_timesize_model';
 import StatusCode from '../../../domain/entities/status_code';
 import GetCandlesRequestData from '../../types/request_data/get_candles_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import GetCandlesResponseData from '../../types/response_data/get_candles_response_data';
-import ApiMethod from '../api';
+import ApiMethod from '../../types/methods/api_method';
+import convertToCandleTimesizeModel from '../../../core/utils/convectors/convert_to_candle_timesize_model';
 
 type Params = {
   investInstrumentsDatasource: InvestInstrumentsDatasource;
   candlesDatasource: CandlesDatasource;
-};
-
-type GetCandlesParams = {
-  from: string;
-  to: string;
-  figi: string;
-  candleTimesize: CandleTimesizeEntity;
 };
 
 const GetCandles = ({
@@ -36,10 +29,17 @@ const GetCandles = ({
 }: Params): ApiMethod => {
   const requiredParams = ['instrumentId', 'from', 'to', 'candleTimesize'];
 
-  const getCandles = async (data: GetCandlesParams) => {
-    return candlesDatasource.get(data).then((values) => {
-      return values.map((v) => convertToCandleEntity(v));
-    });
+  const getCandles = async (data: GetCandlesRequestData, figi: string) => {
+    return candlesDatasource
+      .get({
+        from: new Date(data.from),
+        to: new Date(data.to),
+        figi: figi,
+        candleTimesize: convertToCandleTimesizeModel(data.candleTimesize),
+      })
+      .then((values) => {
+        return values.map((v) => convertToCandleEntity(v));
+      });
   };
 
   return {
@@ -76,12 +76,7 @@ const GetCandles = ({
         if (!instrument) {
           throw NotFoundException('Invest instrument not found');
         }
-        const candles = await getCandles({
-          to: params.to,
-          from: params.from,
-          figi: instrument.figi,
-          candleTimesize: params.candleTimesize,
-        });
+        const candles = await getCandles(params, instrument.figi);
         const responseData: GetCandlesResponseData = {
           candles: candles,
         };
