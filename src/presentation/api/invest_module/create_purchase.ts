@@ -21,6 +21,7 @@ import CreateSaleRequestData from '../../types/request_data/create_sale_request_
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
+import InvestInstrumentModel from '../../../data/models/invest_instrument_model';
 
 type Params = {
   accountItemsDatasource: AccountItemsDatasource;
@@ -57,10 +58,11 @@ const CreatePurchase = ({
   const checkTotalPriceIsGreaterAccountBalance = (
     params: CreatePurchaseRequestData,
     account: AccountModel,
+    instrument: InvestInstrumentModel,
   ) => {
     const totalPrice = calculateTotalPrice({
       price: params.price,
-      lots: params.lots,
+      lots: params.lots * instrument.lot,
     });
     return totalPrice > account.balance;
   };
@@ -91,7 +93,9 @@ const CreatePurchase = ({
         if (!account) {
           throw NotFoundException('Account not found');
         }
-        if (checkTotalPriceIsGreaterAccountBalance(params, account)) {
+        if (
+          checkTotalPriceIsGreaterAccountBalance(params, account, instrument)
+        ) {
           throw BadRequestException(
             'You can`t buy this instrument because there are not enough funds on your account',
           );
@@ -126,7 +130,7 @@ const CreatePurchase = ({
         const newBalance = calculateBalance({
           balance: account.balance,
           price: params.price,
-          lots: params.lots,
+          lots: params.lots * instrument.lot,
           isAddition: false,
         });
         const accountsChanges = await accountsDatasource.update({

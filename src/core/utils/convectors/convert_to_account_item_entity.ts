@@ -10,8 +10,8 @@ const convertToAccountItemEntity = (
     id: model.accountItemId,
     lots: model.accountItemLots,
     averagePurchasePrice: model.accountItemAveragePurchasePrice,
-    instrument: convertToInvestInstrumentEntity(model),
     currentPrice: currentPrice,
+    instrument: convertToInvestInstrumentEntity(model),
   };
 };
 

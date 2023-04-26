@@ -92,7 +92,7 @@ const CreateSale = ({
         const newBalance = calculateBalance({
           balance: account.balance,
           price: params.price,
-          lots: params.lots,
+          lots: params.lots * instrument.lot,
           isAddition: true,
         });
         const accountsChanges = await accountsDatasource.update({
