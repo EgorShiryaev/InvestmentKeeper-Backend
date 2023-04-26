@@ -25,15 +25,16 @@ import GetQuotes from '../../presentation/api/invest_module/get_quotes';
 import InstrumentSubscribesRepositoryImpl from '../../domain/repositories/instrument_subscribes_repository/instrument_subscribes_repository_impl';
 import QuotesRemoteDatasource from '../../data/datasources/quotes_datasource/quotes_remote_datasource';
 import { TinkoffInvestApi } from 'tinkoff-invest-api';
+import InstrumentPriceRemoteDatasource from '../../data/datasources/instrument_price_datasource/instrument_price_remote_datasource';
 
 type Params = {
   sqlDatabase: SqlDatabase;
-  remoteApi: TinkoffInvestApi;
+  api: TinkoffInvestApi;
 };
 
 const investModuleDependencyInjection = ({
   sqlDatabase,
-  remoteApi,
+  api,
 }: Params): InvestModule => {
   const accountsDatasource = AccountsLocalDatasource({
     sqlDatabase: sqlDatabase,
@@ -60,10 +61,13 @@ const investModuleDependencyInjection = ({
     sqlDatabase: sqlDatabase,
   });
   const candlesDatasource = CandlesRemoteDatasource({
-    api: remoteApi,
+    api: api,
   });
   const quotesDatasource = QuotesRemoteDatasource({
-    api: remoteApi,
+    api: api,
+  });
+  const instrumentPriceDatasource = InstrumentPriceRemoteDatasource({
+    api: api,
   });
 
   const instrumentSubscribesRepository =
@@ -72,6 +76,7 @@ const investModuleDependencyInjection = ({
   const getAccounts = GetAccounts({
     accountsDatasource: accountsDatasource,
     accountItemsDatasource: accountItemsDatasource,
+    instrumentPriceDatasource: instrumentPriceDatasource,
   });
   const createAccount = CreateAccount({
     accountsDatasource: accountsDatasource,

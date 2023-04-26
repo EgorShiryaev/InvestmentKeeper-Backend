@@ -101,7 +101,7 @@ const CreatePurchase = ({
           throw ServerErrorException('Failed account item creation');
         }
         const newAveragePrice = calculateAveragePrice({
-          price: accountItem.averagePrice,
+          price: accountItem.averagePurchasePrice,
           lots: accountItem.lots,
           newPrice: params.price,
           newLots: params.lots,
@@ -109,7 +109,7 @@ const CreatePurchase = ({
         const accountItemsChanges = await accountItemsDatasource.update({
           id: accountItem.id,
           lots: accountItem.lots + params.lots,
-          averagePrice: newAveragePrice,
+          averagePurchasePrice: newAveragePrice,
         });
         if (!checkChangesIsCorrect(accountItemsChanges)) {
           throw ServerErrorException('Failed account item update');

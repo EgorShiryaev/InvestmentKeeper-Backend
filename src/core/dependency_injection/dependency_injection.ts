@@ -24,7 +24,7 @@ const dependencyInjection = async () => {
   });
   const investModule = investModuleDependencyInjection({
     sqlDatabase,
-    remoteApi: tinkoffApi,
+    api: tinkoffApi,
   });
 
   const app = App({

@@ -4,7 +4,7 @@ type AccountItemModel = BaseModel & {
   accountId: number;
   instrumentId: number;
   lots: number;
-  averagePrice: number;
+  averagePurchasePrice: number;
 };
 
 export default AccountItemModel;
