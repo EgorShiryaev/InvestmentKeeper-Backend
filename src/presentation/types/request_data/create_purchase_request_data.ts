@@ -5,7 +5,7 @@ type CreatePurchaseRequestData = {
   price: number;
   date?: string;
   commission?: number;
-  withdrawFundsFromBalance: boolean;
+  withdrawFundsFromCurrencyBalance: boolean;
 };
 
 export default CreatePurchaseRequestData;

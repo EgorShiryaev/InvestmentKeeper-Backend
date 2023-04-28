@@ -64,10 +64,10 @@ const CreateRefill = ({
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed refill creation');
         }
-        const newBalance = account.balance + params.value;
+        const newCurrencyBalance = account.currencyBalance + params.value;
         const accountsChanges = await accountsDatasource.update({
           id: account.id,
-          balance: newBalance,
+          currencyBalance: newCurrencyBalance,
         });
         if (!checkChangesIsCorrect(accountsChanges)) {
           throw ServerErrorException('Failed account item update');

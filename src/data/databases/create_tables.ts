@@ -23,7 +23,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       userId INTEGER NOT NULL,
       title VARCHAR(25) NOT NULL, 
       visibility BOOL NOT NULL DEFAULT 1,
-      balance DOUBLE NOT NULL DEFAULT 0,
+      currencyBalance DOUBLE NOT NULL DEFAULT 0,
       totalCommission DOUBLE NOT NULL DEFAULT 0,
       FOREIGN KEY (userId)
         REFERENCES ${TableTitle.users} (id) 

@@ -5,7 +5,7 @@ type CreateSaleRequestData = {
   price: number;
   date?: string;
   commission?: number;
-  addFundsFromSaleToBalance: boolean;
+  addFundsFromSaleToCurrencyBalance: boolean;
 };
 
 export default CreateSaleRequestData;

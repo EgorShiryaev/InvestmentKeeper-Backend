@@ -4,7 +4,7 @@ import ForbiddenException from '../../../core/exception/forbidden_exception';
 import NotFoundException from '../../../core/exception/not_found_exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
 import calculateAveragePrice from '../../../core/utils/calculate_utils/calculate_average_price';
-import calculateBalance from '../../../core/utils/calculate_utils/calculate_balance';
+import calculateCurrencyBalance from '../../../core/utils/calculate_utils/calculate_balance';
 import calculateTotalPrice from '../../../core/utils/calculate_utils/calculate_total_price';
 import checkChangesIsCorrect from '../../../core/utils/required_params/check_changes_is_correct';
 import getRequestUser from '../../../core/utils/request_utils/get_request_user';
@@ -31,7 +31,7 @@ type Params = {
   investInstrumentsDatasource: InvestInstrumentsDatasource;
 };
 
-type WithdrawFundsFromBalanceParams = {
+type WithdrawFundsFromCurrencyBalanceParams = {
   account: AccountModel;
   params: CreatePurchaseRequestData;
   instrumentLot: number;
@@ -48,7 +48,7 @@ const CreatePurchase = ({
     'instrumentId',
     'lots',
     'price',
-    'withdrawFundsFromBalance',
+    'withdrawFundsFromCurrencyBalance',
   ];
 
   const getAccountItem = async (params: CreatePurchaseRequestData) => {
@@ -68,7 +68,7 @@ const CreatePurchase = ({
     return accountItemsDatasource.getById(id);
   };
 
-  const checkTotalPriceIsGreaterAccountBalance = (
+  const checkTotalPriceIsGreaterAccountCurrencyBalance = (
     params: CreatePurchaseRequestData,
     account: AccountModel,
     instrument: InvestInstrumentModel,
@@ -77,16 +77,16 @@ const CreatePurchase = ({
       price: params.price,
       lots: params.lots * instrument.lot,
     });
-    return totalPrice > account.balance;
+    return totalPrice > account.currencyBalance;
   };
 
-  const withdrawFundsFromBalance = async ({
+  const withdrawFundsFromCurrencyBalance = async ({
     account,
     params,
     instrumentLot,
-  }: WithdrawFundsFromBalanceParams) => {
-    const newBalance = calculateBalance({
-      balance: account.balance,
+  }: WithdrawFundsFromCurrencyBalanceParams) => {
+    const newCurrencyBalance = calculateCurrencyBalance({
+      currencyBalance: account.currencyBalance,
       price: params.price,
       lots: params.lots * instrumentLot,
       isAddition: false,
@@ -98,7 +98,7 @@ const CreatePurchase = ({
     );
     const accountsChanges = await accountsDatasource.update({
       id: params.accountId,
-      balance: newBalance,
+      currencyBalance: newCurrencyBalance,
       totalCommission: totalCommission,
     });
     if (!checkChangesIsCorrect(accountsChanges)) {
@@ -149,8 +149,8 @@ const CreatePurchase = ({
           throw NotFoundException('Account not found');
         }
         if (
-          params.withdrawFundsFromBalance &&
-          checkTotalPriceIsGreaterAccountBalance(params, account, instrument)
+          params.withdrawFundsFromCurrencyBalance &&
+          checkTotalPriceIsGreaterAccountCurrencyBalance(params, account, instrument)
         ) {
           throw BadRequestException(
             'You can`t buy this instrument because there are not enough funds on your account',
@@ -184,8 +184,8 @@ const CreatePurchase = ({
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed sale creation');
         }
-        if (params.withdrawFundsFromBalance) {
-          await withdrawFundsFromBalance({
+        if (params.withdrawFundsFromCurrencyBalance) {
+          await withdrawFundsFromCurrencyBalance({
             account: account,
             params: params,
             instrumentLot: instrument.lot,

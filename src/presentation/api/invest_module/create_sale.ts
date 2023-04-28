@@ -3,7 +3,7 @@ import { IException } from '../../../core/exception/exception';
 import ForbiddenException from '../../../core/exception/forbidden_exception';
 import NotFoundException from '../../../core/exception/not_found_exception';
 import ServerErrorException from '../../../core/exception/server_error_exception';
-import calculateBalance from '../../../core/utils/calculate_utils/calculate_balance';
+import calculateCurrencyBalance from '../../../core/utils/calculate_utils/calculate_balance';
 import checkChangesIsCorrect from '../../../core/utils/required_params/check_changes_is_correct';
 import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
@@ -28,7 +28,7 @@ type Params = {
   investInstrumentsDatasource: InvestInstrumentsDatasource;
 };
 
-type AddFundsFromSaleToBalanceParams = {
+type AddFundsFromSaleToCurrencyBalanceParams = {
   account: AccountModel;
   params: CreateSaleRequestData;
   instrumentLot: number;
@@ -45,16 +45,16 @@ const CreateSale = ({
     'instrumentId',
     'lots',
     'price',
-    'addFundsFromSaleToBalance',
+    'addFundsFromSaleToCurrencyBalance',
   ];
 
-  const addFundsFromSaleToBalance = async ({
+  const addFundsFromSaleToCurrencyBalance = async ({
     account,
     params,
     instrumentLot,
-  }: AddFundsFromSaleToBalanceParams) => {
-    const newBalance = calculateBalance({
-      balance: account.balance,
+  }: AddFundsFromSaleToCurrencyBalanceParams) => {
+    const newCurrencyBalance = calculateCurrencyBalance({
+      currencyBalance: account.currencyBalance,
       price: params.price,
       lots: params.lots * instrumentLot,
       isAddition: true,
@@ -66,7 +66,7 @@ const CreateSale = ({
     );
     const accountsChanges = await accountsDatasource.update({
       id: params.accountId,
-      balance: newBalance,
+      currencyBalance: newCurrencyBalance,
       totalCommission: totalCommission,
     });
     if (!checkChangesIsCorrect(accountsChanges)) {
@@ -148,8 +148,8 @@ const CreateSale = ({
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed sale creation');
         }
-        if (params.addFundsFromSaleToBalance) {
-          await addFundsFromSaleToBalance({
+        if (params.addFundsFromSaleToCurrencyBalance) {
+          await addFundsFromSaleToCurrencyBalance({
             account: account,
             params: params,
             instrumentLot: instrument.lot,

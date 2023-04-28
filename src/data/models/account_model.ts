@@ -4,7 +4,7 @@ type AccountModel = BaseModel & {
   userId: number;
   title: string;
   visibility: boolean;
-  balance: number;
+  currencyBalance: number;
   totalCommission: number;
 };
 
