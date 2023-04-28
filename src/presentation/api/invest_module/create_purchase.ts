@@ -17,7 +17,6 @@ import SalesDatasource from '../../../data/datasources/sales_datasource/sales_da
 import AccountModel from '../../../data/models/account_model';
 import StatusCode from '../../../domain/entities/status_code';
 import CreatePurchaseRequestData from '../../types/request_data/create_purchase_request_data';
-import CreateSaleRequestData from '../../types/request_data/create_sale_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
@@ -71,7 +70,7 @@ const CreatePurchase = ({
     handler: async (request, response) => {
       try {
         console.log(request.method, request.url);
-        const params: CreateSaleRequestData = request.body;
+        const params: CreatePurchaseRequestData = request.body;
         const checkResult = checkRequiredParams({
           body: params,
           params: requiredParams,

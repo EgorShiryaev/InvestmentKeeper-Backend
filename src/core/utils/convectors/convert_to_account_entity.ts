@@ -34,6 +34,7 @@ const convertToAccountEntity = (
     balance: model.balance,
     purchasePrice: accountPrice.purchase,
     currentPrice: accountPrice.current,
+    totalCommission: model.totalCommission,
     items: items,
   };
 };

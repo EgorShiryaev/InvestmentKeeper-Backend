@@ -10,6 +10,7 @@ type UpdateAccountData = {
   title?: string;
   visibility?: boolean;
   balance?: number;
+  totalCommission?: number;
 };
 
 interface AccountsDatasource {

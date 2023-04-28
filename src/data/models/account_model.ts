@@ -5,6 +5,7 @@ type AccountModel = BaseModel & {
   title: string;
   visibility: boolean;
   balance: number;
+  totalCommission: number;
 };
 
 export default AccountModel;

@@ -7,6 +7,7 @@ type AccountEntity = BaseEntity & {
   balance: number;
   purchasePrice: number;
   currentPrice: number;
+  totalCommission: number;
   items: AccountItemEntity[];
 };
 
