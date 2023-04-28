@@ -1,6 +1,7 @@
 type CreateRefillData = {
   accountId: number;
   value: number;
+  date?: string;
 };
 
 interface RefillsDatasource {

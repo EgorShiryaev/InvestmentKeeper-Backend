@@ -126,7 +126,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     ${TableTitle.refills} (
       ${IdColumnConfig},
       accountId INTEGER NOT NULL,
-      date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      date TEXT NOT NULL,
       value DOUBLE NOT NULL,
       FOREIGN KEY (accountId)
         REFERENCES ${TableTitle.accounts} (id) 
@@ -137,7 +137,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     ${TableTitle.withdrawals} (
       ${IdColumnConfig},
       accountId INTEGER NOT NULL,
-      date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      date TEXT NOT NULL,
       value DOUBLE NOT NULL,
       FOREIGN KEY (accountId)
         REFERENCES ${TableTitle.accounts} (id) 
