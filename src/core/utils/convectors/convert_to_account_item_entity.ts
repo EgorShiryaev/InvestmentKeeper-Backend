@@ -11,7 +11,6 @@ const convertToAccountItemEntity = (
     lots: model.accountItemLots,
     averagePurchasePrice: model.accountItemAveragePurchasePrice,
     currentPrice: currentPrice,
-    averageLotCommission: model.accountItemAverageLotCommission,
     instrument: convertToInvestInstrumentEntity(model),
   };
 };

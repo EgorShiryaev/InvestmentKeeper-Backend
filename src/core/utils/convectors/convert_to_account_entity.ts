@@ -6,7 +6,6 @@ import AccountItemEntity from '../../../domain/entities/account_item_entity';
 type Price = {
   purchase: number;
   current: number;
-  commission: number;
 };
 
 const convertToAccountEntity = (
@@ -18,30 +17,21 @@ const convertToAccountEntity = (
       const lots = current.lots * current.instrument.lot;
       const purchasePrice = currency(current.averagePurchasePrice * lots).value;
       const currentPrice = currency((current.currentPrice ?? 0) * lots).value;
-      const commission = currency(current.averageLotCommission * lots).value;
 
       return {
         purchase: currency(prev.purchase + purchasePrice).value,
         current: currency(prev.current + currentPrice).value,
-        commission: currency(prev.commission + commission).value,
       };
     },
     {
       purchase: 0,
       current: 0,
-      commission: 0,
     },
   );
 
-  const profit = currency(
-    accountPrice.current - accountPrice.purchase - accountPrice.commission,
-  ).value;
+  const profit = currency(accountPrice.current - accountPrice.purchase).value;
   const profitPercent =
-    profit === 0
-      ? 0
-      : currency(
-        (profit / (accountPrice.purchase - accountPrice.commission)) * 100,
-      ).value;
+    profit === 0 ? 0 : currency((profit / accountPrice.purchase) * 100).value;
 
   return {
     id: model.id,
