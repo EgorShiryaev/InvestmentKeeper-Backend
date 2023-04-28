@@ -1,3 +1,4 @@
+import currency from 'currency.js';
 import AccountModel from '../../../data/models/account_model';
 import AccountEntity from '../../../domain/entities/account_entity';
 import AccountItemEntity from '../../../domain/entities/account_item_entity';
@@ -14,11 +15,11 @@ const convertToAccountEntity = (
   const accountPrice: Price = items.reduce(
     (prev, current) => {
       const lots = current.lots * current.instrument.lot;
-      const purchasePrice = current.averagePurchasePrice * lots;
-      const currentPrice = (current.currentPrice ?? 0) * lots;
+      const purchasePrice = currency(current.averagePurchasePrice * lots).value;
+      const currentPrice = currency((current.currentPrice ?? 0) * lots).value;
       return {
-        purchase: prev.purchase + purchasePrice,
-        current: prev.current + currentPrice,
+        purchase: currency(prev.purchase + purchasePrice).value,
+        current: currency(prev.current + currentPrice).value,
       };
     },
     {

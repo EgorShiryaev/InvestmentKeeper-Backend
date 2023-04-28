@@ -1,13 +1,13 @@
 import currency from 'currency.js';
 
-const calculateAccountTotalCommision = (
-  accountTotalCommision: number,
-  commision?: number,
+const calculateAccountTotalCommission = (
+  accountTotalCommission: number,
+  commission?: number,
 ) => {
-  return commision !== undefined
-    ? currency(accountTotalCommision + commision).value
+  return commission !== undefined
+    ? currency(accountTotalCommission + commission).value
     : undefined;
 };
 
-export default calculateAccountTotalCommision;
+export default calculateAccountTotalCommission;
 

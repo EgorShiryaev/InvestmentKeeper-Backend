@@ -4,8 +4,8 @@ type CreateSaleRequestData = {
   lots: number;
   price: number;
   date?: string;
-  commision?: number;
-  addFundsFromSaleToBalance: boolean
+  commission?: number;
+  addFundsFromSaleToBalance: boolean;
 };
 
 export default CreateSaleRequestData;

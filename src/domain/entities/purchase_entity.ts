@@ -5,6 +5,7 @@ type PurchaseEntity = BaseEntity & {
   date: string;
   lots: number;
   price: number;
+  commission: number;
   instrument: InvestInstrumentEntity;
 };
 

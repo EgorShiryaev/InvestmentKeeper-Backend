@@ -18,7 +18,7 @@ import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 import AccountModel from '../../../data/models/account_model';
-import calculateAccountTotalCommision from '../../../core/utils/calculate_utils/calculate_account_total_commission';
+import calculateAccountTotalCommission from '../../../core/utils/calculate_utils/calculate_account_total_commission';
 import checkIsIsoDate from '../../../core/utils/required_params/check_is_iso_date';
 
 type Params = {
@@ -58,11 +58,11 @@ const CreateSale = ({
       price: params.price,
       lots: params.lots * instrumentLot,
       isAddition: true,
-      commision: params.commision,
+      commission: params.commission,
     });
-    const totalCommission = calculateAccountTotalCommision(
+    const totalCommission = calculateAccountTotalCommission(
       account.totalCommission,
-      params.commision,
+      params.commission,
     );
     const accountsChanges = await accountsDatasource.update({
       id: params.accountId,
@@ -96,11 +96,11 @@ const CreateSale = ({
           );
         }
         if (
-          params.commision !== null &&
-          params.commision !== undefined &&
-          isNaN(params.commision)
+          params.commission !== null &&
+          params.commission !== undefined &&
+          isNaN(params.commission)
         ) {
-          throw BadRequestException('commision should be is integer');
+          throw BadRequestException('commission should be is integer');
         }
         const user = getRequestUser(request.headers);
         if (!user) {
@@ -143,17 +143,12 @@ const CreateSale = ({
           lots: params.lots,
           price: params.price,
           date: params.date,
-          commission: params.commision,
+          commission: params.commission,
         });
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed sale creation');
         }
         if (params.addFundsFromSaleToBalance) {
-          console.log(
-            'params.addFundsFromSaleToBalance',
-            params.addFundsFromSaleToBalance,
-          );
-
           await addFundsFromSaleToBalance({
             account: account,
             params: params,
