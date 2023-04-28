@@ -24,6 +24,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       title VARCHAR(25) NOT NULL, 
       visibility BOOL NOT NULL DEFAULT 1,
       balance DOUBLE NOT NULL DEFAULT 0,
+      totalCommission DOUBLE NOT NULL DEFAULT 0,
       FOREIGN KEY (userId)
         REFERENCES ${TableTitle.users} (id) 
           ON UPDATE CASCADE
@@ -99,9 +100,10 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     ${TableTitle.sales} (
       ${IdColumnConfig},
       accountItemId INTEGER NOT NULL,
-      date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      date TEXT NOT NULL,
       lots INTEGER NOT NULL,
       price DOUBLE NOT NULL,
+      commission DOUBLE NOT NULL DEFAULT 0,
       FOREIGN KEY (accountItemId)
         REFERENCES ${TableTitle.accountItems} (id) 
           ON UPDATE CASCADE

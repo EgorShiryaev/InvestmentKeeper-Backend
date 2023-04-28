@@ -54,13 +54,12 @@ const checkRequiredParams = ({
       value = value.trim();
     }
 
-    if (value && value !== 0) {
+    if (value !== undefined && value !== null && value !== '') {
       requiredParams = removeValueOfArray(key, requiredParams);
     }
     if (emptyStringIsCorrect && typeof value === 'string') {
       requiredParams = removeValueOfArray(key, requiredParams);
-      
-    } 
+    }
   }
 
   if (requiredParams.length > 0) {

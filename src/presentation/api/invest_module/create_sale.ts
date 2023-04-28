@@ -17,6 +17,9 @@ import CreateSaleRequestData from '../../types/request_data/create_sale_request_
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
+import AccountModel from '../../../data/models/account_model';
+import calculateAccountTotalCommision from '../../../core/utils/calculate_utils/calculate_account_total_commission';
+import checkIsIsoDate from '../../../core/utils/required_params/check_is_iso_date';
 
 type Params = {
   accountItemsDatasource: AccountItemsDatasource;
@@ -25,13 +28,51 @@ type Params = {
   investInstrumentsDatasource: InvestInstrumentsDatasource;
 };
 
+type AddFundsFromSaleToBalanceParams = {
+  account: AccountModel;
+  params: CreateSaleRequestData;
+  instrumentLot: number;
+};
+
 const CreateSale = ({
   accountItemsDatasource,
   salesDatasource,
   accountsDatasource,
   investInstrumentsDatasource,
 }: Params): ApiMethod => {
-  const requiredParams = ['accountId', 'instrumentId', 'lots', 'price'];
+  const requiredParams = [
+    'accountId',
+    'instrumentId',
+    'lots',
+    'price',
+    'addFundsFromSaleToBalance',
+  ];
+
+  const addFundsFromSaleToBalance = async ({
+    account,
+    params,
+    instrumentLot,
+  }: AddFundsFromSaleToBalanceParams) => {
+    const newBalance = calculateBalance({
+      balance: account.balance,
+      price: params.price,
+      lots: params.lots * instrumentLot,
+      isAddition: true,
+      commision: params.commision,
+    });
+    const totalCommission = calculateAccountTotalCommision(
+      account.totalCommission,
+      params.commision,
+    );
+    const accountsChanges = await accountsDatasource.update({
+      id: params.accountId,
+      balance: newBalance,
+      totalCommission: totalCommission,
+    });
+    if (!checkChangesIsCorrect(accountsChanges)) {
+      throw ServerErrorException('Failed account update');
+    }
+  };
 
   return {
     handler: async (request, response) => {
@@ -44,6 +85,22 @@ const CreateSale = ({
         });
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
+        }
+        if (
+          params.date !== null &&
+          params.date !== undefined &&
+          !checkIsIsoDate(params.date)
+        ) {
+          throw BadRequestException(
+            'date should be is string to iso date format',
+          );
+        }
+        if (
+          params.commision !== null &&
+          params.commision !== undefined &&
+          isNaN(params.commision)
+        ) {
+          throw BadRequestException('commision should be is integer');
         }
         const user = getRequestUser(request.headers);
         if (!user) {
@@ -85,22 +142,23 @@ const CreateSale = ({
           accountItemId: accountItem.id,
           lots: params.lots,
           price: params.price,
+          date: params.date,
+          commission: params.commision,
         });
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed sale creation');
         }
-        const newBalance = calculateBalance({
-          balance: account.balance,
-          price: params.price,
-          lots: params.lots * instrument.lot,
-          isAddition: true,
-        });
-        const accountsChanges = await accountsDatasource.update({
-          id: params.accountId,
-          balance: newBalance,
-        });
-        if (!checkChangesIsCorrect(accountsChanges)) {
-          throw ServerErrorException('Failed account update');
+        if (params.addFundsFromSaleToBalance) {
+          console.log(
+            'params.addFundsFromSaleToBalance',
+            params.addFundsFromSaleToBalance,
+          );
+
+          await addFundsFromSaleToBalance({
+            account: account,
+            params: params,
+            instrumentLot: instrument.lot,
+          });
         }
         response.sendStatus(StatusCode.noContent);
       } catch (error) {

@@ -7,9 +7,13 @@ const SalesLocalDatasource = ({
 }: LocalDatasourceParameters): SalesDatasource => {
   const table = TableTitle.sales;
   return {
-    create: ({ accountItemId: accountId, lots, price }) => {
-      const script = `INSERT INTO ${table} (accountItemId, lots, price)
-        VALUES(${accountId}, ${lots}, ${price})  
+    create: ({ accountItemId: accountId, lots, price, date, commission }) => {
+      const dateValue = date ?? new Date().toISOString();
+      const commissionColumn = commission ? ', commission' : '';
+      const commissionValue = commission ? `, ${commission}` : '';
+
+      const script = `INSERT INTO ${table} (accountItemId, lots, price, date ${commissionColumn})
+        VALUES(${accountId}, ${lots}, ${price}, "${dateValue}" ${commissionValue})  
       `;
 
       return sqlDatabase.run(script).then((v) => v.lastId);

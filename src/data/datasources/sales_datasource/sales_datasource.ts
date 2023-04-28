@@ -2,6 +2,8 @@ type CreateSaleData = {
   accountItemId: number;
   lots: number;
   price: number;
+  date?: string;
+  commission?: number;
 };
 
 interface SalesDatasource {
