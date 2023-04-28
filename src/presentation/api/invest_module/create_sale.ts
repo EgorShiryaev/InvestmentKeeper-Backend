@@ -86,7 +86,11 @@ const CreateSale = ({
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }
-        if (!checkIsIsoDate(params.date)) {
+        if (
+          params.date !== null &&
+          params.date !== undefined &&
+          !checkIsIsoDate(params.date)
+        ) {
           throw BadRequestException(
             'date should be is string to iso date format',
           );
