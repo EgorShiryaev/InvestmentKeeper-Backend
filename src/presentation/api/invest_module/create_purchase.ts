@@ -22,7 +22,6 @@ import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 import InvestInstrumentModel from '../../../data/models/invest_instrument_model';
 import checkIsIsoDate from '../../../core/utils/required_params/check_is_iso_date';
-import calculateAverageLotCommission from '../../../core/utils/calculate_utils/calculate_average_lot_commission';
 
 type Params = {
   accountItemsDatasource: AccountItemsDatasource;
@@ -162,12 +161,6 @@ const CreatePurchase = ({
             averagePrice: accountItem.averagePurchasePrice,
             lots: accountItem.lots,
             newPrice: params.price,
-            newLots: params.lots,
-          }),
-          averageLotCommission: calculateAverageLotCommission({
-            averageCommision: accountItem.averageLotCommission,
-            lots: accountItem.lots,
-            newCommission: params.commission,
             newLots: params.lots,
           }),
         });

@@ -4,7 +4,6 @@ type AccountItemFullModel = {
   accountItemId: number;
   accountItemLots: number;
   accountItemAveragePurchasePrice: number;
-  accountItemAverageLotCommission: number;
 } & InvestInstrumentFullModel;
 
 export default AccountItemFullModel;

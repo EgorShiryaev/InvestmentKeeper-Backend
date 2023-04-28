@@ -17,7 +17,6 @@ const AccountItemsLocalDatasource = ({
       ${table}.id AS "accountItemId", 
       ${table}.lots AS "accountItemLots", 
       ${table}.averagePurchasePrice AS "accountItemAveragePurchasePrice",
-      ${table}.averageLotCommission AS "accountItemAverageLotCommission",
       ${investInstrumentsTable}.id AS "instrumentId",
       ${investInstrumentsTable}.figi AS "instrumentFigi",
       ${investInstrumentsTable}.ticker AS "instrumentTicker",
@@ -48,15 +47,12 @@ const AccountItemsLocalDatasource = ({
 
       return sqlDatabase.run(script).then((v) => v.lastId);
     },
-    update: ({ id, lots, averagePurchasePrice, averageLotCommission }) => {
+    update: ({ id, lots, averagePurchasePrice }) => {
       const setFields = [
         `lots = ${lots}`,
         averagePurchasePrice !== null &&
           averagePurchasePrice !== undefined &&
           `averagePurchasePrice = ${averagePurchasePrice}`,
-        averageLotCommission !== null &&
-          averageLotCommission !== undefined &&
-          `averageLotCommission = ${averageLotCommission}`,
       ];
       const set = setFields.filter((v) => v).join(', ');
       const script = `UPDATE ${table} SET ${set} WHERE id = ${id}`;

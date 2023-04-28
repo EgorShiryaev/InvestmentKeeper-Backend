@@ -85,7 +85,6 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       instrumentId INTEGER NOT NULL,
       lots INTEGER NOT NULL DEFAULT 0,
       averagePurchasePrice DOUBLE NOT NULL DEFAULT 0,
-      averageLotCommission DOUBLE NOT NULL DEFAULT 0,
       FOREIGN KEY (accountId)
         REFERENCES ${TableTitle.accounts} (id) 
           ON UPDATE CASCADE
