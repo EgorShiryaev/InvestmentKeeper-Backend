@@ -14,6 +14,7 @@ import CreateRefillRequestData from '../../types/request_data/create_refill_requ
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
+import checkIsIsoDate from '../../../core/utils/required_params/check_is_iso_date';
 
 type Params = {
   withdrawalsDatasource: WithdrawalsDatasource;
@@ -38,6 +39,15 @@ const CreateWithdrawal = ({
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
         }
+        if (
+          params.date !== null &&
+          params.date !== undefined &&
+          !checkIsIsoDate(params.date)
+        ) {
+          throw BadRequestException(
+            'date should be is string to iso date format',
+          );
+        }
         const user = getRequestUser(request.headers);
         if (!user) {
           throw ForbiddenException();
@@ -54,6 +64,7 @@ const CreateWithdrawal = ({
         const id = await withdrawalsDatasource.create({
           accountId: params.accountId,
           value: params.value,
+          date: params.date,
         });
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed refill creation');

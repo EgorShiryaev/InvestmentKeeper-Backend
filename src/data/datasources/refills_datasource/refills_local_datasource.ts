@@ -7,11 +7,11 @@ const RefillsLocalDatasource = ({
 }: LocalDatasourceParameters): RefillsDatasource => {
   const table = TableTitle.refills;
   return {
-    create: ({ accountId, value }) => {
-      const script = `INSERT INTO ${table} (accountId, value)
-        VALUES(${accountId}, ${value})  
+    create: ({ accountId, value, date }) => {
+      const dateValue = date ?? new Date().toISOString();
+      const script = `INSERT INTO ${table} (accountId, value, date)
+        VALUES(${accountId}, ${value}, "${dateValue}")  
       `;
-
       return sqlDatabase.run(script).then((v) => v.lastId);
     },
   };

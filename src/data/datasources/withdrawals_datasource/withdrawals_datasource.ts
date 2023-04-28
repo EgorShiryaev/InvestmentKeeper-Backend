@@ -1,6 +1,7 @@
 type CreateWithdrawalData = {
   accountId: number;
   value: number;
+  date?: string;
 };
 
 interface WithdrawalsDatasource {
