@@ -10,6 +10,7 @@ type UpdateAccountItemData = {
   id: number;
   lots: number;
   averagePurchasePrice?: number;
+  averageLotCommission?: number;
 };
 
 interface AccountItemsDatasource {

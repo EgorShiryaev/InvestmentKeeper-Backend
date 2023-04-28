@@ -7,6 +7,7 @@ type AccountItemEntity = BaseEntity & {
   lots: number;
   averagePurchasePrice: number;
   currentPrice?: number;
+  averageLotCommission: number;
 };
 
 export default AccountItemEntity;

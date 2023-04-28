@@ -1,22 +1,22 @@
 import currency from 'currency.js';
 
 type CalcParams = {
-  price: number;
+  averagePrice: number;
   lots: number;
   newPrice: number;
   newLots: number;
 };
 
 const calculateAveragePrice = ({
-  price,
+  averagePrice,
   lots,
   newPrice,
   newLots,
 }: CalcParams): number => {
   const totalLots = lots + newLots;
-  const averagePrice =
-    currency(price * lots).add(newPrice * newLots).value / totalLots;
-  return averagePrice;
+  return (
+    currency(averagePrice * lots).add(newPrice * newLots).value / totalLots
+  );
 };
 
 export default calculateAveragePrice;
