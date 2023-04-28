@@ -2,6 +2,8 @@ type CreatePurchaseData = {
   accountItemId: number;
   lots: number;
   price: number;
+  date?: string;
+  commission?: number;
 };
 
 interface PurchasesDatasource {

@@ -5,7 +5,7 @@ type CalcParams = {
   price: number;
   lots: number;
   isAddition: boolean;
-  commision?: number;
+  commission?: number;
 };
 
 const calculateBalance = ({
@@ -13,10 +13,10 @@ const calculateBalance = ({
   price,
   lots,
   isAddition,
-  commision,
+  commission,
 }: CalcParams): number => {
   return currency(
-    balance + (isAddition ? +price : -price) * lots - (commision ?? 0),
+    balance + (isAddition ? +price : -price) * lots - (commission ?? 0),
   ).value;
 };
 

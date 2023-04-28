@@ -21,6 +21,8 @@ import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 import InvestInstrumentModel from '../../../data/models/invest_instrument_model';
+import checkIsIsoDate from '../../../core/utils/required_params/check_is_iso_date';
+import calculateAccountTotalCommission from '../../../core/utils/calculate_utils/calculate_account_total_commission';
 
 type Params = {
   accountItemsDatasource: AccountItemsDatasource;
@@ -29,13 +31,25 @@ type Params = {
   investInstrumentsDatasource: InvestInstrumentsDatasource;
 };
 
+type WithdrawFundsFromBalanceParams = {
+  account: AccountModel;
+  params: CreatePurchaseRequestData;
+  instrumentLot: number;
+};
+
 const CreatePurchase = ({
   accountItemsDatasource,
   purchasesDatasource,
   accountsDatasource,
   investInstrumentsDatasource,
 }: Params): ApiMethod => {
-  const requiredParams = ['accountId', 'instrumentId', 'lots', 'price'];
+  const requiredParams = [
+    'accountId',
+    'instrumentId',
+    'lots',
+    'price',
+    'withdrawFundsFromBalance',
+  ];
 
   const getAccountItem = async (params: CreatePurchaseRequestData) => {
     const accountItem =
@@ -66,6 +80,32 @@ const CreatePurchase = ({
     return totalPrice > account.balance;
   };
 
+  const withdrawFundsFromBalance = async ({
+    account,
+    params,
+    instrumentLot,
+  }: WithdrawFundsFromBalanceParams) => {
+    const newBalance = calculateBalance({
+      balance: account.balance,
+      price: params.price,
+      lots: params.lots * instrumentLot,
+      isAddition: false,
+      commission: params.commission,
+    });
+    const totalCommission = calculateAccountTotalCommission(
+      account.totalCommission,
+      params.commission,
+    );
+    const accountsChanges = await accountsDatasource.update({
+      id: params.accountId,
+      balance: newBalance,
+      totalCommission: totalCommission,
+    });
+    if (!checkChangesIsCorrect(accountsChanges)) {
+      throw ServerErrorException('Failed account update');
+    }
+  };
+
   return {
     handler: async (request, response) => {
       try {
@@ -77,6 +117,22 @@ const CreatePurchase = ({
         });
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
+        }
+        if (
+          params.date !== null &&
+          params.date !== undefined &&
+          !checkIsIsoDate(params.date)
+        ) {
+          throw BadRequestException(
+            'date should be is string to iso date format',
+          );
+        }
+        if (
+          params.commission !== null &&
+          params.commission !== undefined &&
+          isNaN(params.commission)
+        ) {
+          throw BadRequestException('commission should be is integer');
         }
         const user = getRequestUser(request.headers);
         if (!user) {
@@ -93,6 +149,7 @@ const CreatePurchase = ({
           throw NotFoundException('Account not found');
         }
         if (
+          params.withdrawFundsFromBalance &&
           checkTotalPriceIsGreaterAccountBalance(params, account, instrument)
         ) {
           throw BadRequestException(
@@ -121,23 +178,18 @@ const CreatePurchase = ({
           accountItemId: accountItem.id,
           lots: params.lots,
           price: params.price,
+          date: params.date,
+          commission: params.commission,
         });
-
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed sale creation');
         }
-        const newBalance = calculateBalance({
-          balance: account.balance,
-          price: params.price,
-          lots: params.lots * instrument.lot,
-          isAddition: false,
-        });
-        const accountsChanges = await accountsDatasource.update({
-          id: account.id,
-          balance: newBalance,
-        });
-        if (!checkChangesIsCorrect(accountsChanges)) {
-          throw ServerErrorException('Failed account item update');
+        if (params.withdrawFundsFromBalance) {
+          await withdrawFundsFromBalance({
+            account: account,
+            params: params,
+            instrumentLot: instrument.lot,
+          });
         }
         response.sendStatus(StatusCode.noContent);
       } catch (error) {

@@ -113,9 +113,10 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     ${TableTitle.purchases} (
       ${IdColumnConfig},
       accountItemId INTEGER NOT NULL,
-      date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      date TEXT NOT NULL,
       lots INTEGER NOT NULL,
       price DOUBLE NOT NULL,
+      commission DOUBLE NOT NULL DEFAULT 0,
       FOREIGN KEY (accountItemId)
         REFERENCES ${TableTitle.accountItems} (id) 
           ON UPDATE CASCADE
