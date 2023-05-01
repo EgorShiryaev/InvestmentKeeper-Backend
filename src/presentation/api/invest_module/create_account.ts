@@ -42,7 +42,7 @@ const CreateAccount = ({ accountsDatasource }: Params): ApiMethod => {
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed account creation');
         }
-        response.sendStatus(StatusCode.noContent);
+        response.sendStatus(StatusCode.created);
       } catch (error) {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
