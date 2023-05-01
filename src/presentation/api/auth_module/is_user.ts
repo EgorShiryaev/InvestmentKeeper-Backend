@@ -8,6 +8,7 @@ import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get
 import BadRequestException from '../../../core/exception/bad_request_exception';
 import NotFoundException from '../../../core/exception/not_found_exception';
 import ErrorResponseData from '../../types/response_data/error_response_data';
+import checkPhoneNumberIsCorrectFormat from '../../../core/utils/required_params/check_phone_number_format';
 
 type Params = {
   usersDatasource: UsersDatasource;
@@ -27,6 +28,11 @@ const IsUser = ({ usersDatasource }: Params): ApiMethod => {
         });
         if (!checkResult.success) {
           throw BadRequestException(checkResult.message);
+        }
+        if (!checkPhoneNumberIsCorrectFormat(params.phoneNumber)) {
+          throw BadRequestException(
+            'Parameter phoneNumber should be a format string +7(123)-456-78-90',
+          );
         }
         const user = await usersDatasource.getByPhoneNumber(params.phoneNumber);
         if (!user) {

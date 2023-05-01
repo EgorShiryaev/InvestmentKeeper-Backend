@@ -14,7 +14,7 @@ import CreateRefillRequestData from '../../types/request_data/create_refill_requ
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
-import checkIsIsoDate from '../../../core/utils/required_params/check_is_iso_date';
+import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_iso_date_format';
 
 type Params = {
   withdrawalsDatasource: WithdrawalsDatasource;
@@ -42,7 +42,7 @@ const CreateWithdrawal = ({
         if (
           params.date !== null &&
           params.date !== undefined &&
-          !checkIsIsoDate(params.date)
+          !checkIsIsoDateFormat(params.date)
         ) {
           throw BadRequestException(
             'date should be is string to iso date format',
@@ -77,7 +77,7 @@ const CreateWithdrawal = ({
         if (!checkChangesIsCorrect(accountsChanges)) {
           throw ServerErrorException('Failed account item update');
         }
-        response.sendStatus(StatusCode.noContent);
+        response.sendStatus(StatusCode.created);
       } catch (error) {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);

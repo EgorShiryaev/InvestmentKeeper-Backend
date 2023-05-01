@@ -21,7 +21,7 @@ import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 import InvestInstrumentModel from '../../../data/models/invest_instrument_model';
-import checkIsIsoDate from '../../../core/utils/required_params/check_is_iso_date';
+import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_iso_date_format';
 
 type Params = {
   accountItemsDatasource: AccountItemsDatasource;
@@ -115,7 +115,7 @@ const CreatePurchase = ({
         if (
           params.date !== null &&
           params.date !== undefined &&
-          !checkIsIsoDate(params.date)
+          !checkIsIsoDateFormat(params.date)
         ) {
           throw BadRequestException(
             'date should be is string to iso date format',
@@ -184,7 +184,7 @@ const CreatePurchase = ({
             instrumentLot: instrument.lot,
           });
         }
-        response.sendStatus(StatusCode.noContent);
+        response.sendStatus(StatusCode.created);
       } catch (error) {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
