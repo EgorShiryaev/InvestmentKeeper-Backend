@@ -36,7 +36,6 @@ const convertToAccountEntity = (
   return {
     id: model.id,
     title: model.title,
-    visibility: model.visibility ? true : false,
     balance: model.balance,
     purchasePrice: accountPrice.purchase,
     currentPrice: accountPrice.current,

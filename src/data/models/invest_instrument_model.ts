@@ -7,7 +7,6 @@ type InvestInstrumentModel = BaseModel & {
   ticker: string;
   title: string;
   lot: number;
-  about: string;
 };
 
 export default InvestInstrumentModel;
