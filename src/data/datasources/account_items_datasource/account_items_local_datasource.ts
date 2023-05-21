@@ -22,7 +22,6 @@ const AccountItemsLocalDatasource = ({
       ${investInstrumentsTable}.ticker AS "instrumentTicker",
       ${investInstrumentsTable}.title AS "instrumentTitle",
       ${investInstrumentsTable}.lot AS "instrumentLot",
-      ${investInstrumentsTable}.about AS "instrumentAbout",
       ${investInstrumentTypesTable}.value AS "instrumentType",
       ${currenciesTable}.value AS "instrumentCurrency"
       FROM ${table}

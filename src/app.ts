@@ -24,10 +24,6 @@ const App = ({ url, port, api }: Params) => {
         app.get(accountsPath, api.getAccounts.handler);
         app.post(accountsPath, api.createAccount.handler);
         app.put(accountsPath, api.updateAccount.handler);
-        app.put(
-          `${apiVersion}/accountVisibility`,
-          api.changeVisibilityAccount.handler,
-        );
         app.get(
           `${apiVersion}/searchInvestInstrument`,
           api.searchInvestInstrument.handler,

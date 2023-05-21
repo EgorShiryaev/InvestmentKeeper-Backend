@@ -7,7 +7,6 @@ import PurchasesLocalDatasource from '../../data/datasources/purchases_datasourc
 import RefillsLocalDatasource from '../../data/datasources/refills_datasource/refills_local_datasource';
 import SalesLocalDatasource from '../../data/datasources/sales_datasource/sales_local_datasource';
 import WithdrawalsLocalDatasource from '../../data/datasources/withdrawals_datasource/withdrawals_local_datasource';
-import ChangeVisibilityAccount from '../../presentation/api/invest_module/change_visibility_account';
 import CreateAccount from '../../presentation/api/invest_module/create_account';
 import CreatePurchase from '../../presentation/api/invest_module/create_purchase';
 import CreateRefill from '../../presentation/api/invest_module/create_refill';
@@ -78,9 +77,6 @@ const investModuleDependencyInjection = ({
   const updateAccount = UpdateAccount({
     accountsDatasource: accountsDatasource,
   });
-  const changeVisibilityAccount = ChangeVisibilityAccount({
-    accountsDatasource: accountsDatasource,
-  });
   const searchInstrument = SearchInvestInstrument({
     investInstrumentsDatasource: investInstrumentsDatasource,
   });
@@ -117,7 +113,6 @@ const investModuleDependencyInjection = ({
     getAccounts: getAccounts,
     createAccount: createAccount,
     updateAccount: updateAccount,
-    changeVisibilityAccount: changeVisibilityAccount,
     searchInvestInstrument: searchInstrument,
     createSale: createSale,
     createPurchase: createPurchase,

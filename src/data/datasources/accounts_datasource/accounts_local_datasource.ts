@@ -20,10 +20,9 @@ const AccountsLocalDatasource = ({
 
       return sqlDatabase.run(script).then((v) => v.lastId);
     },
-    update: ({ id, title, visibility, balance }) => {
+    update: ({ id, title, balance }) => {
       const setFields = [
         title && `title = "${title}"`,
-        visibility !== undefined && `visibility = "${visibility ? 1 : 0}"`,
         balance !== undefined && `balance = ${balance}`,
       ];
       const set = setFields.filter((v) => v).join(', ');
