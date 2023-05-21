@@ -22,7 +22,6 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       ${IdColumnConfig},
       userId INTEGER NOT NULL,
       title VARCHAR(25) NOT NULL, 
-      visibility BOOL NOT NULL DEFAULT 1,
       balance DOUBLE NOT NULL DEFAULT 0,
       FOREIGN KEY (userId)
         REFERENCES ${TableTitle.users} (id) 
@@ -51,29 +50,12 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       ticker VARCHAR(12) NOT NULL,
       title VARCHAR(255) NOT NULL,
       lot INTEGER NOT NULL,
-      about TEXT NOT NULL,
       FOREIGN KEY (typeId)
         REFERENCES ${TableTitle.investInstrumentTypes} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE,
       FOREIGN KEY (currencyId)
         REFERENCES ${TableTitle.currencies} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE
-    )
-    `,
-    instrumentComments: `
-    ${TableTitle.instrumentComments} (
-      ${IdColumnConfig},
-      userId INTEGER NOT NULL,
-      instrumentId INTEGER NOT NULL,
-      comment TEXT NOT NULL,
-      FOREIGN KEY (userId)
-        REFERENCES ${TableTitle.users} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE,
-      FOREIGN KEY (instrumentId)
-        REFERENCES ${TableTitle.investInstruments} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
     )
@@ -152,7 +134,6 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       createTable(tablesConfigs.investInstrumentTypes),
       createTable(tablesConfigs.currencies),
       createTable(tablesConfigs.investInstruments),
-      createTable(tablesConfigs.instrumentComments),
       createTable(tablesConfigs.accountItems),
       createTable(tablesConfigs.sales),
       createTable(tablesConfigs.purchases),

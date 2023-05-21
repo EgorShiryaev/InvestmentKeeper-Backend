@@ -15,31 +15,36 @@ const App = ({ url, port, api }: Params) => {
     run: () => {
       try {
         const app = express();
+        const apiVersion = '/api/v1';
         app.use(express.json());
-        app.get('/isUser', api.isUser.handler);
-        app.post('/registration', api.registration.handler);
-        app.post('/login', api.login.handler);
-        const accountsPath = '/accounts';
+        app.get(`${apiVersion}/isUser`, api.isUser.handler);
+        app.post(`${apiVersion}/registration`, api.registration.handler);
+        app.post(`${apiVersion}/login`, api.login.handler);
+        const accountsPath = `${apiVersion}/accounts`;
         app.get(accountsPath, api.getAccounts.handler);
         app.post(accountsPath, api.createAccount.handler);
         app.put(accountsPath, api.updateAccount.handler);
-        app.put('/accountVisibility', api.changeVisibilityAccount.handler);
-        app.get('/searchInvestInstrument', api.searchInvestInstrument.handler);
-        app.post('/sales', api.createSale.handler);
-        app.post('/purchases', api.createPurchase.handler);
-        app.post('/refills', api.createRefill.handler);
-        app.post('/withdrawals', api.createWithdrawal.handler);
-        const instrumentCommentsPath = '/instrumentComments';
-        app.get(instrumentCommentsPath, api.getInstrumentComment.handler);
-        app.put(instrumentCommentsPath, api.updateInstrumentComment.handler);
-        app.get('/candles', api.getCandles.handler);
+        app.put(
+          `${apiVersion}/accountVisibility`,
+          api.changeVisibilityAccount.handler,
+        );
+        app.get(
+          `${apiVersion}/searchInvestInstrument`,
+          api.searchInvestInstrument.handler,
+        );
+        app.post(`${apiVersion}/sales`, api.createSale.handler);
+        app.post(`${apiVersion}/purchases`, api.createPurchase.handler);
+        app.post(`${apiVersion}/refills`, api.createRefill.handler);
+        app.post(`${apiVersion}/withdrawals`, api.createWithdrawal.handler);
+
+        app.get(`${apiVersion}/candles`, api.getCandles.handler);
         const server = http.createServer(app);
         server.listen(port, url, () => {
           console.log(`Success start server ${url}:${port}`);
         });
         const websocketServer = new WebSocketServer({
           server: server,
-          path: '/quotes',
+          path: `${apiVersion}/quotes`,
         });
         websocketServer.on('connection', api.getQuotes.connectionHandler);
         process.setMaxListeners(Infinity);

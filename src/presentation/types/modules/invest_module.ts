@@ -11,8 +11,6 @@ type InvestModule = {
   createPurchase: ApiMethod;
   createRefill: ApiMethod;
   createWithdrawal: ApiMethod;
-  getInstrumentComment: ApiMethod;
-  updateInstrumentComment: ApiMethod;
   getCandles: ApiMethod;
   getQuotes: WebSocketMethod;
 };
