@@ -29,7 +29,8 @@ const AccountItemsLocalDatasource = ({
       JOIN ${investInstrumentsTable} ON ${table}.instrumentId = ${investInstrumentsTable}.id
       JOIN ${investInstrumentTypesTable} On ${investInstrumentsTable}.typeId = ${investInstrumentTypesTable}.id
       JOIN ${currenciesTable} On ${investInstrumentsTable}.currencyId = ${currenciesTable}.id
-      WHERE accountId = ${accountId} AND accountItemLots > 0`;
+      WHERE accountId = ${accountId} AND accountItemLots > 0
+      ORDER BY instrumentTitle ASC`;
 
       return sqlDatabase.getAll(script);
     },
