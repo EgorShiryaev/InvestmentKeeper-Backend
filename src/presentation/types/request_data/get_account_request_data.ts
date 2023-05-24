@@ -2,5 +2,5 @@ type GetAccountRequestData = {
     id: number;
   };
   
-  export default GetAccountRequestData;
+export default GetAccountRequestData;
   
