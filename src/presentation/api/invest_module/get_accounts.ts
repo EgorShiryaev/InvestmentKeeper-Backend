@@ -13,6 +13,9 @@ import ErrorResponseData from '../../types/response_data/error_response_data';
 import GetAccountsResponseData from '../../types/response_data/get_accounts_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import InstrumentPriceDatasource from '../../../data/datasources/instrument_price_datasource/instrument_price_datasource';
+import GetAccountRequestData from '../../types/request_data/get_account_request_data';
+import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
+import GetAccountResponseData from '../../types/response_data/get_account_response_data';
 
 type Params = {
   accountsDatasource: AccountsDatasource;
@@ -38,7 +41,7 @@ const GetAccounts = ({
       });
   };
 
-  const getAccounts = (userId: number): Promise<AccountEntity[]> => {
+  const getUserAccounts = (userId: number): Promise<AccountEntity[]> => {
     return accountsDatasource.getAllByUserId(userId).then((accounts) => {
       return Promise.all(
         accounts.map((account) => {
@@ -50,6 +53,17 @@ const GetAccounts = ({
     });
   };
 
+  const getAccount = (id: number): Promise<AccountEntity | null> => {
+    return accountsDatasource.getById(id).then((account) => {
+      if (!account) {
+        return null;
+      }
+      return getItems(account.id).then((items) => {
+        return convertToAccountEntity(account, items);
+      });
+    });
+  };
+
   return {
     handler: async (request, response) => {
       try {
@@ -58,10 +72,21 @@ const GetAccounts = ({
         if (!user) {
           throw ForbiddenException();
         }
-        const accounts = await getAccounts(user.id);
-        const responseData: GetAccountsResponseData = {
-          accounts: accounts,
-        };
+        const params = request.query as unknown as GetAccountRequestData;
+        if (!checkIdIsCorrect(params.id)) {
+          const accounts = await getUserAccounts(user.id);
+          const responseData: GetAccountsResponseData = {
+            accounts: accounts,
+          };
+          response.status(StatusCode.success).json(responseData);
+          return;
+        }
+        const acccount = await getAccount(params.id);
+        if (!acccount) {
+          response.sendStatus(StatusCode.notFound);
+          return;
+        }
+        const responseData: GetAccountResponseData = acccount;
         response.status(StatusCode.success).json(responseData);
       } catch (error) {
         const exception = error as IException;
