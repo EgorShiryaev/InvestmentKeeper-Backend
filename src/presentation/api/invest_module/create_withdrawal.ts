@@ -116,7 +116,7 @@ const CreateWithdrawal = ({
         const newBalance = currencyDeposit.value - params.value;
         const currencyDepositsChanges = await currencyDepositsDatasource.update(
           {
-            id: account.id,
+            id: currencyDeposit.id,
             value: newBalance,
           },
         );

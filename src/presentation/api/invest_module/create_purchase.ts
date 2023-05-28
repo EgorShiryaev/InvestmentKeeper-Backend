@@ -95,7 +95,7 @@ const CreatePurchase = ({
   }: WithdrawFundsFromBalanceParams) => {
     const newBalance = calculateBalance({
       balance: currencyDeposit.value,
-      price: params.price,
+      price: -params.price,
       lots: params.lots * instrumentLot,
       commission: params.commission,
     });

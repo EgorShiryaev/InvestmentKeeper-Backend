@@ -68,12 +68,12 @@ const CreateSale = ({
       lots: params.lots * instrumentLot,
       commission: params.commission,
     });
-    const accountsChanges = await currencyDepositsDatasource.update({
-      id: params.accountId,
+    const currencyDepositsChanges = await currencyDepositsDatasource.update({
+      id: currencyDeposit.id,
       value: newBalance,
     });
-    if (!checkChangesIsCorrect(accountsChanges)) {
-      throw ServerErrorException('Failed account update');
+    if (!checkChangesIsCorrect(currencyDepositsChanges)) {
+      throw ServerErrorException('Failed currency deposit update');
     }
   };
 
