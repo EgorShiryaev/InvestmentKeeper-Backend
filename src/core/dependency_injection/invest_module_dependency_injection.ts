@@ -60,7 +60,7 @@ const investModuleDependencyInjection = ({
     sqlDatabase: sqlDatabase,
   });
   const currenciesDatasource = CurrenciesLocalDatasource({
-    sqlDatabase: sqlDatabase
+    sqlDatabase: sqlDatabase,
   });
 
   const instrumentSubscribesRepository =
@@ -74,6 +74,8 @@ const investModuleDependencyInjection = ({
   });
   const createAccount = CreateAccount({
     accountsDatasource: accountsDatasource,
+    currenciesDatasource: currenciesDatasource,
+    currencyDepositsDatasource: currencyDepositsDatasource,
   });
   const updateAccount = UpdateAccount({
     accountsDatasource: accountsDatasource,
@@ -98,14 +100,14 @@ const investModuleDependencyInjection = ({
   const createRefill = CreateRefill({
     financialOperationsDatasource: financialOperationsDatasource,
     accountsDatasource: accountsDatasource,
-    currenciesDatasource:currenciesDatasource,
-    currencyDepositsDatasource: currencyDepositsDatasource
+    currenciesDatasource: currenciesDatasource,
+    currencyDepositsDatasource: currencyDepositsDatasource,
   });
   const createWithdrawal = CreateWithdrawal({
     financialOperationsDatasource: financialOperationsDatasource,
     accountsDatasource: accountsDatasource,
-    currenciesDatasource:currenciesDatasource,
-    currencyDepositsDatasource: currencyDepositsDatasource
+    currenciesDatasource: currenciesDatasource,
+    currencyDepositsDatasource: currencyDepositsDatasource,
   });
   const getCandles = GetCandles({
     investInstrumentsDatasource: investInstrumentsDatasource,

@@ -1,7 +1,7 @@
 import { IException } from '../../../core/exception/exception';
 import ForbiddenException from '../../../core/exception/forbidden_exception';
 import convertToAccountEntity from '../../../core/utils/convectors/convert_to_account_entity';
-import convertToInvestmentAssetEntity from '../../../core/utils/convectors/convert_to_account_item_entity';
+import convertToInvestmentAssetEntity from '../../../core/utils/convectors/convert_to_investment_asset_entity';
 import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import InvestmentAssetsDatasource from '../../../data/datasources/investment_assets_datasource/investment_assets_datasource';

@@ -3,6 +3,7 @@ import AccountModel from '../../../data/models/account_model';
 import AccountEntity from '../../../domain/entities/account_entity';
 import InvestmentAssetEntity from '../../../domain/entities/investment_asset_entity';
 import CurrencyDepositEntity from '../../../domain/entities/currency_deposit_entity';
+import { countProfit, countProfitPercent } from '../count_profit';
 
 type Price = {
   purchase: number;
@@ -31,9 +32,8 @@ const convertToAccountEntity = (
     },
   );
 
-  const profit = currency(accountPrice.current - accountPrice.purchase).value;
-  const profitPercent =
-    profit === 0 ? 0 : currency((profit / accountPrice.purchase) * 100).value;
+  const profit = countProfit(accountPrice.current, accountPrice.purchase);
+  const profitPercent = countProfitPercent(profit, accountPrice.purchase);
 
   return {
     id: model.id,
