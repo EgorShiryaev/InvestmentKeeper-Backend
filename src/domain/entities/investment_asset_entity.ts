@@ -7,6 +7,10 @@ type InvestmentAssetEntity = BaseEntity & {
   averagePurchasePrice: number;
   averageExchangeRate: number;
   currentPrice?: number;
+  totalLots: number;
+  totalCurrentPrice?: number;
+  profit?: number;
+  profitPercent?: number;
 };
 
 export default InvestmentAssetEntity;
