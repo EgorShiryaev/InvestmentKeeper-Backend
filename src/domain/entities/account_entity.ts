@@ -1,15 +1,15 @@
-import AccountItemEntity from './account_item_entity';
+import InvestmentAssetEntity from './investment_asset_entity';
 import BaseEntity from './base_entity';
+import CurrencyDepositEntity from './currency_deposit_entity';
 
 type AccountEntity = BaseEntity & {
   title: string;
-  visibility: boolean;
-  balance: number;
   purchasePrice: number;
   currentPrice: number;
   profit: number;
   profitPercent: number;
-  items: AccountItemEntity[];
+  items: InvestmentAssetEntity[];
+  currencyDeposits: CurrencyDepositEntity[];
 };
 
 export default AccountEntity;

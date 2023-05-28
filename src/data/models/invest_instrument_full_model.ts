@@ -4,10 +4,8 @@ type InvestInstrumentFullModel = {
   instrumentTicker: string;
   instrumentTitle: string;
   instrumentLot: number;
-  instrumentAbout: string;
   instrumentType: string;
   instrumentCurrency: string;
-  instrumentComment: string;
 };
 
 export default InvestInstrumentFullModel;

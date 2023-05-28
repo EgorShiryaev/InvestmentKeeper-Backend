@@ -1,10 +1,10 @@
 import BaseModel from './base_model';
 
-type WithdrawalModel = BaseModel & {
+type FinancialOperationModel = BaseModel & {
   accountId: number;
   date: string;
   value: number;
 };
 
-export default WithdrawalModel;
+export default FinancialOperationModel;
 

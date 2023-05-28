@@ -26,7 +26,6 @@ const InvestInstrumentsLocalDatasource = ({
         ${table}.ticker AS "instrumentTicker",
         ${table}.title AS "instrumentTitle",
         ${table}.lot AS "instrumentLot",
-        ${table}.about AS "instrumentAbout",
         ${investInstrumentTypesTable}.value AS "instrumentType",
         ${currenciesTable}.value AS "instrumentCurrency"
         FROM ${table}

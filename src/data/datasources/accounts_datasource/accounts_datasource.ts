@@ -8,8 +8,6 @@ type CreateAccountData = {
 type UpdateAccountData = {
   id: number;
   title?: string;
-  visibility?: boolean;
-  balance?: number;
 };
 
 interface AccountsDatasource {

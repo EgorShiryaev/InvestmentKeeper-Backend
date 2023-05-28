@@ -8,24 +8,57 @@ import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
-import WithdrawalsDatasource from '../../../data/datasources/withdrawals_datasource/withdrawals_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import CreateRefillRequestData from '../../types/request_data/create_refill_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_iso_date_format';
+import FinancialOperationsDatasource from '../../../data/datasources/financial_operations_datasource/financial_operations_datasource';
+import CurrenciesDatasource from '../../../data/datasources/currencies_datasource/currencies_datasource';
+import CurrencyDepositsDatasource from '../../../data/datasources/currency_deposits_datasource/currency_deposits_datasource';
+import AccountModel from '../../../data/models/account_model';
+import CurrencyModel from '../../../data/models/currency_model';
+import CurrencyDepositModel from '../../../data/models/currency_deposit_model';
 
 type Params = {
-  withdrawalsDatasource: WithdrawalsDatasource;
+  financialOperationsDatasource: FinancialOperationsDatasource;
   accountsDatasource: AccountsDatasource;
+  currenciesDatasource: CurrenciesDatasource;
+  currencyDepositsDatasource: CurrencyDepositsDatasource;
+};
+
+type GetCurrencyDeposit = {
+  account: AccountModel;
+  currency: CurrencyModel;
 };
 
 const CreateWithdrawal = ({
-  withdrawalsDatasource,
+  financialOperationsDatasource,
   accountsDatasource,
+  currenciesDatasource,
+  currencyDepositsDatasource,
 }: Params): ApiMethod => {
-  const requiredParams = ['accountId', 'value'];
+  const requiredParams = ['accountId', 'value', 'currency'];
+
+  const getCurrencyDeposit = async ({
+    account,
+    currency,
+  }: GetCurrencyDeposit): Promise<CurrencyDepositModel> => {
+    const currencyDeposit =
+      await currencyDepositsDatasource.getByAccountIdAndCurrencyId({
+        accountId: account.id,
+        currencyId: currency.id,
+      });
+    if (currencyDeposit) {
+      return currencyDeposit;
+    }
+    await currencyDepositsDatasource.create({
+      accountId: account.id,
+      currencyId: currency.id,
+    });
+    return getCurrencyDeposit({ account: account, currency: currency });
+  };
 
   return {
     handler: async (request, response) => {
@@ -56,25 +89,38 @@ const CreateWithdrawal = ({
         if (!account) {
           throw NotFoundException('Account not found');
         }
-        if (params.value > account.balance) {
+        const currency = await currenciesDatasource.get({
+          value: params.currency,
+        });
+        if (!currency) {
+          throw NotFoundException('Currency not found');
+        }
+        const currencyDeposit = await getCurrencyDeposit({
+          account: account,
+          currency: currency,
+        });
+        if (params.value > currencyDeposit.value) {
           throw BadRequestException(
             'You can`t withdraw this amount because there are not enough funds on your account',
           );
         }
-        const id = await withdrawalsDatasource.create({
+        const id = await financialOperationsDatasource.create({
           accountId: params.accountId,
+          currencyId: currency.id,
           value: params.value,
           date: params.date,
         });
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed refill creation');
         }
-        const newBalance = account.balance - params.value;
-        const accountsChanges = await accountsDatasource.update({
-          id: account.id,
-          balance: newBalance,
-        });
-        if (!checkChangesIsCorrect(accountsChanges)) {
+        const newBalance = currencyDeposit.value - params.value;
+        const currencyDepositsChanges = await currencyDepositsDatasource.update(
+          {
+            id: account.id,
+            value: newBalance,
+          },
+        );
+        if (!checkChangesIsCorrect(currencyDepositsChanges)) {
           throw ServerErrorException('Failed account item update');
         }
         response.sendStatus(StatusCode.created);

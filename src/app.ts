@@ -23,15 +23,11 @@ const App = ({ url, port, api }: Params) => {
         app.get(accountsPath, api.getAccounts.handler);
         app.post(accountsPath, api.createAccount.handler);
         app.put(accountsPath, api.updateAccount.handler);
-        app.put('/accountVisibility', api.changeVisibilityAccount.handler);
         app.get('/searchInvestInstrument', api.searchInvestInstrument.handler);
         app.post('/sales', api.createSale.handler);
         app.post('/purchases', api.createPurchase.handler);
         app.post('/refills', api.createRefill.handler);
         app.post('/withdrawals', api.createWithdrawal.handler);
-        const instrumentCommentsPath = '/instrumentComments';
-        app.get(instrumentCommentsPath, api.getInstrumentComment.handler);
-        app.put(instrumentCommentsPath, api.updateInstrumentComment.handler);
         app.get('/candles', api.getCandles.handler);
         const server = http.createServer(app);
         server.listen(port, url, () => {

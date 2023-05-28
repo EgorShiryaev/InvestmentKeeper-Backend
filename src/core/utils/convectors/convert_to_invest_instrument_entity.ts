@@ -11,7 +11,6 @@ const convertToInvestInstrumentEntity = (
     figi: model.instrumentFigi,
     ticker: model.instrumentTicker,
     title: model.instrumentTitle,
-    about: model.instrumentAbout,
     lot: model.instrumentLot,
     type: convertToInvestInstrumentTypeEntity(model.instrumentType),
     currency: convertToCurrencyEntity(model.instrumentCurrency),

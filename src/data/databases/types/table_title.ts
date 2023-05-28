@@ -1,15 +1,13 @@
 enum TableTitle {
   users = 'Users',
   accounts = 'Accounts',
-  instrumentComments = 'InstrumentComments',
-  accountItems = 'AccountItems',
+  currencyDeposits = 'CurrencyDeposits',
+  financialOperations = 'FinancialOperations',
+  investmentAssets = 'InvestmentAssets',
+  tradingOperations = 'TradingOperations',
   investInstruments = 'InvestInstruments',
   investInstrumentTypes = 'InvestInstrumentTypes',
   currencies = 'Currencies',
-  sales = 'Sales',
-  purchases = 'Purchases',
-  refills = 'Refills',
-  withdrawals = 'Withdrawals',
 }
 
 export default TableTitle;

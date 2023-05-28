@@ -1,7 +1,8 @@
 import currency from 'currency.js';
 import AccountModel from '../../../data/models/account_model';
 import AccountEntity from '../../../domain/entities/account_entity';
-import AccountItemEntity from '../../../domain/entities/account_item_entity';
+import InvestmentAssetEntity from '../../../domain/entities/investment_asset_entity';
+import CurrencyDepositEntity from '../../../domain/entities/currency_deposit_entity';
 
 type Price = {
   purchase: number;
@@ -10,7 +11,8 @@ type Price = {
 
 const convertToAccountEntity = (
   model: AccountModel,
-  items: AccountItemEntity[],
+  items: InvestmentAssetEntity[],
+  currencyDeposits: CurrencyDepositEntity[],
 ): AccountEntity => {
   const accountPrice: Price = items.reduce(
     (prev, current) => {
@@ -36,13 +38,12 @@ const convertToAccountEntity = (
   return {
     id: model.id,
     title: model.title,
-    visibility: model.visibility ? true : false,
-    balance: model.balance,
     purchasePrice: accountPrice.purchase,
     currentPrice: accountPrice.current,
     profit: profit,
     profitPercent: profitPercent,
     items: items,
+    currencyDeposits: currencyDeposits,
   };
 };
 

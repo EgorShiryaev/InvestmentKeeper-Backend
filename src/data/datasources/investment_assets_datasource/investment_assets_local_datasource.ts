@@ -1,11 +1,11 @@
 import TableTitle from '../../databases/types/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
-import AccountItemsDatasource from './account_items_datasource';
+import InvestmentAssetsDatasource from './investment_assets_datasource';
 
-const AccountItemsLocalDatasource = ({
+const InvestmentAssetsLocalDatasource = ({
   sqlDatabase,
-}: LocalDatasourceParameters): AccountItemsDatasource => {
-  const table = TableTitle.accountItems;
+}: LocalDatasourceParameters): InvestmentAssetsDatasource => {
+  const table = TableTitle.investmentAssets;
 
   return {
     getAllByAccountIdAndLotsGreaterZero: (accountId) => {
@@ -14,22 +14,22 @@ const AccountItemsLocalDatasource = ({
       const currenciesTable = TableTitle.currencies;
 
       const script = `SELECT 
-      ${table}.id AS "accountItemId", 
-      ${table}.lots AS "accountItemLots", 
-      ${table}.averagePurchasePrice AS "accountItemAveragePurchasePrice",
+      ${table}.id AS "investmentAssetId", 
+      ${table}.lots AS "investmentAssetLots", 
+      ${table}.averagePurchasePrice AS "investmentAssetAveragePurchasePrice",
+      ${table}.averageExchangeRate AS "investmentAssetAverageExchangeRate",
       ${investInstrumentsTable}.id AS "instrumentId",
       ${investInstrumentsTable}.figi AS "instrumentFigi",
       ${investInstrumentsTable}.ticker AS "instrumentTicker",
       ${investInstrumentsTable}.title AS "instrumentTitle",
       ${investInstrumentsTable}.lot AS "instrumentLot",
-      ${investInstrumentsTable}.about AS "instrumentAbout",
       ${investInstrumentTypesTable}.value AS "instrumentType",
       ${currenciesTable}.value AS "instrumentCurrency"
       FROM ${table}
       JOIN ${investInstrumentsTable} ON ${table}.instrumentId = ${investInstrumentsTable}.id
       JOIN ${investInstrumentTypesTable} On ${investInstrumentsTable}.typeId = ${investInstrumentTypesTable}.id
       JOIN ${currenciesTable} On ${investInstrumentsTable}.currencyId = ${currenciesTable}.id
-      WHERE accountId = ${accountId} AND accountItemLots > 0
+      WHERE accountId = ${accountId} AND investmentAssetLots > 0
       ORDER BY instrumentTitle ASC`;
 
       return sqlDatabase.getAll(script);
@@ -48,12 +48,15 @@ const AccountItemsLocalDatasource = ({
 
       return sqlDatabase.run(script).then((v) => v.lastId);
     },
-    update: ({ id, lots, averagePurchasePrice }) => {
+    update: ({ id, lots, averagePurchasePrice, averageExchangeRate }) => {
       const setFields = [
         `lots = ${lots}`,
         averagePurchasePrice !== null &&
           averagePurchasePrice !== undefined &&
           `averagePurchasePrice = ${averagePurchasePrice}`,
+        averageExchangeRate !== null &&
+          averageExchangeRate !== undefined &&
+          `averageExchangeRate = ${averageExchangeRate}`,
       ];
       const set = setFields.filter((v) => v).join(', ');
       const script = `UPDATE ${table} SET ${set} WHERE id = ${id}`;
@@ -68,5 +71,5 @@ const AccountItemsLocalDatasource = ({
   };
 };
 
-export default AccountItemsLocalDatasource;
+export default InvestmentAssetsLocalDatasource;
 
