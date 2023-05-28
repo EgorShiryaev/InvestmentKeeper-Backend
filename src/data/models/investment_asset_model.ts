@@ -1,11 +1,12 @@
 import BaseModel from './base_model';
 
-type AccountItemModel = BaseModel & {
+type InvestmentAssetModel = BaseModel & {
   accountId: number;
   instrumentId: number;
   lots: number;
   averagePurchasePrice: number;
+  averageExchangeRate: number;
 };
 
-export default AccountItemModel;
+export default InvestmentAssetModel;
 

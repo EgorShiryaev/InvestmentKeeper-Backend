@@ -7,7 +7,6 @@ type InvestInstrumentEntity = BaseEntity & {
   figi: string;
   ticker: string;
   title: string;
-  about: string;
   lot: number;
   type: InvestInstrumentTypeEntity;
   currency: CurrencyEntity;

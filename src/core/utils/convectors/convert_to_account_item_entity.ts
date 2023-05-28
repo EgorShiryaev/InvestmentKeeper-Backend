@@ -1,19 +1,20 @@
-import AccountItemFullModel from '../../../data/models/account_item_full_model';
-import AccountItemEntity from '../../../domain/entities/account_item_entity';
+import InvestmentAssetFullModel from '../../../data/models/investment_asset_full_model';
+import InvestmentAssetEntity from '../../../domain/entities/investment_asset_entity';
 import convertToInvestInstrumentEntity from './convert_to_invest_instrument_entity';
 
-const convertToAccountItemEntity = (
-  model: AccountItemFullModel,
+const convertToInvestmentAssetEntity = (
+  model: InvestmentAssetFullModel,
   currentPrice?: number,
-): AccountItemEntity => {
+): InvestmentAssetEntity => {
   return {
-    id: model.accountItemId,
-    lots: model.accountItemLots,
-    averagePurchasePrice: model.accountItemAveragePurchasePrice,
+    id: model.investmentAssetId,
+    lots: model.investmentAssetLots,
+    averageExchangeRate: model.investmentAssetAverageExchangeRate,
+    averagePurchasePrice: model.investmentAssetAveragePurchasePrice,
     currentPrice: currentPrice,
     instrument: convertToInvestInstrumentEntity(model),
   };
 };
 
-export default convertToAccountItemEntity;
+export default convertToInvestmentAssetEntity;
 
