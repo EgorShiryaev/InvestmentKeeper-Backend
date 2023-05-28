@@ -1,7 +1,9 @@
 import currency from 'currency.js';
 import AccountModel from '../../../data/models/account_model';
 import AccountEntity from '../../../domain/entities/account_entity';
-import AccountItemEntity from '../../../domain/entities/account_item_entity';
+import InvestmentAssetEntity from '../../../domain/entities/investment_asset_entity';
+import CurrencyDepositEntity from '../../../domain/entities/currency_deposit_entity';
+import { countProfit, countProfitPercent } from '../count_profit';
 
 type Price = {
   purchase: number;
@@ -10,7 +12,8 @@ type Price = {
 
 const convertToAccountEntity = (
   model: AccountModel,
-  items: AccountItemEntity[],
+  items: InvestmentAssetEntity[],
+  currencyDeposits: CurrencyDepositEntity[],
 ): AccountEntity => {
   const accountPrice: Price = items.reduce(
     (prev, current) => {
@@ -29,19 +32,18 @@ const convertToAccountEntity = (
     },
   );
 
-  const profit = currency(accountPrice.current - accountPrice.purchase).value;
-  const profitPercent =
-    profit === 0 ? 0 : currency((profit / accountPrice.purchase) * 100).value;
+  const profit = countProfit(accountPrice.current, accountPrice.purchase);
+  const profitPercent = countProfitPercent(profit, accountPrice.purchase);
 
   return {
     id: model.id,
     title: model.title,
-    balance: model.balance,
     purchasePrice: accountPrice.purchase,
     currentPrice: accountPrice.current,
     profit: profit,
     profitPercent: profitPercent,
     items: items,
+    currencyDeposits: currencyDeposits,
   };
 };
 

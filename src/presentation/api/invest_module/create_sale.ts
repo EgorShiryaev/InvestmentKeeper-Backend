@@ -8,10 +8,10 @@ import checkChangesIsCorrect from '../../../core/utils/required_params/check_cha
 import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
-import AccountItemsDatasource from '../../../data/datasources/account_items_datasource/account_items_datasource';
+import InvestmentAssetsDatasource from '../../../data/datasources/investment_assets_datasource/investment_assets_datasource';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
 import InvestInstrumentsDatasource from '../../../data/datasources/invest_instruments_datasource/invest_instruments_datasource';
-import SalesDatasource from '../../../data/datasources/sales_datasource/sales_datasource';
+import TradingOperationsDatasource from '../../../data/datasources/trading_operations_datasource/trading_operations_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import CreateSaleRequestData from '../../types/request_data/create_sale_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
@@ -19,25 +19,35 @@ import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 import AccountModel from '../../../data/models/account_model';
 import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_iso_date_format';
+import CurrencyDepositsDatasource from '../../../data/datasources/currency_deposits_datasource/currency_deposits_datasource';
+import CurrencyDepositModel from '../../../data/models/currency_deposit_model';
+import InvestInstrumentModel from '../../../data/models/invest_instrument_model';
 
 type Params = {
-  accountItemsDatasource: AccountItemsDatasource;
-  salesDatasource: SalesDatasource;
+  investmentAssetsDatasource: InvestmentAssetsDatasource;
+  tradingOperationsDatasource: TradingOperationsDatasource;
   accountsDatasource: AccountsDatasource;
   investInstrumentsDatasource: InvestInstrumentsDatasource;
+  currencyDepositsDatasource: CurrencyDepositsDatasource;
 };
 
 type AddFundsFromSaleToBalanceParams = {
-  account: AccountModel;
+  currencyDeposit: CurrencyDepositModel;
   params: CreateSaleRequestData;
   instrumentLot: number;
 };
 
+type GetCurrencyDeposit = {
+  account: AccountModel;
+  instrument: InvestInstrumentModel;
+};
+
 const CreateSale = ({
-  accountItemsDatasource,
-  salesDatasource,
+  investmentAssetsDatasource,
+  tradingOperationsDatasource,
   accountsDatasource,
   investInstrumentsDatasource,
+  currencyDepositsDatasource,
 }: Params): ApiMethod => {
   const requiredParams = [
     'accountId',
@@ -48,24 +58,42 @@ const CreateSale = ({
   ];
 
   const addFundsFromSaleToBalance = async ({
-    account,
+    currencyDeposit,
     params,
     instrumentLot,
   }: AddFundsFromSaleToBalanceParams) => {
     const newBalance = calculateBalance({
-      balance: account.balance,
+      balance: currencyDeposit.value,
       price: params.price,
       lots: params.lots * instrumentLot,
-      isAddition: true,
       commission: params.commission,
     });
-    const accountsChanges = await accountsDatasource.update({
+    const accountsChanges = await currencyDepositsDatasource.update({
       id: params.accountId,
-      balance: newBalance,
+      value: newBalance,
     });
     if (!checkChangesIsCorrect(accountsChanges)) {
       throw ServerErrorException('Failed account update');
     }
+  };
+
+  const getCurrencyDeposit = async ({
+    account,
+    instrument,
+  }: GetCurrencyDeposit): Promise<CurrencyDepositModel> => {
+    const currencyDeposit =
+      await currencyDepositsDatasource.getByAccountIdAndCurrencyId({
+        accountId: account.id,
+        currencyId: instrument.currencyId,
+      });
+    if (currencyDeposit) {
+      return currencyDeposit;
+    }
+    await currencyDepositsDatasource.create({
+      accountId: account.id,
+      currencyId: instrument.currencyId,
+    });
+    return getCurrencyDeposit({ account: account, instrument: instrument });
   };
 
   return {
@@ -110,31 +138,33 @@ const CreateSale = ({
         if (!instrument) {
           throw NotFoundException('Invest instrument not found');
         }
-        const accountItem =
-          await accountItemsDatasource.getByAccountIdAndInstrumentId(
+        const investmentAsset =
+          await investmentAssetsDatasource.getByAccountIdAndInstrumentId(
             params.accountId,
             params.instrumentId,
           );
-        if (!accountItem) {
+        if (!investmentAsset) {
           throw BadRequestException(
             'You can`t sell this instrument because it is not in your account',
           );
         }
-        if (params.lots > accountItem.lots) {
+        if (params.lots > investmentAsset.lots) {
           throw BadRequestException(
             'You can`t sell this instrument, because the number of lots on the account is less than you want to sell',
           );
         }
-        const accountItemsChanges = await accountItemsDatasource.update({
-          id: accountItem.id,
-          lots: accountItem.lots - params.lots,
-        });
-        if (!checkChangesIsCorrect(accountItemsChanges)) {
+        const investmentAssetsChanges = await investmentAssetsDatasource.update(
+          {
+            id: investmentAsset.id,
+            lots: investmentAsset.lots - params.lots,
+          },
+        );
+        if (!checkChangesIsCorrect(investmentAssetsChanges)) {
           throw ServerErrorException('Failed account item update');
         }
-        const id = await salesDatasource.create({
-          accountItemId: accountItem.id,
-          lots: params.lots,
+        const id = await tradingOperationsDatasource.create({
+          investmentAssetId: investmentAsset.id,
+          lots: -params.lots,
           price: params.price,
           date: params.date,
           commission: params.commission,
@@ -142,9 +172,13 @@ const CreateSale = ({
         if (!checkIdIsCorrect(id)) {
           throw ServerErrorException('Failed sale creation');
         }
+        const currencyDeposit = await getCurrencyDeposit({
+          account: account,
+          instrument: instrument,
+        });
         if (params.addFundsFromSaleToBalance) {
           await addFundsFromSaleToBalance({
-            account: account,
+            currencyDeposit: currencyDeposit,
             params: params,
             instrumentLot: instrument.lot,
           });

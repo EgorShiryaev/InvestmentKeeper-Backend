@@ -21,20 +21,72 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     ${TableTitle.accounts} (
       ${IdColumnConfig},
       userId INTEGER NOT NULL,
-      title VARCHAR(25) NOT NULL, 
-      balance DOUBLE NOT NULL DEFAULT 0,
+      title VARCHAR(25) NOT NULL,
       FOREIGN KEY (userId)
         REFERENCES ${TableTitle.users} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
     )
     `,
-    investInstrumentTypes: `
-    ${TableTitle.investInstrumentTypes} (
-      ${IdColumnConfig}, 
-      value VARCHAR(25) NOT NULL
+    currencyDeposits: `
+    ${TableTitle.currencyDeposits} (
+      ${IdColumnConfig},
+      accountId INTEGER NOT NULL,
+      currencyId INTEGER NOT NULL,
+      value DOUBLE NOT NULL DEFAULT 0,
+      FOREIGN KEY (currencyId)
+        REFERENCES ${TableTitle.currencies} (id) 
+          ON UPDATE CASCADE
+          ON DELETE CASCADE
     )
     `,
+    financialOperations: `
+    ${TableTitle.financialOperations} (
+      ${IdColumnConfig},
+      accountId INTEGER NOT NULL,
+      currencyId INTEGER NOT NULL,
+      date TEXT NOT NULL,
+      value DOUBLE NOT NULL,
+      FOREIGN KEY (accountId)
+        REFERENCES ${TableTitle.accounts} (id) 
+          ON UPDATE CASCADE
+          ON DELETE CASCADE,
+      FOREIGN KEY (currencyId)
+        REFERENCES ${TableTitle.currencies} (id) 
+          ON UPDATE CASCADE
+          ON DELETE CASCADE
+    )`,
+    investmentAssets: `
+    ${TableTitle.investmentAssets} (
+      ${IdColumnConfig},
+      accountId INTEGER NOT NULL,
+      instrumentId INTEGER NOT NULL,
+      lots INTEGER NOT NULL DEFAULT 0,
+      averagePurchasePrice DOUBLE NOT NULL DEFAULT 0,
+      averageExchangeRate DOUBLE NOT NULL DEFAULT 1,
+      FOREIGN KEY (accountId)
+        REFERENCES ${TableTitle.accounts} (id) 
+          ON UPDATE CASCADE
+          ON DELETE CASCADE,
+      FOREIGN KEY (instrumentId)
+        REFERENCES ${TableTitle.investInstruments} (id) 
+          ON UPDATE CASCADE
+          ON DELETE CASCADE
+    )
+    `,
+    tradingOperations: `
+    ${TableTitle.tradingOperations} (
+      ${IdColumnConfig},
+      investmentAssetId INTEGER NOT NULL,
+      date TEXT NOT NULL,
+      lots INTEGER NOT NULL,
+      price DOUBLE NOT NULL,
+      commission DOUBLE NOT NULL DEFAULT 0,
+      FOREIGN KEY (investmentAssetId)
+        REFERENCES ${TableTitle.investmentAssets} (id) 
+          ON UPDATE CASCADE
+          ON DELETE CASCADE
+    )`,
     currencies: `
     ${TableTitle.currencies} (
       ${IdColumnConfig},
@@ -60,71 +112,12 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
           ON DELETE CASCADE
     )
     `,
-    accountItems: `
-    ${TableTitle.accountItems} (
-      ${IdColumnConfig},
-      accountId INTEGER NOT NULL,
-      instrumentId INTEGER NOT NULL,
-      lots INTEGER NOT NULL DEFAULT 0,
-      averagePurchasePrice DOUBLE NOT NULL DEFAULT 0,
-      FOREIGN KEY (accountId)
-        REFERENCES ${TableTitle.accounts} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE,
-      FOREIGN KEY (instrumentId)
-        REFERENCES ${TableTitle.investInstruments} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE
+    investInstrumentTypes: `
+    ${TableTitle.investInstrumentTypes} (
+      ${IdColumnConfig}, 
+      value VARCHAR(25) NOT NULL
     )
     `,
-    sales: `
-    ${TableTitle.sales} (
-      ${IdColumnConfig},
-      accountItemId INTEGER NOT NULL,
-      date TEXT NOT NULL,
-      lots INTEGER NOT NULL,
-      price DOUBLE NOT NULL,
-      commission DOUBLE NOT NULL DEFAULT 0,
-      FOREIGN KEY (accountItemId)
-        REFERENCES ${TableTitle.accountItems} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE
-    )`,
-    purchases: `
-    ${TableTitle.purchases} (
-      ${IdColumnConfig},
-      accountItemId INTEGER NOT NULL,
-      date TEXT NOT NULL,
-      lots INTEGER NOT NULL,
-      price DOUBLE NOT NULL,
-      commission DOUBLE NOT NULL DEFAULT 0,
-      FOREIGN KEY (accountItemId)
-        REFERENCES ${TableTitle.accountItems} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE
-    )`,
-    refills: `
-    ${TableTitle.refills} (
-      ${IdColumnConfig},
-      accountId INTEGER NOT NULL,
-      date TEXT NOT NULL,
-      value DOUBLE NOT NULL,
-      FOREIGN KEY (accountId)
-        REFERENCES ${TableTitle.accounts} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE
-    )`,
-    withdrawals: `
-    ${TableTitle.withdrawals} (
-      ${IdColumnConfig},
-      accountId INTEGER NOT NULL,
-      date TEXT NOT NULL,
-      value DOUBLE NOT NULL,
-      FOREIGN KEY (accountId)
-        REFERENCES ${TableTitle.accounts} (id) 
-          ON UPDATE CASCADE
-          ON DELETE CASCADE
-    )`,
   };
 
   const create = () => {
@@ -134,11 +127,10 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       createTable(tablesConfigs.investInstrumentTypes),
       createTable(tablesConfigs.currencies),
       createTable(tablesConfigs.investInstruments),
-      createTable(tablesConfigs.accountItems),
-      createTable(tablesConfigs.sales),
-      createTable(tablesConfigs.purchases),
-      createTable(tablesConfigs.refills),
-      createTable(tablesConfigs.withdrawals),
+      createTable(tablesConfigs.investmentAssets),
+      createTable(tablesConfigs.tradingOperations),
+      createTable(tablesConfigs.financialOperations),
+      createTable(tablesConfigs.currencyDeposits),
     ]);
   };
 

@@ -10,10 +10,10 @@ import checkChangesIsCorrect from '../../../core/utils/required_params/check_cha
 import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
-import AccountItemsDatasource from '../../../data/datasources/account_items_datasource/account_items_datasource';
+import InvestmentAssetsDatasource from '../../../data/datasources/investment_assets_datasource/investment_assets_datasource';
 import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
 import InvestInstrumentsDatasource from '../../../data/datasources/invest_instruments_datasource/invest_instruments_datasource';
-import SalesDatasource from '../../../data/datasources/sales_datasource/sales_datasource';
+import TradingOperationsDatasource from '../../../data/datasources/trading_operations_datasource/trading_operations_datasource';
 import AccountModel from '../../../data/models/account_model';
 import StatusCode from '../../../domain/entities/status_code';
 import CreatePurchaseRequestData from '../../types/request_data/create_purchase_request_data';
@@ -22,25 +22,34 @@ import ApiMethod from '../../types/methods/api_method';
 import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 import InvestInstrumentModel from '../../../data/models/invest_instrument_model';
 import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_iso_date_format';
+import CurrencyDepositsDatasource from '../../../data/datasources/currency_deposits_datasource/currency_deposits_datasource';
+import CurrencyDepositModel from '../../../data/models/currency_deposit_model';
 
 type Params = {
-  accountItemsDatasource: AccountItemsDatasource;
-  purchasesDatasource: SalesDatasource;
+  investmentAssetsDatasource: InvestmentAssetsDatasource;
+  tradingOperationsDatasource: TradingOperationsDatasource;
   accountsDatasource: AccountsDatasource;
   investInstrumentsDatasource: InvestInstrumentsDatasource;
+  currencyDepositsDatasource: CurrencyDepositsDatasource;
 };
 
 type WithdrawFundsFromBalanceParams = {
-  account: AccountModel;
+  currencyDeposit: CurrencyDepositModel;
   params: CreatePurchaseRequestData;
   instrumentLot: number;
 };
 
+type GetCurrencyDeposit = {
+  account: AccountModel;
+  instrument: InvestInstrumentModel;
+};
+
 const CreatePurchase = ({
-  accountItemsDatasource,
-  purchasesDatasource,
+  investmentAssetsDatasource,
+  tradingOperationsDatasource,
   accountsDatasource,
   investInstrumentsDatasource,
+  currencyDepositsDatasource,
 }: Params): ApiMethod => {
   const requiredParams = [
     'accountId',
@@ -50,54 +59,72 @@ const CreatePurchase = ({
     'withdrawFundsFromBalance',
   ];
 
-  const getAccountItem = async (params: CreatePurchaseRequestData) => {
-    const accountItem =
-      await accountItemsDatasource.getByAccountIdAndInstrumentId(
+  const getInvestmentAsset = async (params: CreatePurchaseRequestData) => {
+    const investmentAsset =
+      await investmentAssetsDatasource.getByAccountIdAndInstrumentId(
         params.accountId,
         params.instrumentId,
       );
-    if (accountItem) {
-      return accountItem;
+    if (investmentAsset) {
+      return investmentAsset;
     }
-    const id = await accountItemsDatasource.create({
+    const id = await investmentAssetsDatasource.create({
       accountId: params.accountId,
       instrumentId: params.instrumentId,
     });
 
-    return accountItemsDatasource.getById(id);
+    return investmentAssetsDatasource.getById(id);
   };
 
   const checkTotalPriceIsGreaterAccountBalance = (
     params: CreatePurchaseRequestData,
-    account: AccountModel,
+    depositModel: CurrencyDepositModel,
     instrument: InvestInstrumentModel,
   ) => {
     const totalPrice = calculateTotalPrice({
       price: params.price,
       lots: params.lots * instrument.lot,
     });
-    return totalPrice > account.balance;
+    return totalPrice > depositModel.value;
   };
 
   const withdrawFundsFromBalance = async ({
-    account,
+    currencyDeposit,
     params,
     instrumentLot,
   }: WithdrawFundsFromBalanceParams) => {
     const newBalance = calculateBalance({
-      balance: account.balance,
+      balance: currencyDeposit.value,
       price: params.price,
       lots: params.lots * instrumentLot,
-      isAddition: false,
       commission: params.commission,
     });
-    const accountsChanges = await accountsDatasource.update({
-      id: params.accountId,
-      balance: newBalance,
+    const currencyDepositsChanges = await currencyDepositsDatasource.update({
+      id: currencyDeposit.id,
+      value: newBalance,
     });
-    if (!checkChangesIsCorrect(accountsChanges)) {
-      throw ServerErrorException('Failed account update');
+    if (!checkChangesIsCorrect(currencyDepositsChanges)) {
+      throw ServerErrorException('Failed currency deposit update');
     }
+  };
+
+  const getCurrencyDeposit = async ({
+    account,
+    instrument,
+  }: GetCurrencyDeposit): Promise<CurrencyDepositModel> => {
+    const currencyDeposit =
+      await currencyDepositsDatasource.getByAccountIdAndCurrencyId({
+        accountId: account.id,
+        currencyId: instrument.currencyId,
+      });
+    if (currencyDeposit) {
+      return currencyDeposit;
+    }
+    await currencyDepositsDatasource.create({
+      accountId: account.id,
+      currencyId: instrument.currencyId,
+    });
+    return getCurrencyDeposit({ account: account, instrument: instrument });
   };
 
   return {
@@ -126,7 +153,7 @@ const CreatePurchase = ({
           params.commission !== undefined &&
           isNaN(params.commission)
         ) {
-          throw BadRequestException('commission should be is integer');
+          throw BadRequestException('commission should be is double');
         }
         const user = getRequestUser(request.headers);
         if (!user) {
@@ -142,33 +169,41 @@ const CreatePurchase = ({
         if (!account) {
           throw NotFoundException('Account not found');
         }
+        const currencyDeposit = await getCurrencyDeposit({
+          account: account,
+          instrument: instrument,
+        });
         if (
           params.withdrawFundsFromBalance &&
-          checkTotalPriceIsGreaterAccountBalance(params, account, instrument)
+          checkTotalPriceIsGreaterAccountBalance(
+            params,
+            currencyDeposit,
+            instrument,
+          )
         ) {
           throw BadRequestException(
             'You can`t buy this instrument because there are not enough funds on your account',
           );
         }
-        const accountItem = await getAccountItem(params);
-        if (!accountItem) {
+        const investmentAsset = await getInvestmentAsset(params);
+        if (!investmentAsset) {
           throw ServerErrorException('Failed account item creation');
         }
-        const accountItemsChanges = await accountItemsDatasource.update({
-          id: accountItem.id,
-          lots: accountItem.lots + params.lots,
+        const investmentAssetsChanges = await investmentAssetsDatasource.update({
+          id: investmentAsset.id,
+          lots: investmentAsset.lots + params.lots,
           averagePurchasePrice: calculateAveragePrice({
-            averagePrice: accountItem.averagePurchasePrice,
-            lots: accountItem.lots,
+            averagePrice: investmentAsset.averagePurchasePrice,
+            lots: investmentAsset.lots,
             newPrice: params.price,
             newLots: params.lots,
           }),
         });
-        if (!checkChangesIsCorrect(accountItemsChanges)) {
+        if (!checkChangesIsCorrect(investmentAssetsChanges)) {
           throw ServerErrorException('Failed account item update');
         }
-        const id = await purchasesDatasource.create({
-          accountItemId: accountItem.id,
+        const id = await tradingOperationsDatasource.create({
+          investmentAssetId: investmentAsset.id,
           lots: params.lots,
           price: params.price,
           date: params.date,
@@ -179,7 +214,7 @@ const CreatePurchase = ({
         }
         if (params.withdrawFundsFromBalance) {
           await withdrawFundsFromBalance({
-            account: account,
+            currencyDeposit: currencyDeposit,
             params: params,
             instrumentLot: instrument.lot,
           });

@@ -8,7 +8,6 @@ type CreateAccountData = {
 type UpdateAccountData = {
   id: number;
   title?: string;
-  balance?: number;
 };
 
 interface AccountsDatasource {
