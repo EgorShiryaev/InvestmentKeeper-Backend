@@ -77,12 +77,12 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     tradingOperations: `
     ${TableTitle.tradingOperations} (
       ${IdColumnConfig},
-      accountAssetId INTEGER NOT NULL,
+      investmentAssetId INTEGER NOT NULL,
       date TEXT NOT NULL,
       lots INTEGER NOT NULL,
       price DOUBLE NOT NULL,
       commission DOUBLE NOT NULL DEFAULT 0,
-      FOREIGN KEY (accountAssetId)
+      FOREIGN KEY (investmentAssetId)
         REFERENCES ${TableTitle.investmentAssets} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
