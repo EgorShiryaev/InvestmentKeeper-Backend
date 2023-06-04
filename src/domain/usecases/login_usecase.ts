@@ -10,34 +10,34 @@ type Params = {
 };
 
 type CallMethodParams = {
-    phoneNumber: string;
-    password: string;
-}
+  phoneNumber: string;
+  password: string;
+};
 
 export type LoginUsecase = {
-  call: (params:CallMethodParams) => Promise<AuthResponseData>;
+  call: (params: CallMethodParams) => Promise<AuthResponseData>;
 };
 
 const LoginUsecaseImpl = ({ usersDatasource }: Params): LoginUsecase => {
   return {
-    call: async ({phoneNumber, password}) => {
-        const user = await usersDatasource.getByPhoneNumber(phoneNumber);
-        if (!user) {
-          throw FailedAuthException();
-        }
-        const passwordIsCompared = await compareEncodedPassword({
-          password: password,
-          hash: user.password,
-        });
-        if (!passwordIsCompared) {
-          throw FailedAuthException();
-        }
-        const token = generateAuthToken(user);
-        AuthentificatedUsersRepository.set(token, user);
-        return {
-          token: token,
-          name: user.name,
-        };
+    call: async ({ phoneNumber, password }) => {
+      const user = await usersDatasource.getByPhoneNumber(phoneNumber);
+      if (!user) {
+        throw FailedAuthException();
+      }
+      const passwordIsCompared = await compareEncodedPassword({
+        password: password,
+        hash: user.password,
+      });
+      if (!passwordIsCompared) {
+        throw FailedAuthException();
+      }
+      const token = generateAuthToken(user);
+      AuthentificatedUsersRepository.set(token, user);
+      return {
+        token: token,
+        name: user.name,
+      };
     },
   };
 };

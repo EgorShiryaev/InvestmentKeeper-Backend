@@ -17,7 +17,7 @@ const authModuleDependencyInjection = ({ sqlDatabase }: Params): AuthModule => {
   });
 
   const registration = Registration({
-    usersDatasource: usersDatasource,
+    registrationUsecase: usersDatasource,
   });
 
   const isUser = IsUser({
