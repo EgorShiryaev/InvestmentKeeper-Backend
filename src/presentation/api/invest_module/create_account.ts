@@ -1,6 +1,4 @@
 import { IException } from '../../../core/exception/exception';
-import ForbiddenException from '../../../core/exception/forbidden_exception';
-import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import StatusCode from '../../../domain/entities/status_code';

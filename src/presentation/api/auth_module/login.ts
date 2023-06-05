@@ -26,7 +26,7 @@ const Login = ({ loginUsecase }: Params): ApiMethod => {
         const responseData = await loginUsecase.call({
           password: params.password,
           phoneNumber: params.phoneNumber,
-        })
+        });
         response.status(StatusCode.success).json(responseData);
       } catch (error) {
         const exception = error as IException;

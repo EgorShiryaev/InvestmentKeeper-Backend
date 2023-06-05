@@ -26,9 +26,9 @@ const RegistrationUsecaseImpl = ({
 }: Params): RegistrationUsecase => {
   return {
     call: async ({ phoneNumber, password, name }) => {
-        const userModel = await usersDatasource.getByPhoneNumber(
-            phoneNumber,
-          );
+      const userModel = await usersDatasource.getByPhoneNumber(
+        phoneNumber,
+      );
       const userIsAlreadyExists = !!(userModel);
       if (userIsAlreadyExists) {
         throw BadRequestException('User is already exists');
