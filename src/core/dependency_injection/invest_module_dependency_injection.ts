@@ -22,6 +22,16 @@ import { TinkoffInvestApi } from 'tinkoff-invest-api';
 import InstrumentPriceRemoteDatasource from '../../data/datasources/instrument_price_datasource/instrument_price_remote_datasource';
 import CurrencyDepositsLocalDatasource from '../../data/datasources/currency_deposits_datasource/currency_deposits_local_datasource';
 import CurrenciesLocalDatasource from '../../data/datasources/currencies_datasource/currencies_local_datasource';
+import GetAccountsUsecaseImpl from '../../domain/usecases/get_accounts_usecase';
+import CreateAccountUsecaseImpl from '../../domain/usecases/create_account_usecase';
+import UpdateAccountUsecaseImpl from '../../domain/usecases/update_account_usecase';
+import SearchInvestInstrumentUsecaseImpl from '../../domain/usecases/search_invest_instrument_usecase';
+import CreateSaleUsecaseImpl from '../../domain/usecases/create_sale_usecase';
+import CreatePurchaseUsecaseImpl from '../../domain/usecases/create_purchase_usecase';
+import CreateRefillUsecaseImpl from '../../domain/usecases/create_refill_usecase';
+import CreateWithdrawalUsecaseImpl from '../../domain/usecases/create_withdrawal_usecase';
+import GetCandlesUsecaseImpl from '../../domain/usecases/get_candles_usecase';
+import GetQuotesUsecaseImpl from '../../domain/usecases/get_quotes_usecase';
 
 type Params = {
   sqlDatabase: SqlDatabase;
@@ -66,56 +76,87 @@ const investModuleDependencyInjection = ({
   const instrumentSubscribesRepository =
     InstrumentSubscribesRepositoryImpl(quotesDatasource);
 
-  const getAccounts = GetAccounts({
-    getAccountsUsecase: accountsDatasource,
+  const getAccountsUsecase = GetAccountsUsecaseImpl({
+    accountsDatasource: accountsDatasource,
     investmentAssetsDatasource: investmentAssetsDatasource,
     instrumentPriceDatasource: instrumentPriceDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,
   });
-  const createAccount = CreateAccount({
+  const createAccountUsecase = CreateAccountUsecaseImpl({
     accountsDatasource: accountsDatasource,
     currenciesDatasource: currenciesDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,
   });
-  const updateAccount = UpdateAccount({
+  const updateAccountUsecase = UpdateAccountUsecaseImpl({
     accountsDatasource: accountsDatasource,
   });
-  const searchInstrument = SearchInvestInstrument({
+  const searchInvestInstrumentUsecase = SearchInvestInstrumentUsecaseImpl({
     investInstrumentsDatasource: investInstrumentsDatasource,
   });
-  const createSale = CreateSale({
+  const createSaleUsecase = CreateSaleUsecaseImpl({
     investmentAssetsDatasource: investmentAssetsDatasource,
     tradingOperationsDatasource: tradingOperationsDatasource,
     accountsDatasource: accountsDatasource,
     investInstrumentsDatasource: investInstrumentsDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,
   });
-  const createPurchase = CreatePurchase({
+  const createPurchaseUsecase = CreatePurchaseUsecaseImpl({
     investmentAssetsDatasource: investmentAssetsDatasource,
     tradingOperationsDatasource: tradingOperationsDatasource,
     accountsDatasource: accountsDatasource,
     investInstrumentsDatasource: investInstrumentsDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,
   });
-  const createRefill = CreateRefill({
+  const createRefillUsecase = CreateRefillUsecaseImpl({
     financialOperationsDatasource: financialOperationsDatasource,
     accountsDatasource: accountsDatasource,
     currenciesDatasource: currenciesDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,
   });
-  const createWithdrawal = CreateWithdrawal({
+  const createWithdrawalUsecase = CreateWithdrawalUsecaseImpl({
     financialOperationsDatasource: financialOperationsDatasource,
     accountsDatasource: accountsDatasource,
     currenciesDatasource: currenciesDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,
   });
-  const getCandles = GetCandles({
+  const getCandlesUsecase = GetCandlesUsecaseImpl({
     investInstrumentsDatasource: investInstrumentsDatasource,
     candlesDatasource: candlesDatasource,
   });
-  const getQuotes = GetQuotes({
+  const getQuotesUsecase = GetQuotesUsecaseImpl({
     investInstrumentsDatasource: investInstrumentsDatasource,
     instrumentSubscribesRepository: instrumentSubscribesRepository,
+  });
+
+  const getAccounts = GetAccounts({
+    getAccountsUsecase: getAccountsUsecase,
+  });
+  const createAccount = CreateAccount({
+    createAccountUsecase: createAccountUsecase,
+  });
+  const updateAccount = UpdateAccount({
+    updateAccountUsecase: updateAccountUsecase,
+  });
+  const searchInstrument = SearchInvestInstrument({
+    searchInvestInstrumentUsecase: searchInvestInstrumentUsecase,
+  });
+  const createSale = CreateSale({
+    createSaleUsecase: createSaleUsecase,
+  });
+  const createPurchase = CreatePurchase({
+    createPurchaseUsecase: createPurchaseUsecase,
+  });
+  const createRefill = CreateRefill({
+    createRefillUsecase: createRefillUsecase,
+  });
+  const createWithdrawal = CreateWithdrawal({
+    createWithdrawalUsecase: createWithdrawalUsecase,
+  });
+  const getCandles = GetCandles({
+    getCandlesUsecase: getCandlesUsecase,
+  });
+  const getQuotes = GetQuotes({
+    getQuotesUsecase: getQuotesUsecase,
   });
 
   return {
