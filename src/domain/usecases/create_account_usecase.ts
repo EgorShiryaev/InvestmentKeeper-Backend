@@ -15,7 +15,7 @@ type Params = {
 type CallMethodParams = {
   user: UserModel;
   title: string;
-  currency: string;
+  currencyName: string;
 };
 
 export type CreateAccountUsecase = {
@@ -28,7 +28,7 @@ const CreateAccountUsecaseImpl = ({
   currenciesDatasource,
 }: Params): CreateAccountUsecase => {
   return {
-    call: async ({ title, currency: currencyName, user }) => {
+    call: async ({ title, currencyName, user }) => {
       const currency = await currenciesDatasource.get({
         value: currencyName,
       });

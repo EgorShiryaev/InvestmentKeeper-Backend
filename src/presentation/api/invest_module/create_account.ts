@@ -29,7 +29,7 @@ const CreateAccount = ({ createAccountUsecase }: Params): ApiMethod => {
         const user = getAuthedUser(request.headers);
         await createAccountUsecase.call({
           title: params.title,
-          currency: params.currency,
+          currencyName: params.currency,
           user: user,
         });
         response.sendStatus(StatusCode.created);

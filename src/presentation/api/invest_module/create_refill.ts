@@ -20,58 +20,25 @@ import CurrencyDepositsDatasource from '../../../data/datasources/currency_depos
 import AccountModel from '../../../data/models/account_model';
 import CurrencyDepositModel from '../../../data/models/currency_deposit_model';
 import CurrencyModel from '../../../data/models/currency_model';
+import getAuthedUser from '../../../core/utils/get_auth_user';
+import { CreateRefillUsecase } from '../../../domain/usecases/create_refill_usecase';
 
 type Params = {
-  financialOperationsDatasource: FinancialOperationsDatasource;
-  accountsDatasource: AccountsDatasource;
-  currenciesDatasource: CurrenciesDatasource;
-  currencyDepositsDatasource: CurrencyDepositsDatasource;
+  createRefillUsecase: CreateRefillUsecase;
 };
 
-type GetCurrencyDeposit = {
-  account: AccountModel;
-  currency: CurrencyModel;
-};
-
-const CreateRefill = ({
-  financialOperationsDatasource,
-  accountsDatasource,
-  currenciesDatasource,
-  currencyDepositsDatasource,
-}: Params): ApiMethod => {
+const CreateRefill = ({ createRefillUsecase }: Params): ApiMethod => {
   const requiredParams = ['accountId', 'value', 'currency'];
-
-  const getCurrencyDeposit = async ({
-    account,
-    currency,
-  }: GetCurrencyDeposit): Promise<CurrencyDepositModel> => {
-    const currencyDeposit =
-      await currencyDepositsDatasource.getByAccountIdAndCurrencyId({
-        accountId: account.id,
-        currencyId: currency.id,
-      });
-    if (currencyDeposit) {
-      return currencyDeposit;
-    }
-    await currencyDepositsDatasource.create({
-      accountId: account.id,
-      currencyId: currency.id,
-    });
-    return getCurrencyDeposit({ account: account, currency: currency });
-  };
 
   return {
     handler: async (request, response) => {
       try {
         console.log(request.method, request.url);
         const params: CreateRefillRequestData = request.body;
-        const checkResult = checkRequiredParams({
+        checkRequiredParams({
           body: params,
           params: requiredParams,
         });
-        if (!checkResult.success) {
-          throw BadRequestException(checkResult.message);
-        }
         if (
           params.date !== null &&
           params.date !== undefined &&
@@ -81,43 +48,12 @@ const CreateRefill = ({
             'date should be is string to iso date format',
           );
         }
-        const user = getRequestUser(request.headers);
-        if (!user) {
-          throw ForbiddenException();
-        }
-        const account = await accountsDatasource.getById(params.accountId);
-        if (!account) {
-          throw NotFoundException('Account not found');
-        }
-        const currency = await currenciesDatasource.get({
-          value: params.currency,
-        });
-        if (!currency) {
-          throw NotFoundException('Currency not found');
-        }
-        const id = await financialOperationsDatasource.create({
-          accountId: params.accountId,
-          currencyId: currency.id,
+        getAuthedUser(request.headers);
+        await createRefillUsecase.call({
+          accountId:params.accountId,
           value: params.value,
-          date: params.date,
-        });
-        if (!checkIdIsCorrect(id)) {
-          throw ServerErrorException('Failed refill creation');
-        }
-        const currencyDeposit = await getCurrencyDeposit({
-          account: account,
-          currency: currency,
-        });
-        const newBalance = currencyDeposit.value + params.value;
-        const currencyDepositsChanges = await currencyDepositsDatasource.update(
-          {
-            id: currencyDeposit.id,
-            value: newBalance,
-          },
-        );
-        if (!checkChangesIsCorrect(currencyDepositsChanges)) {
-          throw ServerErrorException('Failed account item update');
-        }
+          currencyName: params.currency,
+        })
         response.sendStatus(StatusCode.created);
       } catch (error) {
         const exception = error as IException;
