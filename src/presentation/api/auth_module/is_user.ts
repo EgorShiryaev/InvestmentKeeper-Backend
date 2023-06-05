@@ -1,5 +1,4 @@
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
-import UsersDatasource from '../../../data/datasources/users_datasource/users_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import ApiMethod from '../../types/methods/api_method';
 import IsUserRequestData from '../../types/request_data/is_user_request_data';
@@ -9,12 +8,13 @@ import BadRequestException from '../../../core/exception/bad_request_exception';
 import NotFoundException from '../../../core/exception/not_found_exception';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import checkPhoneNumberIsCorrectFormat from '../../../core/utils/required_params/check_phone_number_format';
+import { IsUserUsecase } from '../../../domain/usecases/is_user_usecase';
 
 type Params = {
-  usersDatasource: UsersDatasource;
+  isUserUsecase: IsUserUsecase;
 };
 
-const IsUser = ({ usersDatasource }: Params): ApiMethod => {
+const IsUser = ({ isUserUsecase }: Params): ApiMethod => {
   const requiredParams = ['phoneNumber'];
 
   return {
@@ -22,20 +22,17 @@ const IsUser = ({ usersDatasource }: Params): ApiMethod => {
       try {
         console.log(request.method, request.url);
         const params = request.query as IsUserRequestData;
-        const checkResult = checkRequiredParams({
+        checkRequiredParams({
           body: params,
           params: requiredParams,
         });
-        if (!checkResult.success) {
-          throw BadRequestException(checkResult.message);
-        }
         if (!checkPhoneNumberIsCorrectFormat(params.phoneNumber)) {
           throw BadRequestException(
             'Parameter phoneNumber should be a format string +7(123)-456-78-90',
           );
         }
-        const user = await usersDatasource.getByPhoneNumber(params.phoneNumber);
-        if (!user) {
+        const isExists = await isUserUsecase.call(params.phoneNumber);
+        if (!isExists) {
           throw NotFoundException('User not found');
         }
         response.sendStatus(StatusCode.noContent);

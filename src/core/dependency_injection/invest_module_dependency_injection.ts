@@ -67,7 +67,7 @@ const investModuleDependencyInjection = ({
     InstrumentSubscribesRepositoryImpl(quotesDatasource);
 
   const getAccounts = GetAccounts({
-    accountsDatasource: accountsDatasource,
+    getAccountsUsecase: accountsDatasource,
     investmentAssetsDatasource: investmentAssetsDatasource,
     instrumentPriceDatasource: instrumentPriceDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,

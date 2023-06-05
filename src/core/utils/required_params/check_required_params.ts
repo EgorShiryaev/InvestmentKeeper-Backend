@@ -1,14 +1,6 @@
+import BadRequestException from '../../exception/bad_request_exception';
 import generateNotFoundedRequiredParamsErrorMessage from './generate_not_founded_required_params_error_message';
 import generateRequiredParamsErrorMessage from './generate_required_params_values_error_message';
-
-type CheckResult =
-  | {
-      success: true;
-    }
-  | {
-      success: false;
-      message: string;
-    };
 
 type StringDictionary = {
   [key: string]: unknown;
@@ -30,7 +22,7 @@ const checkRequiredParams = ({
   body,
   params,
   emptyStringIsCorrect,
-}: Params): CheckResult => {
+}: Params): void => {
   let requiredParams = [...params];
   for (const key in body) {
     requiredParams = removeValueOfArray(key, requiredParams);
@@ -39,10 +31,7 @@ const checkRequiredParams = ({
   if (requiredParams.length > 0) {
     const message =
       generateNotFoundedRequiredParamsErrorMessage(requiredParams);
-    return {
-      success: false,
-      message: message,
-    };
+    throw BadRequestException(message);
   }
 
   requiredParams = [...params];
@@ -64,15 +53,9 @@ const checkRequiredParams = ({
 
   if (requiredParams.length > 0) {
     const message = generateRequiredParamsErrorMessage(requiredParams);
-    return {
-      success: false,
-      message: message,
-    };
-  }
 
-  return {
-    success: true,
-  };
+    throw BadRequestException(message);
+  }
 };
 
 export default checkRequiredParams;
