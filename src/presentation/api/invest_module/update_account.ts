@@ -1,23 +1,18 @@
-import BadRequestException from '../../../core/exception/bad_request_exception';
 import { IException } from '../../../core/exception/exception';
-import ForbiddenException from '../../../core/exception/forbidden_exception';
-import NotFoundException from '../../../core/exception/not_found_exception';
-import ServerErrorException from '../../../core/exception/server_error_exception';
-import checkChangesIsCorrect from '../../../core/utils/required_params/check_changes_is_correct';
-import getRequestUser from '../../../core/utils/request_utils/get_request_user';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
-import AccountsDatasource from '../../../data/datasources/accounts_datasource/accounts_datasource';
 import StatusCode from '../../../domain/entities/status_code';
 import UpdateAccountRequestData from '../../types/request_data/update_account_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
+import getAuthedUser from '../../../core/utils/get_auth_user';
+import { UpdateAccountUsecase } from '../../../domain/usecases/update_account_usecase';
 
 type Params = {
-  accountsDatasource: AccountsDatasource;
+  updateAccountUsecase: UpdateAccountUsecase;
 };
 
-const UpdateAccount = ({ accountsDatasource }: Params): ApiMethod => {
+const UpdateAccount = ({ updateAccountUsecase }: Params): ApiMethod => {
   const requiredParams = ['id', 'title'];
 
   return {
@@ -25,25 +20,15 @@ const UpdateAccount = ({ accountsDatasource }: Params): ApiMethod => {
       try {
         console.log(request.method, request.url);
         const params: UpdateAccountRequestData = request.body;
-        const checkResult = checkRequiredParams({
+        checkRequiredParams({
           body: params,
           params: requiredParams,
         });
-        if (!checkResult.success) {
-          throw BadRequestException(checkResult.message);
-        }
-        const user = getRequestUser(request.headers);
-        if (!user) {
-          throw ForbiddenException();
-        }
-        const record = await accountsDatasource.getById(params.id);
-        if (!record) {
-          throw NotFoundException('Account not found');
-        }
-        const changes = await accountsDatasource.update(params);
-        if (!checkChangesIsCorrect(changes)) {
-          throw ServerErrorException('Failed account update');
-        }
+        getAuthedUser(request.headers);
+        updateAccountUsecase.call({
+          id: params.id,
+          title: params.title
+        });
         response.sendStatus(StatusCode.noContent);
       } catch (error) {
         const exception = error as IException;
