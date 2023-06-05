@@ -7,7 +7,8 @@ import StatusCode from '../../../domain/entities/status_code';
 import CreateAccountRequestData from '../../types/request_data/create_accounts_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
-import { CreateAccountUsecase } from '../../../domain/usecases/crate_account_usecase';
+import { CreateAccountUsecase } from '../../../domain/usecases/create_account_usecase';
+import getAuthedUser from '../../../core/utils/get_auth_user';
 
 type Params = {
   createAccountUsecase: CreateAccountUsecase;
@@ -25,10 +26,7 @@ const CreateAccount = ({ createAccountUsecase }: Params): ApiMethod => {
           body: params,
           params: requiredParams,
         });
-        const user = getRequestUser(request.headers);
-        if (!user) {
-          throw ForbiddenException();
-        }
+        const user = getAuthedUser(request.headers);
         await createAccountUsecase.call({
           title: params.title,
           currency: params.currency,
