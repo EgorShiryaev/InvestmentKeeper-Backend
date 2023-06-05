@@ -34,7 +34,7 @@ const GetQuotes = ({ getQuotesUsecase }: Params): WebSocketMethod => {
         operation: params.operation,
         instrumentId: params.instrumentId,
         userId: userId,
-      })
+      });
     } catch (error) {
       const exception = error as IException;
       const errorResponseData: ErrorResponseData = {

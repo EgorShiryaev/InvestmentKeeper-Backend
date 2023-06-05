@@ -11,6 +11,7 @@ import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { GetCandlesUsecase } from '../../../domain/usecases/get_candles_usecase';
+import GetCandlesResponseData from '../../types/response_data/get_candles_response_data';
 
 type Params = {
   getCandlesUsecase: GetCandlesUsecase;
@@ -47,9 +48,10 @@ const GetCandles = ({ getCandlesUsecase }: Params): ApiMethod => {
           candleTimesize: params.candleTimesize,
           instrumentId: params.instrumentId,
         });
-        response.status(StatusCode.success).json({
+        const requestData: GetCandlesResponseData = {
           candles: candles,
-        });
+        };
+        response.status(StatusCode.success).json(requestData);
       } catch (error) {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
