@@ -4,26 +4,18 @@ import ForbiddenException from '../../../core/exception/forbidden_exception';
 import { IException } from '../../../core/exception/exception';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import GetQuotesRequestData from '../../types/request_data/get_quotes_request_data';
-import QuotesOperation from '../../../domain/entities/quotes_operation_entity';
-import InvestInstrumentsDatasource from '../../../data/datasources/invest_instruments_datasource/invest_instruments_datasource';
-import NotFoundException from '../../../core/exception/not_found_exception';
 import UserQuotesSubscibesRepository from '../../../domain/repositories/user_quotes_subscribes_repository';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
-import BadRequestException from '../../../core/exception/bad_request_exception';
 import GetQuotesResponseData from '../../types/response_data/get_quotes_response_data';
 import WebSocketMethod from '../../types/methods/websocket_method';
-import InstrumentSubscribesRepository from '../../../domain/repositories/instrument_subscribes_repository/instrument_subscribes_repository';
 import InstrumentPriceRepository from '../../../domain/repositories/instrument_price_repository';
+import { GetQuotesUsecase } from '../../../domain/usecases/get_quotes_usecase';
 
 type Params = {
-  investInstrumentsDatasource: InvestInstrumentsDatasource;
-  instrumentSubscribesRepository: InstrumentSubscribesRepository;
+  getQuotesUsecase: GetQuotesUsecase;
 };
 
-const GetQuotes = ({
-  investInstrumentsDatasource,
-  instrumentSubscribesRepository,
-}: Params): WebSocketMethod => {
+const GetQuotes = ({ getQuotesUsecase }: Params): WebSocketMethod => {
   const requiredParams = ['operation', 'instrumentId'];
   let responseInterval: NodeJS.Timer;
 
@@ -34,33 +26,15 @@ const GetQuotes = ({
   ) => {
     try {
       const params: GetQuotesRequestData = JSON.parse(rawData.toString());
-      const checkResult = checkRequiredParams({
+      checkRequiredParams({
         body: params,
         params: requiredParams,
       });
-      if (!checkResult.success) {
-        throw BadRequestException(checkResult.message);
-      }
-      const instrument = await investInstrumentsDatasource.getById(
-        params.instrumentId,
-      );
-      if (!instrument) {
-        throw NotFoundException('Invest instrument not found');
-      }
-      const figis = UserQuotesSubscibesRepository.getAll(userId);
-      const figiIsIncludes = !!figis?.includes(instrument.figi);
-      if (params.operation === QuotesOperation.subscribe && !figiIsIncludes) {
-        console.log(params.operation, instrument.figi);
-        UserQuotesSubscibesRepository.add(userId, instrument.figi);
-        instrumentSubscribesRepository.increment(instrument.figi);
-      } else if (
-        params.operation === QuotesOperation.unsubscribe &&
-        figiIsIncludes
-      ) {
-        console.log(params.operation, instrument.figi);
-        UserQuotesSubscibesRepository.remove(userId, instrument.figi);
-        instrumentSubscribesRepository.decrement(instrument.figi);
-      }
+      getQuotesUsecase.call({
+        operation: params.operation,
+        instrumentId: params.instrumentId,
+        userId: userId,
+      })
     } catch (error) {
       const exception = error as IException;
       const errorResponseData: ErrorResponseData = {
