@@ -56,7 +56,7 @@ const GetAccountsUsecaseImpl = ({
   };
 
   return {
-    getAccount: (id: number): Promise<AccountEntity | undefined> => {
+    getAccount: (id: number) => {
       return accountsDatasource.getById(id).then((account) => {
         if (!account) {
           return undefined;
@@ -69,7 +69,7 @@ const GetAccountsUsecaseImpl = ({
         );
       });
     },
-    getAllAccounts: (userId: number): Promise<AccountEntity[]> => {
+    getAllAccounts: (userId: number) => {
       return accountsDatasource.getAllByUserId(userId).then((accounts) => {
         return Promise.all(
           accounts.map(async (account) => {
