@@ -14,7 +14,7 @@ export type SearchInvestInstrumentUsecase = {
   call: (params: CallMethodParams) => Promise<InvestInstrumentEntity[]>;
 };
 
-const GetQuotesUsecaseImpl = ({
+const SearchInvestInstrumentUsecaseImpl = ({
   investInstrumentsDatasource,
 }: Params): SearchInvestInstrumentUsecase => {
   return {
@@ -31,5 +31,5 @@ const GetQuotesUsecaseImpl = ({
   };
 };
 
-export default GetQuotesUsecaseImpl;
+export default SearchInvestInstrumentUsecaseImpl;
 
