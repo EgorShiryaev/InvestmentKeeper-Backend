@@ -40,6 +40,7 @@ const CreateRefill = ({ createRefillUsecase }: Params): ApiMethod => {
           accountId:params.accountId,
           value: params.value,
           currencyName: params.currency,
+          date: params.date
         });
         response.sendStatus(StatusCode.created);
       } catch (error) {
