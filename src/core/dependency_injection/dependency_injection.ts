@@ -30,10 +30,8 @@ const dependencyInjection = async () => {
   const app = App({
     url: process.env.SERVER_URL || localhost,
     port: process.env.SERVER_PORT || port,
-    api: {
-      ...authModule,
-      ...investModule,
-    },
+    authApi: authModule,
+    investApi: investModule,
   });
   return app;
 };
