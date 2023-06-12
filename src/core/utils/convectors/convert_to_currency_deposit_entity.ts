@@ -6,7 +6,6 @@ const convertToCurrencyDepositEntity = (
   model: CurrencyDepositFullModel,
 ): CurrencyDepositEntity => {
   return {
-    id: model.id,
     value: model.currencyDepositValue,
     currency: convertToCurrencyEntity(model.currencyDepositCurrency),
   };
