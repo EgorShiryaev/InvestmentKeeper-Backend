@@ -1,17 +1,17 @@
 import ApiMethod from '../methods/api_method';
-import WebSocketMethod from '../methods/websocket_method';
 
 type InvestModule = {
   getAccounts: ApiMethod;
   createAccount: ApiMethod;
   updateAccount: ApiMethod;
-  searchInvestInstrument: ApiMethod;
   createSale: ApiMethod;
   createPurchase: ApiMethod;
   createRefill: ApiMethod;
   createWithdrawal: ApiMethod;
+  searchInvestInstrument: ApiMethod;
   getCandles: ApiMethod;
-  getQuotes: WebSocketMethod;
+  getInstrumentPrice: ApiMethod;
+  getAccountPrice: ApiMethod;
 };
 
 export default InvestModule;

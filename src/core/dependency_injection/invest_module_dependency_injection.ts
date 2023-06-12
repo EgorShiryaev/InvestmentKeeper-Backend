@@ -15,9 +15,6 @@ import SearchInvestInstrument from '../../presentation/api/invest_module/search_
 import UpdateAccount from '../../presentation/api/invest_module/update_account';
 import InvestModule from '../../presentation/types/modules/invest_module';
 import GetCandles from '../../presentation/api/invest_module/get_candles';
-import GetQuotes from '../../presentation/api/invest_module/get_quotes';
-import InstrumentSubscribesRepositoryImpl from '../../domain/repositories/instrument_subscribes_repository/instrument_subscribes_repository_impl';
-import QuotesRemoteDatasource from '../../data/datasources/quotes_datasource/quotes_remote_datasource';
 import { TinkoffInvestApi } from 'tinkoff-invest-api';
 import InstrumentPriceRemoteDatasource from '../../data/datasources/instrument_price_datasource/instrument_price_remote_datasource';
 import CurrencyDepositsLocalDatasource from '../../data/datasources/currency_deposits_datasource/currency_deposits_local_datasource';
@@ -31,7 +28,6 @@ import CreatePurchaseUsecaseImpl from '../../domain/usecases/create_purchase_use
 import CreateRefillUsecaseImpl from '../../domain/usecases/create_refill_usecase';
 import CreateWithdrawalUsecaseImpl from '../../domain/usecases/create_withdrawal_usecase';
 import GetCandlesUsecaseImpl from '../../domain/usecases/get_candles_usecase';
-import GetQuotesUsecaseImpl from '../../domain/usecases/get_quotes_usecase';
 
 type Params = {
   sqlDatabase: SqlDatabase;
@@ -60,9 +56,6 @@ const investModuleDependencyInjection = ({
   const candlesDatasource = CandlesRemoteDatasource({
     api: api,
   });
-  const quotesDatasource = QuotesRemoteDatasource({
-    api: api,
-  });
   const instrumentPriceDatasource = InstrumentPriceRemoteDatasource({
     api: api,
   });
@@ -73,8 +66,6 @@ const investModuleDependencyInjection = ({
     sqlDatabase: sqlDatabase,
   });
 
-  const instrumentSubscribesRepository =
-    InstrumentSubscribesRepositoryImpl(quotesDatasource);
 
   const getAccountsUsecase = GetAccountsUsecaseImpl({
     accountsDatasource: accountsDatasource,
@@ -123,10 +114,6 @@ const investModuleDependencyInjection = ({
     investInstrumentsDatasource: investInstrumentsDatasource,
     candlesDatasource: candlesDatasource,
   });
-  const getQuotesUsecase = GetQuotesUsecaseImpl({
-    investInstrumentsDatasource: investInstrumentsDatasource,
-    instrumentSubscribesRepository: instrumentSubscribesRepository,
-  });
 
   const getAccounts = GetAccounts({
     getAccountsUsecase: getAccountsUsecase,
@@ -155,9 +142,6 @@ const investModuleDependencyInjection = ({
   const getCandles = GetCandles({
     getCandlesUsecase: getCandlesUsecase,
   });
-  const getQuotes = GetQuotes({
-    getQuotesUsecase: getQuotesUsecase,
-  });
 
   return {
     getAccounts: getAccounts,
@@ -169,7 +153,6 @@ const investModuleDependencyInjection = ({
     createRefill: createRefill,
     createWithdrawal: createWithdrawal,
     getCandles: getCandles,
-    getQuotes: getQuotes,
   };
 };
 

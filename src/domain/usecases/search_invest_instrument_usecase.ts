@@ -33,3 +33,4 @@ const SearchInvestInstrumentUsecaseImpl = ({
 
 export default SearchInvestInstrumentUsecaseImpl;
 
+

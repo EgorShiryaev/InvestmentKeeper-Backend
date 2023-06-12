@@ -6,8 +6,6 @@ type AccountEntity = BaseEntity & {
   title: string;
   purchasePrice: number;
   currentPrice: number;
-  profit: number;
-  profitPercent: number;
   items: InvestmentAssetEntity[];
   currencyDeposits: CurrencyDepositEntity[];
 };

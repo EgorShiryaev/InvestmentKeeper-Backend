@@ -1,7 +1,6 @@
-import BaseEntity from './base_entity';
 import CurrencyEntity from './currency_entity';
 
-type CurrencyDepositEntity = BaseEntity & {
+type CurrencyDepositEntity = {
   currency: CurrencyEntity;
   value: number;
 };
