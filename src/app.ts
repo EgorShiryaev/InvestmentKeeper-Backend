@@ -36,14 +36,14 @@ const App = ({ url, port, authApi, investApi }: Params) => {
           investApi.searchInvestInstrument.handler,
         );
         app.get(`${apiVersion}/candles`, investApi.getCandles.handler);
-        app.get(
-          `${apiVersion}/instrumentPrice`,
-          investApi.getInstrumentPrice.handler,
-        );
-        app.get(
-          `${apiVersion}/accountPrice`,
-          investApi.getAccountPrice.handler,
-        );
+        // app.get(
+        //   `${apiVersion}/instrumentPrice`,
+        //   investApi.getInstrumentPrice.handler,
+        // );
+        // app.get(
+        //   `${apiVersion}/accountPrice`,
+        //   investApi.getAccountPrice.handler,
+        // );
         const server = http.createServer(app);
         server.listen(port, url, () => {
           console.log(`Success start server ${url}:${port}`);
