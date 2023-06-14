@@ -1,4 +1,4 @@
-import { Database, verbose as initSqlite3 } from 'sqlite3';
+import { Pool } from 'pg';
 import {
   GetAllResult,
   GetResult,
@@ -8,9 +8,16 @@ import {
 } from './types';
 import DatabaseException from '../../core/exception/database_exception';
 
+
 type Params = {
   databasePath: string;
 };
+
+const pool = new Pool({
+  port: 5555,
+  user: 'api',
+  password: 'api'
+})
 
 const SqlDatabaseImpl = ({ databasePath }: Params): SqlDatabase => {
   const initDatabase = (): Database => {
