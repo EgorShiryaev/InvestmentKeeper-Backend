@@ -5,8 +5,7 @@ import investModuleDependencyInjection from './invest_module_dependency_injectio
 import 'dotenv/config';
 import { TinkoffInvestApi } from 'tinkoff-invest-api';
 
-const localhost = '127.0.0.1';
-const port = 9999;
+const port = 80;
 
 const dependencyInjection = async () => {
   const sqlDatabase = await sqlDatabaseDependencyInjection();
@@ -24,8 +23,7 @@ const dependencyInjection = async () => {
   });
 
   const app = App({
-    url: process.env.SERVER_URL || localhost,
-    port: process.env.SERVER_PORT || port,
+    port: process.env.PORT || port,
     authApi: authModule,
     investApi: investModule,
   });

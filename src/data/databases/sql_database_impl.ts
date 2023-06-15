@@ -3,11 +3,11 @@ import DatabaseException from '../../core/exception/database_exception';
 import SqlDatabase from './sql_database';
 
 const pool = new Pool({
-  user: 'api',
-  host: 'localhost',
-  password: 'api',
-  database: 'api',
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
 });
 
 const SqlDatabaseImpl = async (): Promise<SqlDatabase> => {

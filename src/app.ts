@@ -4,13 +4,12 @@ import AuthModule from './presentation/types/modules/auth_module';
 import InvestModule from './presentation/types/modules/invest_module';
 
 type Params = {
-  url: string;
   port: number;
   authApi: AuthModule;
   investApi: InvestModule;
 };
 
-const App = ({ url, port, authApi, investApi }: Params) => {
+const App = ({ port, authApi, investApi }: Params) => {
   return {
     run: () => {
       try {
@@ -45,9 +44,12 @@ const App = ({ url, port, authApi, investApi }: Params) => {
         //   `${apiVersion}/accountPrice`,
         //   investApi.getAccountPrice.handler,
         // );
+        app.get(`${apiVersion}`, (_, request) => {
+          request.send('<h1>It`s works</h1>');
+        });
         const server = http.createServer(app);
-        server.listen(port, url, () => {
-          console.log(`Success start server ${url}:${port}`);
+        server.listen(port, () => {
+          console.log(`Success start server ${port}`);
         });
       } catch (error) {
         console.log('Run app error', error);
