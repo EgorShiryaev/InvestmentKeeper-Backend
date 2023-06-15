@@ -26,7 +26,7 @@ interface CurrencyDepositsDatasource {
     data: GetAllCurrencyDepositsData,
   ) => Promise<CurrencyDepositFullModel[]>;
   create: (data: CreateCurrencyDepositData) => Promise<number>;
-  update: (data: UpdateCurrencyDepositData) => Promise<number>;
+  update: (data: UpdateCurrencyDepositData) => Promise<void>;
   getByAccountIdAndCurrencyId: (
     data: GetCurrencyDeposit,
   ) => Promise<CurrencyDepositModel | undefined>;

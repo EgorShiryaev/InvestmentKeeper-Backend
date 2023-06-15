@@ -4,6 +4,7 @@ import generateAuthToken from '../../core/utils/auth_token/generate_auth_token';
 import { encodePassword } from '../../core/utils/encoded_password/encode_password';
 import checkIdIsCorrect from '../../core/utils/required_params/check_id_is_correct';
 import UsersDatasource from '../../data/datasources/users_datasource/users_datasource';
+import UserModel from '../../data/models/user_model';
 import AuthResponseData from '../../presentation/types/response_data/auth_response_data';
 import AuthentificatedUsersRepository from '../repositories/authentificated_users_repository';
 
@@ -42,9 +43,11 @@ const RegistrationUsecaseImpl = ({
       if (!checkIdIsCorrect(id)) {
         throw ServerErrorException('Failed user creation');
       }
-      const user = {
+      const user: UserModel = {
         id: id,
-        ...newUser,
+        name: name,
+        phone_number: phoneNumber,
+        password: await encodePassword(password),
       };
       const token = generateAuthToken(user);
       AuthentificatedUsersRepository.set(token, user);

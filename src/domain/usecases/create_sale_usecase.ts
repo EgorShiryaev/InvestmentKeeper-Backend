@@ -2,7 +2,6 @@ import BadRequestException from '../../core/exception/bad_request_exception';
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
 import calculateBalance from '../../core/utils/calculate_utils/calculate_balance';
-import checkChangesIsCorrect from '../../core/utils/required_params/check_changes_is_correct';
 import checkIdIsCorrect from '../../core/utils/required_params/check_id_is_correct';
 import AccountsDatasource from '../../data/datasources/accounts_datasource/accounts_datasource';
 import CurrencyDepositsDatasource from '../../data/datasources/currency_deposits_datasource/currency_deposits_datasource';
@@ -65,12 +64,13 @@ const CreateSaleUsecaseImpl = ({
       lots: params.lots * instrumentLot,
       commission: params.commission,
     });
-    const currencyDepositsChanges = await currencyDepositsDatasource.update({
-      id: currencyDeposit.id,
-      value: newBalance,
-    });
-    if (!checkChangesIsCorrect(currencyDepositsChanges)) {
-      throw ServerErrorException('Failed currency deposit update');
+    try {
+      await currencyDepositsDatasource.update({
+        id: currencyDeposit.id,
+        value: newBalance,
+      });
+    } catch {
+      throw ServerErrorException('Failed account item update');
     }
   };
 
@@ -81,14 +81,14 @@ const CreateSaleUsecaseImpl = ({
     const currencyDeposit =
       await currencyDepositsDatasource.getByAccountIdAndCurrencyId({
         accountId: account.id,
-        currencyId: instrument.currencyId,
+        currencyId: instrument.currency_id,
       });
     if (currencyDeposit) {
       return currencyDeposit;
     }
     await currencyDepositsDatasource.create({
       accountId: account.id,
-      currencyId: instrument.currencyId,
+      currencyId: instrument.currency_id,
     });
     return getCurrencyDeposit({ account: account, instrument: instrument });
   };
@@ -129,12 +129,13 @@ const CreateSaleUsecaseImpl = ({
           'You can`t sell this instrument, because the number of lots on the account is less than you want to sell',
         );
       }
-      const investmentAssetsChanges = await investmentAssetsDatasource.update({
-        id: investmentAsset.id,
-        lots: investmentAsset.lots - lots,
-      });
-      if (!checkChangesIsCorrect(investmentAssetsChanges)) {
-        throw ServerErrorException('Failed account item update');
+      try {
+        await investmentAssetsDatasource.update({
+          id: investmentAsset.id,
+          lots: investmentAsset.lots - lots,
+        });
+      } catch {
+        throw ServerErrorException('Failed investment asset update');
       }
       const id = await tradingOperationsDatasource.create({
         investmentAssetId: investmentAsset.id,

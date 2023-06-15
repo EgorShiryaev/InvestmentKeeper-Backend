@@ -6,7 +6,7 @@ const set = (token: string, user: UserModel) => {
   storage.set(token, user);
 };
 
-const get = (token: string) => {
+const get = (token: string): UserModel | undefined => {
   return storage.get(token);
 };
 

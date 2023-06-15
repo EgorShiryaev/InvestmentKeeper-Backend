@@ -1,7 +1,7 @@
 import BaseModel from './base_model';
 
 type CurrencyDepositModel = BaseModel & {
-  currencyId: number;
+  currency_id: number;
   value: number;
 };
 

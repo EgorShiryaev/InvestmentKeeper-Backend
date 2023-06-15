@@ -7,13 +7,13 @@ const convertToInvestInstrumentEntity = (
   model: InvestInstrumentFullModel,
 ): InvestInstrumentEntity => {
   return {
-    id: model.instrumentId,
-    figi: model.instrumentFigi,
-    ticker: model.instrumentTicker,
-    title: model.instrumentTitle,
-    lot: model.instrumentLot,
-    type: convertToInvestInstrumentTypeEntity(model.instrumentType),
-    currency: convertToCurrencyEntity(model.instrumentCurrency),
+    id: model.instrument_id,
+    figi: model.instrument_figi,
+    ticker: model.instrument_ticker,
+    title: model.instrument_title,
+    lot: model.instrument_lot,
+    type: convertToInvestInstrumentTypeEntity(model.instrument_type),
+    currency: convertToCurrencyEntity(model.instrument_currency),
   };
 };
 

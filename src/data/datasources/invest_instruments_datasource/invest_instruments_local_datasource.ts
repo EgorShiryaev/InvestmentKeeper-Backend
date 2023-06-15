@@ -1,4 +1,4 @@
-import TableTitle from '../../databases/types/table_title';
+import TableTitle from '../../databases/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import InvestInstrumentsDatasource from './invest_instruments_datasource';
 
@@ -14,23 +14,23 @@ const InvestInstrumentsLocalDatasource = ({
 
       const upperCaseValue = value.toUpperCase();
 
-      const likePattern = `"%${upperCaseValue}%"`;
+      const likePattern = `'%${upperCaseValue}%'`;
 
-      const titleLike = `UPPER(instrumentTitle) LIKE ${likePattern}`;
-      const tickerLike = `UPPER(instrumentTicker) LIKE ${likePattern}`;
-      const figiLike = `UPPER(instrumentFigi) LIKE ${likePattern}`;
+      const titleLike = `UPPER(instrument_title) LIKE ${likePattern}`;
+      const tickerLike = `UPPER(instrument_ticker) LIKE ${likePattern}`;
+      const figiLike = `UPPER(instrument_figi) LIKE ${likePattern}`;
 
       const script = `SELECT 
-        ${table}.id AS "instrumentId",
-        ${table}.figi AS "instrumentFigi",
-        ${table}.ticker AS "instrumentTicker",
-        ${table}.title AS "instrumentTitle",
+        ${table}.id AS "instrument_id",
+        ${table}.figi AS "instrument_figi",
+        ${table}.ticker AS "instrument_ticker",
+        ${table}.title AS "instrument_title",
         ${table}.lot AS "instrumentLot",
-        ${investInstrumentTypesTable}.value AS "instrumentType",
-        ${currenciesTable}.value AS "instrumentCurrency"
+        ${investInstrumentTypesTable}.value AS "instrument_type",
+        ${currenciesTable}.value AS "instrument_currency"
         FROM ${table}
-        JOIN ${investInstrumentTypesTable} On ${table}.typeId = ${investInstrumentTypesTable}.id
-        JOIN ${currenciesTable} On ${table}.currencyId = ${currenciesTable}.id
+        JOIN ${investInstrumentTypesTable} On ${table}.type_id = ${investInstrumentTypesTable}.id
+        JOIN ${currenciesTable} On ${table}.currency_id = ${currenciesTable}.id
         WHERE (${titleLike} 
             OR ${tickerLike}
             OR ${figiLike})

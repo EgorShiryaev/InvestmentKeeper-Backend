@@ -1,6 +1,5 @@
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
-import checkChangesIsCorrect from '../../core/utils/required_params/check_changes_is_correct';
 import AccountsDatasource from '../../data/datasources/accounts_datasource/accounts_datasource';
 
 type Params = {
@@ -25,11 +24,12 @@ const UpdateAccountUsecaseImpl = ({
       if (!record) {
         throw NotFoundException('Account not found');
       }
-      const changes = await accountsDatasource.update({
-        id: id,
-        title: title,
-      });
-      if (!checkChangesIsCorrect(changes)) {
+      try {
+        await accountsDatasource.update({
+          id: id,
+          title: title,
+        });
+      } catch {
         throw ServerErrorException('Failed account update');
       }
     },

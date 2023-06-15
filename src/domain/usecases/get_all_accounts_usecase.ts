@@ -16,17 +16,16 @@ type Params = {
   currencyDepositsDatasource: CurrencyDepositsDatasource;
 };
 
-export type GetAccountsUsecase = {
-  getAccount: (id: number) => Promise<AccountEntity | undefined>;
-  getAllAccounts: (userId: number) => Promise<AccountEntity[]>;
+export type GetAllAccountsUsecase = {
+  call: (userId: number) => Promise<AccountEntity[]>;
 };
 
-const GetAccountsUsecaseImpl = ({
+const GetAllAccountsUsecaseImpl = ({
   accountsDatasource,
   investmentAssetsDatasource,
   instrumentPriceDatasource,
   currencyDepositsDatasource,
-}: Params): GetAccountsUsecase => {
+}: Params): GetAllAccountsUsecase => {
   const getItems = (accountId: number): Promise<InvestmentAssetEntity[]> => {
     return investmentAssetsDatasource
       .getAllByAccountIdAndLotsGreaterZero(accountId)
@@ -34,7 +33,7 @@ const GetAccountsUsecaseImpl = ({
         return Promise.all(
           items.map((v) => {
             return instrumentPriceDatasource
-              .get(v.instrumentFigi)
+              .get(v.instrument_figi)
               .then((price) => convertToInvestmentAssetEntity(v, price));
           }),
         );
@@ -56,20 +55,7 @@ const GetAccountsUsecaseImpl = ({
   };
 
   return {
-    getAccount: (id: number) => {
-      return accountsDatasource.getById(id).then((account) => {
-        if (!account) {
-          return undefined;
-        }
-        return Promise.all([
-          getItems(account.id),
-          getCurrencyDeposits(account.id),
-        ]).then(([items, currencyDeposits]) =>
-          convertToAccountEntity(account, items, currencyDeposits),
-        );
-      });
-    },
-    getAllAccounts: (userId: number) => {
+    call: (userId: number) => {
       return accountsDatasource.getAllByUserId(userId).then((accounts) => {
         return Promise.all(
           accounts.map(async (account) => {
@@ -83,5 +69,5 @@ const GetAccountsUsecaseImpl = ({
   };
 };
 
-export default GetAccountsUsecaseImpl;
+export default GetAllAccountsUsecaseImpl;
 

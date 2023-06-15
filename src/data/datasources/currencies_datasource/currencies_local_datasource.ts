@@ -1,4 +1,4 @@
-import TableTitle from '../../databases/types/table_title';
+import TableTitle from '../../databases/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import CurrenciesDatasource from './currencies_datasource';
 
@@ -9,8 +9,7 @@ const CurrenciesLocalDatasource = ({
 
   return {
     get: ({ value }) => {
-      const script = `SELECT * FROM ${table}
-      WHERE value = "${value}"`;
+      const script = `SELECT * FROM ${table} WHERE value = '${value}'`;
 
       return sqlDatabase.get(script);
     },
@@ -18,3 +17,4 @@ const CurrenciesLocalDatasource = ({
 };
 
 export default CurrenciesLocalDatasource;
+

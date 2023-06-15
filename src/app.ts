@@ -21,7 +21,8 @@ const App = ({ url, port, authApi, investApi }: Params) => {
         app.post(`${apiVersion}/registration`, authApi.registration.handler);
         app.post(`${apiVersion}/login`, authApi.login.handler);
         const accountsPath = `${apiVersion}/accounts`;
-        app.get(accountsPath, investApi.getAccounts.handler);
+        app.get(accountsPath, investApi.getAllAccounts.handler);
+        app.get(`${accountsPath}/:id`, investApi.getAccount.handler);
         app.post(accountsPath, investApi.createAccount.handler);
         app.put(accountsPath, investApi.updateAccount.handler);
         app.post(`${apiVersion}/sales`, investApi.createSale.handler);

@@ -38,6 +38,7 @@ const CreateAccountUsecaseImpl = ({
       const id = await accountsDatasource.create({
         userId: user.id,
         title: title,
+        currencyId: currency.id,
       });
       if (!checkIdIsCorrect(id)) {
         throw ServerErrorException('Failed account creation');

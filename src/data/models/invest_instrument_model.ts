@@ -1,8 +1,8 @@
 import BaseModel from './base_model';
 
 type InvestInstrumentModel = BaseModel & {
-  typeId: number;
-  currencyId: number;
+  type_id: number;
+  currency_id: number;
   figi: string;
   ticker: string;
   title: string;

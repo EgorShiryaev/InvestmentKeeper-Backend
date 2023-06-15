@@ -1,4 +1,4 @@
-import TableTitle from '../../databases/types/table_title';
+import TableTitle from '../../databases/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import UsersDatasource from './users_datasource';
 
@@ -10,15 +10,15 @@ const UsersLocalDatasource = ({
   return {
     getByPhoneNumber: (phoneNumber) => {
       const script = `SELECT * FROM ${table} 
-        WHERE phoneNumber = "${phoneNumber}"`;
+        WHERE phone_number = '${phoneNumber}'`;
 
       return sqlDatabase.get(script);
     },
     create: (data) => {
-      const script = `INSERT INTO ${table} (name, phoneNumber, password) 
-        VALUES ("${data.name}", "${data.phoneNumber}", "${data.password}")`;
+      const script = `INSERT INTO ${table} (name, phone_number, password) 
+        VALUES ('${data.name}', '${data.phoneNumber}', '${data.password}')`;
 
-      return sqlDatabase.run(script).then((v) => v.lastId);
+      return sqlDatabase.create(script);
     },
     getById: (id) => {
       const script = `SELECT * FROM ${table} WHERE id = ${id}`;

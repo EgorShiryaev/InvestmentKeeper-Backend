@@ -1,7 +1,8 @@
 import ApiMethod from '../methods/api_method';
 
 type InvestModule = {
-  getAccounts: ApiMethod;
+  getAllAccounts: ApiMethod;
+  getAccount: ApiMethod;
   createAccount: ApiMethod;
   updateAccount: ApiMethod;
   createSale: ApiMethod;
