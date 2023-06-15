@@ -23,7 +23,6 @@ const SqlDatabaseImpl = async (): Promise<SqlDatabase> => {
 
   return {
     get: (sqlScript: string) => {
-      console.log(sqlScript);
       return new Promise((resolve, reject) => {
         client.query(sqlScript, (error, results) => {
           if (error) {
@@ -38,7 +37,6 @@ const SqlDatabaseImpl = async (): Promise<SqlDatabase> => {
       });
     },
     getAll: (sqlScript: string) => {
-      console.log(sqlScript);
       return new Promise((resolve, reject) => {
         client.query(sqlScript, (error, result) => {
           if (error) {
@@ -51,7 +49,6 @@ const SqlDatabaseImpl = async (): Promise<SqlDatabase> => {
       });
     },
     create: (sqlScript: string) => {
-      console.log(sqlScript);
       return new Promise((resolve, reject) => {
         client.query(`${sqlScript} RETURNING *`, (error, results) => {
           if (error) {
@@ -65,7 +62,6 @@ const SqlDatabaseImpl = async (): Promise<SqlDatabase> => {
       });
     },
     update: (sqlScript: string) => {
-      console.log(sqlScript);
       return new Promise((resolve, reject) => {
         client.query(sqlScript, (error) => {
           if (error) {

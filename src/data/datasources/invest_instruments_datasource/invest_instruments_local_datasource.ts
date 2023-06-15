@@ -16,9 +16,9 @@ const InvestInstrumentsLocalDatasource = ({
 
       const likePattern = `'%${upperCaseValue}%'`;
 
-      const titleLike = `UPPER(instrument_title) LIKE ${likePattern}`;
-      const tickerLike = `UPPER(instrument_ticker) LIKE ${likePattern}`;
-      const figiLike = `UPPER(instrument_figi) LIKE ${likePattern}`;
+      const titleLike = `UPPER(${table}.title) LIKE ${likePattern}`;
+      const tickerLike = `UPPER(${table}.ticker) LIKE ${likePattern}`;
+      const figiLike = `UPPER( ${table}.figi) LIKE ${likePattern}`;
 
       const script = `SELECT 
         ${table}.id AS "instrument_id",
