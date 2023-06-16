@@ -2,24 +2,34 @@ import { Pool, PoolClient } from 'pg';
 import DatabaseException from '../../core/exception/database_exception';
 import SqlDatabase from './sql_database';
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
-});
+export type SqlDatabaseImplParams = {
+  user: string;
+  host: string;
+  password: string;
+  databaseName: string;
+  port: number;
+};
 
-const SqlDatabaseImpl = async (): Promise<SqlDatabase> => {
-  const initPool = (): Promise<PoolClient> => {
+const SqlDatabaseImpl = async (
+  params: SqlDatabaseImplParams,
+): Promise<SqlDatabase> => {
+  const { user, host, password, databaseName, port } = params;
+
+  const initClient = (): Promise<PoolClient> => {
     try {
-      return pool.connect();
+      return new Pool({
+        user: user,
+        host: host,
+        password: password,
+        database: databaseName,
+        port: port,
+      }).connect();
     } catch (error) {
       throw DatabaseException(error);
     }
   };
 
-  const client = await initPool();
+  const client = await initClient();
 
   return {
     get: (sqlScript: string) => {
