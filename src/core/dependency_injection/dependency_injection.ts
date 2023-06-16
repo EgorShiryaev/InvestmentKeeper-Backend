@@ -4,14 +4,23 @@ import App from '../../app';
 import investModuleDependencyInjection from './invest_module_dependency_injection';
 import 'dotenv/config';
 import { TinkoffInvestApi } from 'tinkoff-invest-api';
+import { SqlDatabaseImplParams } from '../../data/databases/sql_database_impl';
 
 const port = 80;
 
-const dependencyInjection = async () => {
-  const sqlDatabase = await sqlDatabaseDependencyInjection();
-  const secretToken = process.env.SANDBOX_TINKOFF_TOKEN;
+type Params = {
+  tinkoffSecretToken: string;
+  sqlDatabaseParams: SqlDatabaseImplParams;
+};
+
+const dependencyInjection = async ({
+  tinkoffSecretToken,
+  sqlDatabaseParams,
+}: Params) => {
+  const sqlDatabase = await sqlDatabaseDependencyInjection(sqlDatabaseParams);
+
   const tinkoffApi = new TinkoffInvestApi({
-    token: secretToken,
+    token: tinkoffSecretToken,
   });
 
   const authModule = authModuleDependencyInjection({
