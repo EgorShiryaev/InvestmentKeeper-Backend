@@ -1,4 +1,4 @@
-import { SqlDatabase } from '../../data/databases/types';
+import SqlDatabase from '../../data/databases/sql_database';
 import UsersLocalDatasource from '../../data/datasources/users_datasource/users_local_datasource';
 import IsUserUsecaseImpl from '../../domain/usecases/is_user_usecase';
 import LoginUsecaseImpl from '../../domain/usecases/login_usecase';

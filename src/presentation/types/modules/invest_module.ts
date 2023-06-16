@@ -1,7 +1,8 @@
 import ApiMethod from '../methods/api_method';
 
 type InvestModule = {
-  getAccounts: ApiMethod;
+  getAllAccounts: ApiMethod;
+  getAccount: ApiMethod;
   createAccount: ApiMethod;
   updateAccount: ApiMethod;
   createSale: ApiMethod;
@@ -10,8 +11,8 @@ type InvestModule = {
   createWithdrawal: ApiMethod;
   searchInvestInstrument: ApiMethod;
   getCandles: ApiMethod;
-  getInstrumentPrice: ApiMethod;
-  getAccountPrice: ApiMethod;
+  // getInstrumentPrice: ApiMethod;
+  // getAccountPrice: ApiMethod;
 };
 
 export default InvestModule;

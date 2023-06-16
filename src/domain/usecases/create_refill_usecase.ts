@@ -1,6 +1,5 @@
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
-import checkChangesIsCorrect from '../../core/utils/required_params/check_changes_is_correct';
 import checkIdIsCorrect from '../../core/utils/required_params/check_id_is_correct';
 import AccountsDatasource from '../../data/datasources/accounts_datasource/accounts_datasource';
 import CurrenciesDatasource from '../../data/datasources/currencies_datasource/currencies_datasource';
@@ -84,12 +83,13 @@ const CreateRefillUsecaseImpl = ({
         currency: currency,
       });
       const newBalance = currencyDeposit.value + value;
-      const currencyDepositsChanges = await currencyDepositsDatasource.update({
-        id: currencyDeposit.id,
-        value: newBalance,
-      });
-      if (!checkChangesIsCorrect(currencyDepositsChanges)) {
-        throw ServerErrorException('Failed account item update');
+      try {
+        await currencyDepositsDatasource.update({
+          id: currencyDeposit.id,
+          value: newBalance,
+        });
+      } catch {
+        throw ServerErrorException('Failed currency deposit update');
       }
     },
   };

@@ -37,10 +37,10 @@ const CreateRefill = ({ createRefillUsecase }: Params): ApiMethod => {
         }
         getAuthedUser(request.headers);
         await createRefillUsecase.call({
-          accountId:params.accountId,
+          accountId: params.accountId,
           value: params.value,
           currencyName: params.currency,
-          date: params.date
+          date: params.date,
         });
         response.sendStatus(StatusCode.created);
       } catch (error) {

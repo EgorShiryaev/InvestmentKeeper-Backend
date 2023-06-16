@@ -22,7 +22,7 @@ interface InvestmentAssetsDatasource {
     instrumentId: number,
   ) => Promise<InvestmentAssetModel | undefined>;
   create: (data: CreateInvestmentAssetData) => Promise<number>;
-  update: (data: UpdateInvestmentAssetData) => Promise<number>;
+  update: (data: UpdateInvestmentAssetData) => Promise<void>;
   getById: (id: number) => Promise<InvestmentAssetModel | undefined>;
 }
 

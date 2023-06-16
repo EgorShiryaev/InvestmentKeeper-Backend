@@ -4,7 +4,6 @@ import ServerErrorException from '../../core/exception/server_error_exception';
 import calculateAveragePrice from '../../core/utils/calculate_utils/calculate_average_price';
 import calculateBalance from '../../core/utils/calculate_utils/calculate_balance';
 import calculateTotalPrice from '../../core/utils/calculate_utils/calculate_total_price';
-import checkChangesIsCorrect from '../../core/utils/required_params/check_changes_is_correct';
 import checkIdIsCorrect from '../../core/utils/required_params/check_id_is_correct';
 import AccountsDatasource from '../../data/datasources/accounts_datasource/accounts_datasource';
 import CurrencyDepositsDatasource from '../../data/datasources/currency_deposits_datasource/currency_deposits_datasource';
@@ -96,11 +95,12 @@ const CreatePurchaseUsecaseImpl = ({
       lots: params.lots * instrumentLot,
       commission: params.commission,
     });
-    const currencyDepositsChanges = await currencyDepositsDatasource.update({
-      id: currencyDeposit.id,
-      value: newBalance,
-    });
-    if (!checkChangesIsCorrect(currencyDepositsChanges)) {
+    try {
+      await currencyDepositsDatasource.update({
+        id: currencyDeposit.id,
+        value: newBalance,
+      });
+    } catch {
       throw ServerErrorException('Failed currency deposit update');
     }
   };
@@ -112,14 +112,14 @@ const CreatePurchaseUsecaseImpl = ({
     const currencyDeposit =
       await currencyDepositsDatasource.getByAccountIdAndCurrencyId({
         accountId: account.id,
-        currencyId: instrument.currencyId,
+        currencyId: instrument.currency_id,
       });
     if (currencyDeposit) {
       return currencyDeposit;
     }
     await currencyDepositsDatasource.create({
       accountId: account.id,
-      currencyId: instrument.currencyId,
+      currencyId: instrument.currency_id,
     });
     return getCurrencyDeposit({ account: account, instrument: instrument });
   };
@@ -163,17 +163,18 @@ const CreatePurchaseUsecaseImpl = ({
       if (!investmentAsset) {
         throw ServerErrorException('Failed account item creation');
       }
-      const investmentAssetsChanges = await investmentAssetsDatasource.update({
-        id: investmentAsset.id,
-        lots: investmentAsset.lots + lots,
-        averagePurchasePrice: calculateAveragePrice({
-          averagePrice: investmentAsset.averagePurchasePrice,
-          lots: investmentAsset.lots,
-          newPrice: price,
-          newLots: lots,
-        }),
-      });
-      if (!checkChangesIsCorrect(investmentAssetsChanges)) {
+      try {
+        await investmentAssetsDatasource.update({
+          id: investmentAsset.id,
+          lots: investmentAsset.lots + lots,
+          averagePurchasePrice: calculateAveragePrice({
+            averagePrice: investmentAsset.average_purchase_price,
+            lots: investmentAsset.lots,
+            newPrice: price,
+            newLots: lots,
+          }),
+        });
+      } catch {
         throw ServerErrorException('Failed account item update');
       }
       const id = await tradingOperationsDatasource.create({

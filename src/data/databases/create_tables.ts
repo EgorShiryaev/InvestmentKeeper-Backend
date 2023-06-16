@@ -1,29 +1,34 @@
-import { SqlDatabase } from '../../data/databases/types';
-import TableTitle from '../../data/databases/types/table_title';
+import SqlDatabase from './sql_database';
+import TableTitle from './table_title';
 
 const createTables = async (sqlDatabase: SqlDatabase) => {
   const createTable = (tableConfig: string) => {
-    return sqlDatabase.run(`CREATE TABLE IF NOT EXISTS ${tableConfig}`);
+    return sqlDatabase.createTable(`CREATE TABLE IF NOT EXISTS ${tableConfig}`);
   };
 
-  const IdColumnConfig = 'id INTEGER PRIMARY KEY AUTOINCREMENT';
+  const IdColumnConfig = 'id SERIAL PRIMARY KEY';
 
   const tablesConfigs = {
     users: `
     ${TableTitle.users} (
       ${IdColumnConfig}, 
       name VARCHAR(255) NOT NULL,
-      phoneNumber VARCHAR(16) NOT NULL UNIQUE,
+      phone_number VARCHAR(16) NOT NULL UNIQUE,
       password TEXT NOT NULL
     )
     `,
     accounts: `
     ${TableTitle.accounts} (
       ${IdColumnConfig},
-      userId INTEGER NOT NULL,
+      user_id INTEGER NOT NULL,
+      currency_id INTEGER NOT NULL,
       title VARCHAR(25) NOT NULL,
-      FOREIGN KEY (userId)
+      FOREIGN KEY (user_id)
         REFERENCES ${TableTitle.users} (id) 
+          ON UPDATE CASCADE
+          ON DELETE CASCADE,
+      FOREIGN KEY (currency_id)
+        REFERENCES ${TableTitle.currencies} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
     )
@@ -31,10 +36,10 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     currencyDeposits: `
     ${TableTitle.currencyDeposits} (
       ${IdColumnConfig},
-      accountId INTEGER NOT NULL,
-      currencyId INTEGER NOT NULL,
-      value DOUBLE NOT NULL DEFAULT 0,
-      FOREIGN KEY (currencyId)
+      account_id INTEGER NOT NULL,
+      currency_id INTEGER NOT NULL,
+      value DOUBLE PRECISION NOT NULL DEFAULT 0,
+      FOREIGN KEY (currency_id)
         REFERENCES ${TableTitle.currencies} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
@@ -43,15 +48,15 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     financialOperations: `
     ${TableTitle.financialOperations} (
       ${IdColumnConfig},
-      accountId INTEGER NOT NULL,
-      currencyId INTEGER NOT NULL,
+      account_id INTEGER NOT NULL,
+      currency_id INTEGER NOT NULL,
       date TEXT NOT NULL,
-      value DOUBLE NOT NULL,
-      FOREIGN KEY (accountId)
+      value DOUBLE PRECISION NOT NULL,
+      FOREIGN KEY (account_id)
         REFERENCES ${TableTitle.accounts} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE,
-      FOREIGN KEY (currencyId)
+      FOREIGN KEY (currency_id)
         REFERENCES ${TableTitle.currencies} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
@@ -59,16 +64,16 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     investmentAssets: `
     ${TableTitle.investmentAssets} (
       ${IdColumnConfig},
-      accountId INTEGER NOT NULL,
-      instrumentId INTEGER NOT NULL,
+      account_id INTEGER NOT NULL,
+      instrument_id INTEGER NOT NULL,
       lots INTEGER NOT NULL DEFAULT 0,
-      averagePurchasePrice DOUBLE NOT NULL DEFAULT 0,
-      averageExchangeRate DOUBLE NOT NULL DEFAULT 1,
-      FOREIGN KEY (accountId)
+      average_purchase_price DOUBLE PRECISION NOT NULL DEFAULT 0,
+      average_exchange_rate DOUBLE PRECISION NOT NULL DEFAULT 1,
+      FOREIGN KEY (account_id)
         REFERENCES ${TableTitle.accounts} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE,
-      FOREIGN KEY (instrumentId)
+      FOREIGN KEY (instrument_id)
         REFERENCES ${TableTitle.investInstruments} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
@@ -77,12 +82,12 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     tradingOperations: `
     ${TableTitle.tradingOperations} (
       ${IdColumnConfig},
-      investmentAssetId INTEGER NOT NULL,
+      investment_asset_id INTEGER NOT NULL,
       date TEXT NOT NULL,
       lots INTEGER NOT NULL,
-      price DOUBLE NOT NULL,
-      commission DOUBLE NOT NULL DEFAULT 0,
-      FOREIGN KEY (investmentAssetId)
+      price DOUBLE PRECISION NOT NULL,
+      commission DOUBLE PRECISION NOT NULL DEFAULT 0,
+      FOREIGN KEY (investment_asset_id)
         REFERENCES ${TableTitle.investmentAssets} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
@@ -96,17 +101,17 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     investInstruments: `
     ${TableTitle.investInstruments} (
       ${IdColumnConfig},
-      typeId INTEGER NOT NULL,
-      currencyId INTEGER NOT NULL,
+      type_id INTEGER NOT NULL,
+      currency_id INTEGER NOT NULL,
       figi VARCHAR(12) NOT NULL,
       ticker VARCHAR(12) NOT NULL,
       title VARCHAR(255) NOT NULL,
       lot INTEGER NOT NULL,
-      FOREIGN KEY (typeId)
+      FOREIGN KEY (type_id)
         REFERENCES ${TableTitle.investInstrumentTypes} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE,
-      FOREIGN KEY (currencyId)
+      FOREIGN KEY (currency_id)
         REFERENCES ${TableTitle.currencies} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
@@ -120,18 +125,20 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     `,
   };
 
-  const create = () => {
-    return Promise.all([
+  const create = async () => {
+    await Promise.all([
       createTable(tablesConfigs.users),
-      createTable(tablesConfigs.accounts),
       createTable(tablesConfigs.investInstrumentTypes),
       createTable(tablesConfigs.currencies),
-      createTable(tablesConfigs.investInstruments),
-      createTable(tablesConfigs.investmentAssets),
-      createTable(tablesConfigs.tradingOperations),
-      createTable(tablesConfigs.financialOperations),
-      createTable(tablesConfigs.currencyDeposits),
     ]);
+    await createTable(tablesConfigs.accounts);
+    await Promise.all([
+      createTable(tablesConfigs.currencyDeposits),
+      createTable(tablesConfigs.financialOperations),
+      createTable(tablesConfigs.investInstruments),
+    ]);
+    await createTable(tablesConfigs.investmentAssets);
+    await createTable(tablesConfigs.tradingOperations);
   };
 
   await create();

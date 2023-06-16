@@ -1,4 +1,4 @@
-import TableTitle from '../../databases/types/table_title';
+import TableTitle from '../../databases/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import AccountsDatasource from './accounts_datasource';
 
@@ -10,25 +10,24 @@ const AccountsLocalDatasource = ({
   return {
     getAllByUserId: (userId) => {
       const script = `SELECT * FROM ${table}
-      WHERE userId = ${userId}`;
+      WHERE user_id = ${userId}`;
 
       return sqlDatabase.getAll(script);
     },
-    create: ({ userId, title }) => {
-      const script = `INSERT INTO ${table} (userId, title)
-      VALUES (${userId}, "${title}")`;
+    create: ({ userId, title, currencyId }) => {
+      const script = `INSERT INTO ${table} (user_id, title, currency_id)
+      VALUES (${userId}, '${title}', ${currencyId})`;
 
-      return sqlDatabase.run(script).then((v) => v.lastId);
+      return sqlDatabase.create(script);
     },
     update: ({ id, title }) => {
-      const setFields = [title && `title = "${title}"`];
+      const setFields = [title && `title = '${title}'`];
       const set = setFields.filter((v) => v).join(', ');
       const script = `UPDATE ${table} SET ${set} WHERE id = ${id}`;
-      return sqlDatabase.run(script).then((v) => v.changes);
+      return sqlDatabase.update(script);
     },
     getById: (id) => {
-      const script = `SELECT * FROM ${table}
-      WHERE id = ${id}`;
+      const script = `SELECT * FROM ${table} WHERE id = ${id}`;
 
       return sqlDatabase.get(script);
     },

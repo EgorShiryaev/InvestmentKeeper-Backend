@@ -2,34 +2,23 @@ import { IException } from '../../../core/exception/exception';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import StatusCode from '../../../domain/entities/status_code';
 import ErrorResponseData from '../../types/response_data/error_response_data';
-import GetAccountsResponseData from '../../types/response_data/get_accounts_response_data';
 import ApiMethod from '../../types/methods/api_method';
-import GetAccountRequestData from '../../types/request_data/get_account_request_data';
-import checkIdIsCorrect from '../../../core/utils/required_params/check_id_is_correct';
 import GetAccountResponseData from '../../types/response_data/get_account_response_data';
 import getAuthedUser from '../../../core/utils/get_auth_user';
-import { GetAccountsUsecase } from '../../../domain/usecases/get_accounts_usecase';
+import { GetAccountUsecase } from '../../../domain/usecases/get_account_usecase';
 
 type Params = {
-  getAccountsUsecase: GetAccountsUsecase;
+  getAccountUsecase: GetAccountUsecase;
 };
 
-const GetAccounts = ({ getAccountsUsecase }: Params): ApiMethod => {
+const GetAccount = ({ getAccountUsecase }: Params): ApiMethod => {
   return {
     handler: async (request, response) => {
       try {
         console.log(request.method, request.url);
-        const user = getAuthedUser(request.headers);
-        const params = request.query as unknown as GetAccountRequestData;
-        if (!checkIdIsCorrect(params.id)) {
-          const accounts = await getAccountsUsecase.getAllAccounts(user.id);
-          const responseData: GetAccountsResponseData = {
-            accounts: accounts,
-          };
-          response.status(StatusCode.success).json(responseData);
-          return;
-        }
-        const acccount = await getAccountsUsecase.getAccount(params.id);
+        getAuthedUser(request.headers);
+        const id = parseInt(request.params.id);
+        const acccount = await getAccountUsecase.call(id);
         if (!acccount) {
           response.sendStatus(StatusCode.notFound);
           return;
@@ -48,5 +37,5 @@ const GetAccounts = ({ getAccountsUsecase }: Params): ApiMethod => {
   };
 };
 
-export default GetAccounts;
+export default GetAccount;
 

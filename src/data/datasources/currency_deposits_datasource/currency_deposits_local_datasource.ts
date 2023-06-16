@@ -1,4 +1,4 @@
-import TableTitle from '../../databases/types/table_title';
+import TableTitle from '../../databases/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import CurrencyDepositsDatasource from './currency_deposits_datasource';
 
@@ -12,31 +12,31 @@ const CurrencyDepositsLocalDatasource = ({
       const currenciesTable = TableTitle.currencies;
 
       const script = `SELECT 
-        ${table}.value AS "currencyDepositValue", 
-        ${currenciesTable}.value AS "currencyDepositCurrency"
+        ${table}.value AS "currency_deposit_value", 
+        ${currenciesTable}.value AS "currency_deposit_currency"
         FROM ${table}
-        JOIN ${currenciesTable} On ${table}.currencyId = ${currenciesTable}.id
-        WHERE accountId = ${accountId}`;
+        JOIN ${currenciesTable} On ${table}.currency_id = ${currenciesTable}.id
+        WHERE account_id = ${accountId}`;
 
       return sqlDatabase.getAll(script);
     },
     getByAccountIdAndCurrencyId: ({ accountId, currencyId }) => {
       const script = `SELECT * FROM ${table}
-        WHERE accountId = ${accountId} AND currencyId = ${currencyId}`;
+        WHERE account_id = ${accountId} AND currency_id = ${currencyId}`;
 
       return sqlDatabase.get(script);
     },
     create: ({ accountId, currencyId, value }) => {
       const valueColumn = value ? ', value' : '';
       const valueValue = value ? `, ${value}` : '';
-      const script = `INSERT INTO ${table} (accountId, currencyId ${valueColumn})
+      const script = `INSERT INTO ${table} (account_id, currency_id ${valueColumn})
         VALUES(${accountId}, ${currencyId} ${valueValue})  
       `;
-      return sqlDatabase.run(script).then((v) => v.lastId);
+      return sqlDatabase.create(script);
     },
     update: ({ id, value }) => {
       const script = `UPDATE ${table} SET value = ${value} WHERE id = ${id}`;
-      return sqlDatabase.run(script).then((v) => v.changes);
+      return sqlDatabase.update(script);
     },
   };
 };

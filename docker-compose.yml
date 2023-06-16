@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data`
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+
+  api:
+    container_name: api
+    restart: always
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - db
+    volumes:
+    - .:/app
+
+
+volumes: 
+ data: {}

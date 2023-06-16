@@ -1,11 +1,11 @@
 import BaseModel from './base_model';
 
 type InvestmentAssetModel = BaseModel & {
-  accountId: number;
-  instrumentId: number;
+  account_id: number;
+  instrument_id: number;
   lots: number;
-  averagePurchasePrice: number;
-  averageExchangeRate: number;
+  average_purchase_price: number;
+  average_exchange_rate: number;
 };
 
 export default InvestmentAssetModel;

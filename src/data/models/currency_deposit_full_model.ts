@@ -1,8 +1,8 @@
 import BaseModel from './base_model';
 
 type CurrencyDepositFullModel = BaseModel & {
-  currencyDepositValue: number;
-  currencyDepositCurrency: string;
+  currency_deposit_value: number;
+  currency_deposit_currency: string;
 };
 
 export default CurrencyDepositFullModel;

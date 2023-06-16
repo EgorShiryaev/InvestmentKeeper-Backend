@@ -7,10 +7,10 @@ const convertToInvestmentAssetEntity = (
   currentPrice?: number,
 ): InvestmentAssetEntity => {
   return {
-    id: model.investmentAssetId,
-    lots: model.investmentAssetLots,
-    averageExchangeRate: model.investmentAssetAverageExchangeRate,
-    averagePurchasePrice: model.investmentAssetAveragePurchasePrice,
+    id: model.investment_asset_id,
+    lots: model.investment_asset_lots,
+    averageExchangeRate: model.investment_asset_average_exchange_rate,
+    averagePurchasePrice: model.investment_asset_average_purchase_price,
     currentPrice: currentPrice,
     instrument: convertToInvestInstrumentEntity(model),
   };
