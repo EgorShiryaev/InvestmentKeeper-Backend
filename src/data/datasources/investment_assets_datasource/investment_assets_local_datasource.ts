@@ -5,7 +5,7 @@ import InvestmentAssetsDatasource from './investment_assets_datasource';
 const InvestmentAssetsLocalDatasource = ({
   sqlDatabase,
 }: LocalDatasourceParameters): InvestmentAssetsDatasource => {
-  const table = TableTitle.investmentAssets;
+  const table = TableTitle.investAssets;
 
   return {
     getAllByAccountIdAndLotsGreaterZero: (accountId) => {
@@ -29,7 +29,7 @@ const InvestmentAssetsLocalDatasource = ({
       JOIN ${investInstrumentsTable} ON ${table}.instrument_id = ${investInstrumentsTable}.id
       JOIN ${investInstrumentTypesTable} On ${investInstrumentsTable}.type_id = ${investInstrumentTypesTable}.id
       JOIN ${currenciesTable} On ${investInstrumentsTable}.currency_id = ${currenciesTable}.id
-      WHERE account_id = ${accountId} AND investment_assets.lots > 0
+      WHERE account_id = ${accountId} AND ${table}.lots > 0
       ORDER BY instrument_title ASC`;
 
       return sqlDatabase.getAll(script);

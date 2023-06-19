@@ -3,7 +3,7 @@ enum TableTitle {
   accounts = 'accounts',
   currencyDeposits = 'currency_deposits',
   financialOperations = 'financial_operations',
-  investmentAssets = 'investment_assets',
+  investAssets = 'invest_assets',
   tradingOperations = 'trading_operations',
   investInstruments = 'invest_instruments',
   investInstrumentTypes = 'invest_instrument_types',
