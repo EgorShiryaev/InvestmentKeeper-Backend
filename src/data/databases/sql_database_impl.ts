@@ -66,7 +66,6 @@ const SqlDatabaseImpl = async (
             reject(DatabaseException(error.message));
             return;
           }
-          console.log(results.rows);
           resolve(results.rows[0].id);
         });
       });

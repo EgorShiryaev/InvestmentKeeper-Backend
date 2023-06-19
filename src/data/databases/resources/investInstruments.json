@@ -1,2601 +1,2251 @@
 [
   {
-    "id": 0,
     "figi": "BBG000P69JH9",
     "ticker": "KCHE",
     "title": "Камчатскэнерго",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00Y3XYV94",
     "ticker": "MDMG",
     "title": "Мать и дитя",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000MFYK81",
     "ticker": "MRSB",
     "title": "Мордовская энергосбытовая компания",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00ZHCX1X2",
     "ticker": "FIXP",
     "title": "Fix Price Group",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VDT2X4",
     "ticker": "STSBP",
     "title": "Ставропольэнергосбыт - привилегированные акции",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000BTX3H2",
     "ticker": "AVAN",
     "title": "Авангард Банк",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B9PYV7",
     "ticker": "VJGZ",
     "title": "Варьеганнефтегаз",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004730JJ5",
     "ticker": "MOEX",
     "title": "Московская Биржа",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000DD0BC8",
     "ticker": "LPSB",
     "title": "Липецкая энергосбытовая компания",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0018X73Z4",
     "ticker": "MAGE",
     "title": "Магаданэнерго",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VKG4R5",
     "ticker": "MRKU",
     "title": "МРСК Урала",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000KGXMN1",
     "ticker": "BISVP",
     "title": "Башинформсвязь - Акции привилегированные",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00M8JQW11",
     "ticker": "SVET",
     "title": "Светофор Групп",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000TJ6F42",
     "ticker": "MRKZ",
     "title": "Россети Северо-Запад",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000Q7GG57",
     "ticker": "TGKB",
     "title": "ТГК-2",
     "lot": 1000000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0029SFXB3",
     "ticker": "KZOS",
     "title": "ПАО «КАЗАНЬОРГСИНТЕЗ»",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000F6YPH8",
     "ticker": "ELFV",
     "title": "ЭЛ5-Энерго",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001P1VKH0",
     "ticker": "PRMB",
     "title": "Приморье Банк",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000TG6VR8",
     "ticker": "WTCMP",
     "title": "Центр международной торговли - привилегированные акции",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG006L8G4H1",
     "ticker": "YNDX",
     "title": "Yandex",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000MD2WC0",
     "ticker": "TASBP",
     "title": "Тамбовская энергосбытовая компания - привилегированные акции",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004730ZJ9",
     "ticker": "VTBR",
     "title": "Банк ВТБ",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000CV9JM2",
     "ticker": "OMZZP",
     "title": "ОМЗ (Группа Уралмаш-Ижора) - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000RMWQD4",
     "ticker": "ENPG",
     "title": "En+ Group",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000BY39G2",
     "ticker": "USBN",
     "title": "Банк УРАЛСИБ",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000RP8V70",
     "ticker": "CHMK",
     "title": "ЧМК",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00475JZZ6",
     "ticker": "FEES",
     "title": "ФСК Россети",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0078NQQ09",
     "ticker": "RDRB",
     "title": "РосДорБанк",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLHR27",
     "ticker": "VZRZP",
     "title": "Банк Возрождение - акции привилегированные",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000K3STR7",
     "ticker": "APTK",
     "title": "Аптечная сеть 36,6",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000MD2ST1",
     "ticker": "TASB",
     "title": "Тамбовская энергосбытовая компания",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00FX0RGJ4",
     "ticker": "SLEN",
     "title": "Сахалинэнерго",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0014PFYM2",
     "ticker": "RUGR",
     "title": "Русгрэйн",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000DBV9Y9",
     "ticker": "KTSBP",
     "title": "Костромская сбытовая компания - привилегированные акции",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0100R9963",
     "ticker": "SGZH",
     "title": "Сегежа",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000PKWCQ7",
     "ticker": "MRKV",
     "title": "МРСК Волги",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68B31",
     "ticker": "ALRS",
     "title": "АЛРОСА",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002458LF8",
     "ticker": "SELG",
     "title": "Селигдар",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG003LD1D92",
     "ticker": "KGKCP",
     "title": "Курганская генерирующая компания - привилегированные акции",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000CV6PB3",
     "ticker": "KUBE",
     "title": "Россети Кубань",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000DBD6F6",
     "ticker": "KLSB",
     "title": "Калужская сбытовая компания",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0019K04R5",
     "ticker": "LIFE",
     "title": "Фармсинтез",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000R04X57",
     "ticker": "FLOT",
     "title": "Совкомфлот",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00B8NN386",
     "ticker": "GRNT",
     "title": "Городские Инновационные Технологии",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000F6YP24",
     "ticker": "ENRU",
     "title": "ЭЛ5-Энерго",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00HY6V6H5",
     "ticker": "GTRK",
     "title": "ГТМ",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG003LYCMB1",
     "ticker": "SFIN",
     "title": "ЭсЭфАй",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004RVFCY3",
     "ticker": "MGNT",
     "title": "Магнит",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00F6NKQX3",
     "ticker": "SMLT",
     "title": "ГК Самолет",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000BS4180",
     "ticker": "TGKDP",
     "title": "Квадра - привилегированные акции",
     "lot": 100000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG003NZBX32",
     "ticker": "LVHK",
     "title": "Левенгук",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "NL0009805522",
-    "ticker": "NL0009805522",
-    "title": "Yandex",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG00R4Z2NT4",
     "ticker": "VEON-RX",
     "title": "VEON",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000SK7JS5",
     "ticker": "LNZL",
     "title": "Лензолото",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001DJNR51",
     "ticker": "RBCM",
     "title": "РБК",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VG1034",
     "ticker": "MRKP",
     "title": "Россети Центр и Приволжье",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B9T6Y1",
     "ticker": "KAZTP",
     "title": "КуйбышевАзот - Акции привилегированные",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004731032",
     "ticker": "LKOH",
     "title": "ЛУКОЙЛ",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000R607Y3",
     "ticker": "PLZL",
     "title": "Полюс",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000QJW156",
     "ticker": "BSPB",
     "title": "Банк Санкт-Петербург",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "US37949E2046",
-    "ticker": "US37949E2046",
-    "title": "Globaltrans Investment PLC",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG002YFXL29",
     "ticker": "UNKL",
     "title": "ЮУНК",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001BBSZV8",
     "ticker": "MSST",
     "title": "Мультисистема",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001BBFTQ2",
     "ticker": "KGKC",
     "title": "Курганская генерирующая компания",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000FJXMJ6",
     "ticker": "MGNZ",
     "title": "Соликамский магниевый завод",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00QPYJ5H0",
     "ticker": "TCSG",
     "title": "TCS Group",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000GVFKL9",
     "ticker": "RTSBP",
     "title": "ТНС энерго Ростов-на-Дону - привилегированные акции",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B9WQ73",
     "ticker": "VJGZP",
     "title": "Варьеганнефтегаз - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLK3N3",
     "ticker": "MFGS",
     "title": "Славнефть-Мегионнефтегаз",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B2JCL8",
     "ticker": "IGSTP",
     "title": "Ижсталь - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000PZ0833",
     "ticker": "MGTSP",
     "title": "МГТС - акции привилегированные",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B9M1L3",
     "ticker": "ELTZ",
     "title": "Электроцинк",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004730N88",
     "ticker": "SBER",
     "title": "Сбер Банк",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000J5X8M9",
     "ticker": "KCHEP",
     "title": "Камчатскэнерго - привилегированные акции",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLL888",
     "ticker": "MFGSP",
     "title": "Славнефть-Мегионнефтегаз - привилегированные акции",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S689R0",
     "ticker": "PHOR",
     "title": "ФосАгро",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG003BNWBP3",
     "ticker": "PRFN",
     "title": "ЧЗПСН",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLDS29",
     "ticker": "SAGO",
     "title": "Самараэнерго",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68JR8",
     "ticker": "SVAV",
     "title": "СОЛЛЕРС",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000Q7ZZY2",
     "ticker": "UNAC",
     "title": "Объединенная авиастроительная корпорация",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NL6ZD9",
     "ticker": "IRGZ",
     "title": "Иркутскэнерго",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000CVM887",
     "ticker": "JNOSP",
     "title": "Славнефть ЯНОС - привилегированные акции",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "TCS00A0JRAK8",
-    "ticker": "MTKB",
-    "title": "Меткомбанк",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG000R466J1",
     "ticker": "RUSP",
     "title": "Русполимет",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG003C53JK1",
     "ticker": "KUZB",
     "title": "Кузнецкий Банк",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B9P9K4",
     "ticker": "NKSH",
     "title": "Нижнекамскшина",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001V474L5",
     "ticker": "EELT",
     "title": "Европейская Электротехника",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000DD65R9",
     "ticker": "MISB",
     "title": "ТНС энерго Марий Эл",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000RJWGC4",
     "ticker": "AMEZ",
     "title": "Ашинский метзавод",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000BN56Q9",
     "ticker": "DSKY",
     "title": "Детский Мир",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000BDMZ51",
     "ticker": "UTAR",
     "title": "Utair",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0018X75N2",
     "ticker": "MAGEP",
     "title": "Магаданэнерго - привилегированные акции",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B24058",
     "ticker": "BRZL",
     "title": "Бурятзолото",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "US69269L1044",
-    "ticker": "US69269L1044",
-    "title": "Ozon Holdings PLC",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
-    "figi": "US98387E2054",
-    "ticker": "US98387E2054",
-    "title": "ГДР X5 RetailGroup",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG000C7P5M7",
     "ticker": "MRKY",
     "title": "МРСК Юга",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00J5LMW10",
     "ticker": "ENPL",
     "title": "ГДР En+ Group",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "US33835G2057",
-    "ticker": "US33835G2057",
-    "title": "Fix Price Group",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG008HD3V85",
     "ticker": "UWGN",
     "title": "ОВК",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG011MCM288",
     "ticker": "GEMC",
     "title": "United medical group",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000TY1CD1",
     "ticker": "BELU",
     "title": "Белуга Групп ПАО ао",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VBMPW5",
     "ticker": "ARSA",
     "title": "Арсагера",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00BGKYH17",
     "ticker": "NKHP",
     "title": "НКХП",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000DD66T5",
     "ticker": "MISBP",
     "title": "ТНС энерго Марий Эл - привилегированные акции",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0027F0Y27",
     "ticker": "CNTLP",
     "title": "Центральный Телеграф - акции привилегированные",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000CVM618",
     "ticker": "JNOS",
     "title": "Славнефть ЯНОС",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VFX6Y4",
     "ticker": "GLTR",
     "title": "Globaltrans Investment PLC",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLLWQ5",
     "ticker": "CHGZ",
     "title": "РН-Западная Сибирь",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00JXPFBN0",
     "ticker": "FIVE",
     "title": "X5 RetailGroup ГДР",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68758",
     "ticker": "BANE",
     "title": "Башнефть",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NT5184",
     "ticker": "MGTS",
     "title": "МГТС",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001CPLZX1",
     "ticker": "DZRDP",
     "title": "Донской завод радиодеталей - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004TC84Z8",
     "ticker": "TRMK",
     "title": "Трубная Металлургическая Компания",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "TCS00A103X66",
     "ticker": "POSI",
     "title": "Positive Technologies",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S686N0",
     "ticker": "BANEP",
     "title": "Башнефть - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG008F2T3T2",
     "ticker": "RUAL",
     "title": "РУСАЛ",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "RU000A0JRKT8",
     "ticker": "RU000A0JRKT8",
     "title": "ФосАгро",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000RJL816",
     "ticker": "TTLK",
     "title": "Таттелеком",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004731489",
     "ticker": "GMKN",
     "title": "Норильский никель",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000PTLZD3",
     "ticker": "VLHZ",
     "title": "Владимирский хим завод",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S687G6",
     "ticker": "MSRS",
     "title": "МОЭСК",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG005D1WCQ1",
     "ticker": "QIWI",
     "title": "QIWI",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000FWGSZ5",
     "ticker": "IRKT",
     "title": "Корпорация ИРКУТ",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000N16BP3",
     "ticker": "ISKJ",
     "title": "ИСКЧ",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00Y91R9T3",
     "ticker": "OZON",
     "title": "Ozon Holdings PLC",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000J1TPS9",
     "ticker": "NNSB",
     "title": "ТНС энерго Нижний Новгород",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000MDCP25",
     "ticker": "TORSP",
     "title": "Томская распределительная компания - привилегированные акции",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLB601",
     "ticker": "KROTP",
     "title": "Красный Октябрь - привилегированные акции",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S686W0",
     "ticker": "UPRO",
     "title": "Юнипро",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "US83418T1088",
-    "ticker": "US83418T1088",
-    "title": "АДР Циан",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG000Q136G4",
     "ticker": "KMEZ",
     "title": "Ковровский механический завод",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68FR6",
     "ticker": "MTLRP",
     "title": "Мечел - Привилегированные акции",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0029SG1C1",
     "ticker": "KZOSP",
     "title": "ПАО «КАЗАНЬОРГСИНТЕЗ» - акции привилегированные",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000R41LN8",
     "ticker": "KOGK",
     "title": "КоршГОК ао",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLC9Z6",
     "ticker": "LSNG",
     "title": "Ленэнерго",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00475K2X9",
     "ticker": "HYDR",
     "title": "РусГидро",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000DG57V4",
     "ticker": "YRSB",
     "title": "ТНС энерго Ярославль",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S685M3",
     "ticker": "RTKMP",
     "title": "Ростелеком - Привилегированные акции",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68614",
     "ticker": "AFKS",
     "title": "АФК Система",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000RK0SD9",
     "ticker": "UKUZ",
     "title": "Южный Кузбасс",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000BX7DH0",
     "ticker": "VRSB",
     "title": "ТНС энерго Воронеж",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000GQSRP7",
     "ticker": "RTSB",
     "title": "ТНС энерго Ростов-на-Дону",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004731354",
     "ticker": "ROSN",
     "title": "Роснефть",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B2J6C1",
     "ticker": "KRKN",
     "title": "Саратовский нефтеперерабатывающий завод",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000GQSRR5",
     "ticker": "NKNC",
     "title": "Нижнекамскнефтехим",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000J1Z285",
     "ticker": "NNSBP",
     "title": "ТНС энерго Нижний Новгород - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000FJ81J0",
     "ticker": "RZSB",
     "title": "Рязанская энергетическая сбытовая компания",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004730RP0",
     "ticker": "GAZP",
     "title": "Газпром",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B2J5X0",
     "ticker": "KRKNP",
     "title": "Саратовский НПЗ - акции привилегированные",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "RU000A0JNAA8",
     "ticker": "RU000A0JNAA8",
     "title": "Полюс",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68696",
     "ticker": "RASP",
     "title": "Распадская",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00475K6C3",
     "ticker": "CHMF",
     "title": "Северсталь",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001M2SC01",
     "ticker": "ETLN",
     "title": "Etalon Group PLC ГДР",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0136BTL03",
     "ticker": "SFTL",
     "title": "Noventiq ГДР",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000KTF667",
     "ticker": "RSTIP",
     "title": "Российские сети - акции привилегированные",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000CV7ZG5",
     "ticker": "SARE",
     "title": "Саратовэнерго",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VQM8Q7",
     "ticker": "CHKZ",
     "title": "Челябинский кузнечно-прессовый завод",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000PND2J2",
     "ticker": "ROSB",
     "title": "РОСБАНК",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0047315Y7",
     "ticker": "SBERP",
     "title": "Сбер Банк - привилегированные акции",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00VPKLPX4",
     "ticker": "POGR",
     "title": "Petropavlovsk PLC",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG005S5WCS4",
     "ticker": "RGSS",
     "title": "Росгосстрах",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000FJ6LN3",
     "ticker": "VGSB",
     "title": "Волгоградэнергосбыт",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B2JF59",
     "ticker": "IGST",
     "title": "Ижсталь",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001CPLYK8",
     "ticker": "DZRD",
     "title": "Донской завод радиодеталей",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0063FKTD9",
     "ticker": "LENT",
     "title": "Лента",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "US5603172082",
-    "ticker": "US5603172082",
-    "title": "VK",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG000RTHVK7",
     "ticker": "GCHE",
     "title": "Группа Черкизово",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000W325F7",
     "ticker": "AQUA",
     "title": "ИНАРКТИКА",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VQWH86",
     "ticker": "BLNG",
     "title": "Белон",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S687W8",
     "ticker": "MSNG",
     "title": "Мосэнерго",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68829",
     "ticker": "TATNP",
     "title": "Татнефть - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0047315D0",
     "ticker": "SNGS",
     "title": "Сургутнефтегаз",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000QFH687",
     "ticker": "TGKA",
     "title": "ТГК-1",
     "lot": 100000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00178PGX3",
     "ticker": "VKCO",
     "title": "VK",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00F9XX7H4",
     "ticker": "RNFT",
     "title": "РуссНефть",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S688G4",
     "ticker": "AKRN",
     "title": "Акрон",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG007N0Z367",
     "ticker": "AGRO",
     "title": "РусАгро",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00226CJM0",
     "ticker": "NFAZ",
     "title": "НЕФАЗ",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00F40L971",
     "ticker": "FTRE",
     "title": "Финансовая группа БУДУЩЕЕ",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000R4K9Y2",
     "ticker": "TUZA",
     "title": "Туймазинский завод автобетоновозов",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000LNHHJ9",
     "ticker": "KMAZ",
     "title": "КАМАЗ",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG003M5Q5B5",
     "ticker": "RTGZ",
     "title": "Ростовоблгаз",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG012YQ6P43",
     "ticker": "CIAN",
     "title": "Циан АДР",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000RK52V1",
     "ticker": "OGKB",
     "title": "Вторая генерирующая компания оптового рынка электроэнергии",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000TG6T57",
     "ticker": "WTCM",
     "title": "Центр международной торговли",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLDYT7",
     "ticker": "SAGOP",
     "title": "Самараэнерго - привилегированные акции",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S682J4",
     "ticker": "RSTI",
     "title": "Российские сети",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000DBV7S0",
     "ticker": "KTSB",
     "title": "Костромская сбытовая компания",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000DG5L16",
     "ticker": "YRSBP",
     "title": "ТНС энерго Ярославль - привилегированные акции",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004RVFFC0",
     "ticker": "TATN",
     "title": "Татнефть",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000MDCJV7",
     "ticker": "TORS",
     "title": "Томская распределительная компания",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "JE00B6T5S470",
-    "ticker": "JE00B6T5S470",
-    "title": "Polymetal",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG000FJ6S03",
     "ticker": "VGSBP",
     "title": "Волгоградэнергосбыт - привилегированные акции",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG009CWKVN0",
     "ticker": "TNSE",
     "title": "ТНС энерго",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000MZL2S9",
     "ticker": "PMSBP",
     "title": "Пермэнергосбыт - акции привилегированные",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S682Z6",
     "ticker": "RTKM",
     "title": "Ростелеком",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68CV8",
     "ticker": "VSMO",
     "title": "ВСМПО-АВИСМА",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00Z197548",
     "ticker": "BSPBP",
     "title": "Банк Санкт-Петербург",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68CP5",
     "ticker": "MVID",
     "title": "М.видео",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
-    "figi": "US7496552057",
-    "ticker": "US7496552057",
-    "title": "РусАгро",
-    "lot": 1,
-    "about": "",
-    "typeId": 1,
-    "currencyId": 1
-  },
-  {
-    "id": 0,
     "figi": "BBG004Z2RGW8",
     "ticker": "ROLO",
     "title": "Русолово",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68BH6",
     "ticker": "PIKK",
     "title": "ПИК",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S681B4",
     "ticker": "NLMK",
     "title": "НЛМК",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000RG4ZQ4",
     "ticker": "TGKN",
     "title": "ТГК-14",
     "lot": 1000000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000PQYM17",
     "ticker": "YKENP",
     "title": "Якутскэнерго - привилегированные акции",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000FJ8645",
     "ticker": "ASSB",
     "title": "Астраханская энергосбытовая компания",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00475KHX6",
     "ticker": "TRNFP",
     "title": "Транснефть - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00HT224Q7",
     "ticker": "ACKO",
     "title": "СК ЮЖУРАЛ-АСКО",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S681W1",
     "ticker": "MTSS",
     "title": "МТС",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLB2G3",
     "ticker": "KROT",
     "title": "Красный Октябрь",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68C39",
     "ticker": "LSRG",
     "title": "Группа ЛСР",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B298N6",
     "ticker": "YAKG",
     "title": "ЯТЭК",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002BLR408",
     "ticker": "NAUK",
     "title": "НПО Наука",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S681M2",
     "ticker": "SNGSP",
     "title": "Сургутнефтегаз - привилегированные акции",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68BR5",
     "ticker": "NMTP",
     "title": "НМТП",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68507",
     "ticker": "MAGN",
     "title": "Магнитогорский металлургический комбинат",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NLCCM3",
     "ticker": "LSNGP",
     "title": "Ленэнерго - акции привилегированные",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00PT8QHK7",
     "ticker": "GEMA",
     "title": "Гемабанк",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000SR0YS4",
     "ticker": "LNZLP",
     "title": "Лензолото - привилегированные акции",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002GHV6L9",
     "ticker": "SPBE",
     "title": "СПБ Биржа",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S684M6",
     "ticker": "SIBN",
     "title": "Газпром нефть",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000GQSVC2",
     "ticker": "NKNCP",
     "title": "Нижнекамскнефтехим - акции привилегированные",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000V07CB8",
     "ticker": "DVEC",
     "title": "ДЭК",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002BCQK67",
     "ticker": "NSVZ",
     "title": "Наука-Связь",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00QKJSX05",
     "ticker": "RENI",
     "title": "Ренессанс Страхование",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000Q7GJ60",
     "ticker": "TGKBP",
     "title": "ТГК-2 - акции привилегированные",
     "lot": 100000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VPC602",
     "ticker": "KRSB",
     "title": "Красноярскэнергосбыт",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VDT0D0",
     "ticker": "STSB",
     "title": "Ставропольэнергосбыт",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG00475KKY8",
     "ticker": "NVTK",
     "title": "НОВАТЭК",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000R0L782",
     "ticker": "DIOD",
     "title": "ДИОД",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000F6H7K3",
     "ticker": "TGKD",
     "title": "Квадра",
     "lot": 100000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000BSCKB5",
     "ticker": "KBSB",
     "title": "ТНС энерго Кубань",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68598",
     "ticker": "MTLR",
     "title": "Мечел",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002Z691S1",
     "ticker": "URKZ",
     "title": "Уралкуз",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000RJXRQ4",
     "ticker": "INGR",
     "title": "ИНГРАД",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000LWNRP3",
     "ticker": "RKKE",
     "title": "РКК Энергия им.С.П.Королева",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000QQPXZ5",
     "ticker": "LNTA",
     "title": "ГДР Лента",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VJMH65",
     "ticker": "MRKS",
     "title": "МРСК Сибири",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000NN26P0",
     "ticker": "ZILL",
     "title": "ЗИЛ",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG001BBGNS2",
     "ticker": "ORUP",
     "title": "Обувь России",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000CV8026",
     "ticker": "SAREP",
     "title": "Саратовэнерго - привилегированные акции",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004K6B556",
     "ticker": "UCSS",
     "title": "Объединенные Кредитные Системы",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000MZL0Y6",
     "ticker": "PMSB",
     "title": "Пермэнергосбыт",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000QF1Q17",
     "ticker": "FESH",
     "title": "ДВМП",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004PYF2N3",
     "ticker": "POLY",
     "title": "Polymetal",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG0028Z77G9",
     "ticker": "RUSI",
     "title": "РУСС-ИНВЕСТ",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG009GSYN76",
     "ticker": "CBOM",
     "title": "МКБ",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68DD6",
     "ticker": "MSTT",
     "title": "Мостотрест",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000LWVHN8",
     "ticker": "DASB",
     "title": "Дагестанская энергосбытовая компания",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000JXYY95",
     "ticker": "VRSBP",
     "title": "ТНС энерго Воронеж - привилегированные акции",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VH7TZ8",
     "ticker": "MRKC",
     "title": "Россети Центр",
     "lot": 1000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000VPC6Y5",
     "ticker": "KRSBP",
     "title": "Красноярскэнергосбыт - привилегированные акции",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000HJXDM0",
     "ticker": "YKEN",
     "title": "Якутскэнерго",
     "lot": 10000,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S68473",
     "ticker": "IRAO",
     "title": "Интер РАО ЕЭС",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000BBV4M5",
     "ticker": "CNTL",
     "title": "Центральный Телеграф",
     "lot": 100,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002B9MYC1",
     "ticker": "KAZT",
     "title": "КуйбышевАзот",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG000V95X70",
     "ticker": "MRKK",
     "title": "МРСК Северного Кавказа",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG004S683W7",
     "ticker": "AFLT",
     "title": "Аэрофлот",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "BBG002W2FT69",
     "ticker": "ABRD",
     "title": "АбрауДюрсо",
     "lot": 10,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   },
   {
-    "id": 0,
     "figi": "TCS00A105EX7",
     "ticker": "WUSH",
     "title": "Whoosh",
     "lot": 1,
-    "about": "",
+
     "typeId": 1,
     "currencyId": 1
   }

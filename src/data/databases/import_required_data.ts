@@ -38,12 +38,18 @@ const importRequiredData = async (sqlDatabase: SqlDatabase) => {
 
   const importInstruments = () => {
     const values = investInstrumentsData
-      .map(
-        (v) =>
-          `(${v.typeId}, ${v.currencyId}, '${v.figi}', '${v.ticker}', '${v.title}', ${v.lot})`,
-      )
+      .map((v) => {
+        const upper_case_figi = v.figi.toUpperCase();
+        const upper_case_ticker = v.ticker.toUpperCase();
+        const upper_case_title = v.title.toUpperCase();
+        return `(${v.typeId}, ${v.currencyId}, '${v.figi}', '${v.ticker}', '${
+          v.title
+        }', ${
+          v.lot
+        }, '${upper_case_figi}', '${upper_case_ticker}', '${upper_case_title}')`;
+      })
       .join(', ');
-    const script = `INSERT INTO ${TableTitle.investInstruments} (type_id,currency_id, figi, ticker, title, lot) VALUES ${values}`;
+    const script = `INSERT INTO ${TableTitle.investInstruments} (type_id,currency_id, figi, ticker, title, lot, upper_case_figi, upper_case_ticker, upper_case_title) VALUES ${values}`;
     sqlDatabase.create(script);
   };
 

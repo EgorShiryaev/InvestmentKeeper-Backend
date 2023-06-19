@@ -62,7 +62,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
           ON DELETE CASCADE
     )`,
     investmentAssets: `
-    ${TableTitle.investmentAssets} (
+    ${TableTitle.investAssets} (
       ${IdColumnConfig},
       account_id INTEGER NOT NULL,
       instrument_id INTEGER NOT NULL,
@@ -88,7 +88,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       price DOUBLE PRECISION NOT NULL,
       commission DOUBLE PRECISION NOT NULL DEFAULT 0,
       FOREIGN KEY (investment_asset_id)
-        REFERENCES ${TableTitle.investmentAssets} (id) 
+        REFERENCES ${TableTitle.investAssets} (id) 
           ON UPDATE CASCADE
           ON DELETE CASCADE
     )`,
@@ -107,6 +107,9 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       ticker VARCHAR(12) NOT NULL,
       title VARCHAR(255) NOT NULL,
       lot INTEGER NOT NULL,
+      upper_case_figi VARCHAR(12) NOT NULL,
+      upper_case_ticker VARCHAR(12) NOT NULL,
+      upper_case_title VARCHAR(255) NOT NULL,
       FOREIGN KEY (type_id)
         REFERENCES ${TableTitle.investInstrumentTypes} (id) 
           ON UPDATE CASCADE
