@@ -1,8 +1,10 @@
+import MoneyEntity from './money_entity';
+
 type CandleEntity = {
-  open?: number;
-  close?: number;
-  high?: number;
-  low?: number;
+  open?: MoneyEntity;
+  close?: MoneyEntity;
+  high?: MoneyEntity;
+  low?: MoneyEntity;
   volume: number;
   time?: Date;
   isComplete: boolean;

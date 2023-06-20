@@ -1,5 +1,6 @@
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
+import aPlusB from '../../core/utils/money_utils/a_plus_b';
 import checkIdIsCorrect from '../../core/utils/required_params/check_id_is_correct';
 import AccountsDatasource from '../../data/datasources/accounts_datasource/accounts_datasource';
 import CurrenciesDatasource from '../../data/datasources/currencies_datasource/currencies_datasource';
@@ -8,6 +9,7 @@ import FinancialOperationsDatasource from '../../data/datasources/financial_oper
 import AccountModel from '../../data/models/account_model';
 import CurrencyDepositModel from '../../data/models/currency_deposit_model';
 import CurrencyModel from '../../data/models/currency_model';
+import MoneyEntity from '../entities/money_entity';
 
 type Params = {
   financialOperationsDatasource: FinancialOperationsDatasource;
@@ -23,7 +25,7 @@ type GetCurrencyDeposit = {
 
 type CallMethodParams = {
   accountId: number;
-  value: number;
+  value: MoneyEntity;
   currencyName: string;
   date?: string;
 };
@@ -82,7 +84,13 @@ const CreateRefillUsecaseImpl = ({
         account: account,
         currency: currency,
       });
-      const newBalance = currencyDeposit.value + value;
+      const newBalance = aPlusB(
+        {
+          nano: currencyDeposit.value_nano,
+          units: currencyDeposit.value_units,
+        },
+        value,
+      );
       try {
         await currencyDepositsDatasource.update({
           id: currencyDeposit.id,

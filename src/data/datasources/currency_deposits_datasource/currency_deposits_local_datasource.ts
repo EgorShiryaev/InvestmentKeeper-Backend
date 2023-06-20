@@ -12,8 +12,9 @@ const CurrencyDepositsLocalDatasource = ({
       const currenciesTable = TableTitle.currencies;
 
       const script = `SELECT 
-        ${table}.value AS "currency_deposit_value", 
-        ${currenciesTable}.value AS "currency_deposit_currency"
+        ${table}.value_units, 
+        ${table}.value_nano, 
+        ${currenciesTable}.value AS "currency"
         FROM ${table}
         JOIN ${currenciesTable} On ${table}.currency_id = ${currenciesTable}.id
         WHERE account_id = ${accountId}`;
@@ -26,16 +27,15 @@ const CurrencyDepositsLocalDatasource = ({
 
       return sqlDatabase.get(script);
     },
-    create: ({ accountId, currencyId, value }) => {
-      const valueColumn = value ? ', value' : '';
-      const valueValue = value ? `, ${value}` : '';
-      const script = `INSERT INTO ${table} (account_id, currency_id ${valueColumn})
-        VALUES(${accountId}, ${currencyId} ${valueValue})  
-      `;
+    create: ({ accountId, currencyId }) => {
+      const script = `INSERT INTO ${table} (account_id, currency_id)
+        VALUES(${accountId}, ${currencyId})`;
+
       return sqlDatabase.create(script);
     },
     update: ({ id, value }) => {
-      const script = `UPDATE ${table} SET value = ${value} WHERE id = ${id}`;
+      const script = `UPDATE ${table} SET value_units = ${value.units}, value_nano = ${value.nano} WHERE id = ${id}`;
+      
       return sqlDatabase.update(script);
     },
   };

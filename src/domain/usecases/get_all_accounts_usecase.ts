@@ -3,17 +3,17 @@ import convertToCurrencyDepositEntity from '../../core/utils/convectors/convert_
 import convertToInvestmentAssetEntity from '../../core/utils/convectors/convert_to_investment_asset_entity';
 import AccountsDatasource from '../../data/datasources/accounts_datasource/accounts_datasource';
 import CurrencyDepositsDatasource from '../../data/datasources/currency_deposits_datasource/currency_deposits_datasource';
-import InstrumentPriceDatasource from '../../data/datasources/instrument_price_datasource/instrument_price_datasource';
 import InvestmentAssetsDatasource from '../../data/datasources/investment_assets_datasource/investment_assets_datasource';
 import AccountEntity from '../entities/account_entity';
 import CurrencyDepositEntity from '../entities/currency_deposit_entity';
 import InvestmentAssetEntity from '../entities/investment_asset_entity';
+import { InstrumentPriceRepository } from '../repositories/instrument_price_repository_impl';
 
 type Params = {
   accountsDatasource: AccountsDatasource;
   investmentAssetsDatasource: InvestmentAssetsDatasource;
-  instrumentPriceDatasource: InstrumentPriceDatasource;
   currencyDepositsDatasource: CurrencyDepositsDatasource;
+  instrumentPriceRepository: InstrumentPriceRepository;
 };
 
 export type GetAllAccountsUsecase = {
@@ -23,8 +23,8 @@ export type GetAllAccountsUsecase = {
 const GetAllAccountsUsecaseImpl = ({
   accountsDatasource,
   investmentAssetsDatasource,
-  instrumentPriceDatasource,
   currencyDepositsDatasource,
+  instrumentPriceRepository,
 }: Params): GetAllAccountsUsecase => {
   const getItems = (accountId: number): Promise<InvestmentAssetEntity[]> => {
     return investmentAssetsDatasource
@@ -32,9 +32,8 @@ const GetAllAccountsUsecaseImpl = ({
       .then((items) => {
         return Promise.all(
           items.map((v) => {
-            return instrumentPriceDatasource
-              .get(v.instrument_figi)
-              .then((price) => convertToInvestmentAssetEntity(v, price));
+            const price = instrumentPriceRepository.get(v.instrument_figi);
+            return convertToInvestmentAssetEntity(v, price);
           }),
         );
       });

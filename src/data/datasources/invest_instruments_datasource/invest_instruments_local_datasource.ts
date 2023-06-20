@@ -53,6 +53,11 @@ const InvestInstrumentsLocalDatasource = ({
 
       return sqlDatabase.get(script);
     },
+    getAllFigis: () => {
+      const script = `SELECT figi FROM ${table}`;
+
+      return sqlDatabase.getAll(script);
+    },
   };
 };
 

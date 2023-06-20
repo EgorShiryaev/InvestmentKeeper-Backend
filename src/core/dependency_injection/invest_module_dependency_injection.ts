@@ -30,16 +30,18 @@ import GetCandlesUsecaseImpl from '../../domain/usecases/get_candles_usecase';
 import GetAccountUsecaseImpl from '../../domain/usecases/get_account_usecase';
 import GetAccount from '../../presentation/api/invest_module/get_account';
 import SqlDatabase from '../../data/databases/sql_database';
+import InstrumentPriceRepositoryImpl from '../../domain/repositories/instrument_price_repository_impl';
+import QuotationsRemoteDatasource from '../../data/datasources/quotations_datasource/quotations_remote_datasource';
 
 type Params = {
   sqlDatabase: SqlDatabase;
   api: TinkoffInvestApi;
 };
 
-const investModuleDependencyInjection = ({
+const investModuleDependencyInjection = async ({
   sqlDatabase,
   api,
-}: Params): InvestModule => {
+}: Params): Promise<InvestModule> => {
   const accountsDatasource = AccountsLocalDatasource({
     sqlDatabase: sqlDatabase,
   });
@@ -67,12 +69,22 @@ const investModuleDependencyInjection = ({
   const currenciesDatasource = CurrenciesLocalDatasource({
     sqlDatabase: sqlDatabase,
   });
+  const quotationsDatasource = QuotationsRemoteDatasource({
+    api: api,
+  });
+
+  const instrumentPriceRepository = InstrumentPriceRepositoryImpl({
+    instrumentPriceDatasource: instrumentPriceDatasource,
+    instrumentsDatasource: investInstrumentsDatasource,
+    quotationsDatasource: quotationsDatasource,
+  });
+  await instrumentPriceRepository.init();
 
   const getAccountsUsecase = GetAllAccountsUsecaseImpl({
     accountsDatasource: accountsDatasource,
     investmentAssetsDatasource: investmentAssetsDatasource,
-    instrumentPriceDatasource: instrumentPriceDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,
+    instrumentPriceRepository: instrumentPriceRepository,
   });
   const createAccountUsecase = CreateAccountUsecaseImpl({
     accountsDatasource: accountsDatasource,
@@ -118,8 +130,8 @@ const investModuleDependencyInjection = ({
   const getAccountUsecase = GetAccountUsecaseImpl({
     accountsDatasource: accountsDatasource,
     investmentAssetsDatasource: investmentAssetsDatasource,
-    instrumentPriceDatasource: instrumentPriceDatasource,
     currencyDepositsDatasource: currencyDepositsDatasource,
+    instrumentPriceRepository: instrumentPriceRepository,
   });
 
   const getAllAccounts = GetAllAccounts({

@@ -1,6 +1,8 @@
 import BadRequestException from '../../core/exception/bad_request_exception';
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
+import aMinusB from '../../core/utils/money_utils/a_minus_b';
+import isAGreaterB from '../../core/utils/money_utils/is_a_greater_b';
 import checkIdIsCorrect from '../../core/utils/required_params/check_id_is_correct';
 import AccountsDatasource from '../../data/datasources/accounts_datasource/accounts_datasource';
 import CurrenciesDatasource from '../../data/datasources/currencies_datasource/currencies_datasource';
@@ -9,6 +11,7 @@ import FinancialOperationsDatasource from '../../data/datasources/financial_oper
 import AccountModel from '../../data/models/account_model';
 import CurrencyDepositModel from '../../data/models/currency_deposit_model';
 import CurrencyModel from '../../data/models/currency_model';
+import MoneyEntity from '../entities/money_entity';
 
 type Params = {
   financialOperationsDatasource: FinancialOperationsDatasource;
@@ -24,7 +27,7 @@ type GetCurrencyDeposit = {
 
 type CallMethodParams = {
   accountId: number;
-  value: number;
+  value: MoneyEntity;
   currencyName: string;
   date?: string;
 };
@@ -74,7 +77,13 @@ const CreateWithdrawalUsecaseImpl = ({
         account: account,
         currency: currency,
       });
-      if (value > currencyDeposit.value) {
+
+      if (
+        isAGreaterB(value, {
+          nano: currencyDeposit.value_nano,
+          units: currencyDeposit.value_units,
+        })
+      ) {
         throw BadRequestException(
           'You can`t withdraw this amount because there are not enough funds on your account',
         );
@@ -88,7 +97,13 @@ const CreateWithdrawalUsecaseImpl = ({
       if (!checkIdIsCorrect(id)) {
         throw ServerErrorException('Failed refill creation');
       }
-      const newBalance = currencyDeposit.value - value;
+      const newBalance = aMinusB(
+        {
+          nano: currencyDeposit.value_nano,
+          units: currencyDeposit.value_units,
+        },
+        value,
+      );
       try {
         await currencyDepositsDatasource.update({
           id: currencyDeposit.id,

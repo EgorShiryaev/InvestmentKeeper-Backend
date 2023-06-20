@@ -10,8 +10,8 @@ const FinancialOperationsLocalDatasource = ({
   return {
     create: ({ accountId, currencyId, value, date }) => {
       const dateValue = date ?? new Date().toISOString();
-      const script = `INSERT INTO ${table} (account_id, currency_id, value, date)
-        VALUES(${accountId}, ${currencyId}, ${value}, '${dateValue}')  
+      const script = `INSERT INTO ${table} (account_id, currency_id, value_units, value_nano, date)
+        VALUES(${accountId}, ${currencyId}, ${value.units}, ${value.nano}, '${dateValue}')  
       `;
       return sqlDatabase.create(script);
     },

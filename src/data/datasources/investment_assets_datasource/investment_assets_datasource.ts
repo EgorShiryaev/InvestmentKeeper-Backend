@@ -1,3 +1,5 @@
+
+import MoneyEntity from '../../../domain/entities/money_entity';
 import InvestmentAssetFullModel from '../../models/investment_asset_full_model';
 import InvestmentAssetModel from '../../models/investment_asset_model';
 
@@ -9,8 +11,8 @@ type CreateInvestmentAssetData = {
 type UpdateInvestmentAssetData = {
   id: number;
   lots: number;
-  averagePurchasePrice?: number;
-  averageExchangeRate?: number;
+  averagePurchasePrice?: MoneyEntity;
+  averageExchangeRate?: MoneyEntity;
 };
 
 interface InvestmentAssetsDatasource {

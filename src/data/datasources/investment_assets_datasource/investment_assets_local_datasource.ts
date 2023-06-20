@@ -1,3 +1,4 @@
+import checkNotNullableValue from '../../../core/utils/check_not_nullable_value';
 import TableTitle from '../../databases/table_title';
 import LocalDatasourceParameters from '../local_datasource_parameters';
 import InvestmentAssetsDatasource from './investment_assets_datasource';
@@ -16,8 +17,10 @@ const InvestmentAssetsLocalDatasource = ({
       const script = `SELECT 
       ${table}.id AS "investment_asset_id", 
       ${table}.lots AS "investment_asset_lots", 
-      ${table}.average_purchase_price AS "investment_asset_average_purchase_price",
-      ${table}.average_exchange_rate AS "investment_asset_average_exchange_rate",
+      ${table}.average_purchase_price_units AS "investment_asset_average_purchase_price_units",
+      ${table}.average_purchase_price_nano AS "investment_asset_average_purchase_price_nano",
+      ${table}.average_exchange_rate_units AS "investment_asset_average_exchange_rate_units",
+      ${table}.average_exchange_rate_nano AS "investment_asset_average_exchange_rate_nano",
       ${investInstrumentsTable}.id AS "instrument_id",
       ${investInstrumentsTable}.figi AS "instrument_figi",
       ${investInstrumentsTable}.ticker AS "instrument_ticker",
@@ -48,15 +51,22 @@ const InvestmentAssetsLocalDatasource = ({
 
       return sqlDatabase.create(script);
     },
-    update: ({ id, lots, averagePurchasePrice, averageExchangeRate }) => {
+    update: ({
+      id,
+      lots,
+      averagePurchasePrice,
+      averageExchangeRate,
+    }) => {
       const setFields = [
         `lots = ${lots}`,
-        averagePurchasePrice !== null &&
-          averagePurchasePrice !== undefined &&
-          `average_purchase_price = ${averagePurchasePrice}`,
-        averageExchangeRate !== null &&
-          averageExchangeRate !== undefined &&
-          `average_exchange_rate = ${averageExchangeRate}`,
+        checkNotNullableValue(averagePurchasePrice) &&
+          `average_purchase_price_units = ${averagePurchasePrice?.units}`,
+        checkNotNullableValue(averagePurchasePrice) &&
+          `average_purchase_price_nano = ${averagePurchasePrice?.nano}`,
+        checkNotNullableValue(averageExchangeRate) &&
+          `average_exchange_rate_units = ${averageExchangeRate?.units}`,
+        checkNotNullableValue(averageExchangeRate) &&
+          `average_exchange_rate_nano = ${averageExchangeRate?.nano}`,
       ];
       const set = setFields.filter((v) => v).join(', ');
       const script = `UPDATE ${table} SET ${set} WHERE id = ${id}`;
