@@ -26,7 +26,7 @@ const dependencyInjection = async ({
   const authModule = authModuleDependencyInjection({
     sqlDatabase,
   });
-  const investModule = investModuleDependencyInjection({
+  const investModule = await investModuleDependencyInjection({
     sqlDatabase,
     api: tinkoffApi,
   });

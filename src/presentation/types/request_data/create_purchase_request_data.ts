@@ -1,10 +1,12 @@
+import MoneyEntity from '../../../domain/entities/money_entity';
+
 type CreatePurchaseRequestData = {
   accountId: number;
   instrumentId: number;
   lots: number;
-  price: number;
+  price: MoneyEntity;
   date?: string;
-  commission?: number;
+  commission?: MoneyEntity;
   withdrawFundsFromBalance: boolean;
 };
 

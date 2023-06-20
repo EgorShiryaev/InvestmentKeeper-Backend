@@ -1,9 +1,11 @@
+import MoneyEntity from '../../../domain/entities/money_entity';
+
 type CreateTradingOperationData = {
   investmentAssetId: number;
   lots: number;
-  price: number;
+  price: MoneyEntity;
   date?: string;
-  commission?: number;
+  commission?: MoneyEntity;
 };
 
 interface TradingOperationsDatasource {

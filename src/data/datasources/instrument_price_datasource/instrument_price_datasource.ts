@@ -1,5 +1,7 @@
+import { InstrumentPriceEntity } from '../../../domain/repositories/instrument_price_repository_impl';
+
 interface InstrumentPriceDatasource {
-  get: (figi: string) => Promise<number | undefined>;
+  getAll: (figis: string[]) => Promise<InstrumentPriceEntity[]>;
 }
 
 export default InstrumentPriceDatasource;

@@ -1,6 +1,8 @@
+import MoneyEntity from '../../../domain/entities/money_entity';
+
 type CreateWithdrawalRequestData = {
   accountId: number;
-  value: number;
+  value: MoneyEntity;
   currency: string;
   date?: string;
 };

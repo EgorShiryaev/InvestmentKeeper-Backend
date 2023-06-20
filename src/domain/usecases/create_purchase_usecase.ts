@@ -3,7 +3,8 @@ import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
 import calculateAveragePrice from '../../core/utils/calculate_utils/calculate_average_price';
 import calculateBalance from '../../core/utils/calculate_utils/calculate_balance';
-import calculateTotalPrice from '../../core/utils/calculate_utils/calculate_total_price';
+import checkTotalPriceIsGreaterAccountBalance from '../../core/utils/check_total_price_is_greater_account_balance';
+import makeNegativeMoney from '../../core/utils/money_utils/make_negative_money';
 import checkIdIsCorrect from '../../core/utils/required_params/check_id_is_correct';
 import AccountsDatasource from '../../data/datasources/accounts_datasource/accounts_datasource';
 import CurrencyDepositsDatasource from '../../data/datasources/currency_deposits_datasource/currency_deposits_datasource';
@@ -14,6 +15,7 @@ import AccountModel from '../../data/models/account_model';
 import CurrencyDepositModel from '../../data/models/currency_deposit_model';
 import InvestInstrumentModel from '../../data/models/invest_instrument_model';
 import CreatePurchaseRequestData from '../../presentation/types/request_data/create_purchase_request_data';
+import MoneyEntity from '../entities/money_entity';
 
 type Params = {
   investmentAssetsDatasource: InvestmentAssetsDatasource;
@@ -38,9 +40,9 @@ type CallMethodParams = {
   accountId: number;
   instrumentId: number;
   lots: number;
-  price: number;
+  price: MoneyEntity;
   date?: string;
-  commission?: number;
+  commission?: MoneyEntity;
   withdrawFundsFromBalance: boolean;
 };
 
@@ -72,26 +74,15 @@ const CreatePurchaseUsecaseImpl = ({
     return investmentAssetsDatasource.getById(id);
   };
 
-  const checkTotalPriceIsGreaterAccountBalance = (
-    params: CreatePurchaseRequestData,
-    depositModel: CurrencyDepositModel,
-    instrument: InvestInstrumentModel,
-  ) => {
-    const totalPrice = calculateTotalPrice({
-      price: params.price,
-      lots: params.lots * instrument.lot,
-    });
-    return totalPrice > depositModel.value;
-  };
-
   const withdrawFundsFromBalanceFn = async ({
     currencyDeposit,
     params,
     instrumentLot,
   }: WithdrawFundsFromBalanceParams) => {
+    const negativePrice = makeNegativeMoney(params.price);
     const newBalance = calculateBalance({
-      balance: currencyDeposit.value,
-      price: -params.price,
+      balance: currencyDeposit,
+      price: negativePrice,
       lots: params.lots * instrumentLot,
       commission: params.commission,
     });
@@ -150,9 +141,10 @@ const CreatePurchaseUsecaseImpl = ({
         instrument: instrument,
       });
       const isGreater = checkTotalPriceIsGreaterAccountBalance(
-        params,
+        params.price,
         currencyDeposit,
-        instrument,
+        instrument.lot * params.lots,
+        params.commission
       );
       if (withdrawFundsFromBalance && isGreater) {
         throw BadRequestException(
@@ -168,7 +160,10 @@ const CreatePurchaseUsecaseImpl = ({
           id: investmentAsset.id,
           lots: investmentAsset.lots + lots,
           averagePurchasePrice: calculateAveragePrice({
-            averagePrice: investmentAsset.average_purchase_price,
+            averagePrice: {
+              units: investmentAsset.average_purchase_price_units,
+              nano: investmentAsset.average_purchase_price_nano,
+            },
             lots: investmentAsset.lots,
             newPrice: price,
             newLots: lots,

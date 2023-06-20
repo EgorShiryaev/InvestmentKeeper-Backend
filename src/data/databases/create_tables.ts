@@ -38,7 +38,8 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       ${IdColumnConfig},
       account_id INTEGER NOT NULL,
       currency_id INTEGER NOT NULL,
-      value DOUBLE PRECISION NOT NULL DEFAULT 0,
+      value_units INTEGER NOT NULL DEFAULT 0,
+      value_nano INTEGER NOT NULL DEFAULT 0,
       FOREIGN KEY (currency_id)
         REFERENCES ${TableTitle.currencies} (id) 
           ON UPDATE CASCADE
@@ -51,7 +52,8 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       account_id INTEGER NOT NULL,
       currency_id INTEGER NOT NULL,
       date TEXT NOT NULL,
-      value DOUBLE PRECISION NOT NULL,
+      value_units INTEGER NOT NULL,
+      value_nano INTEGER NOT NULL,
       FOREIGN KEY (account_id)
         REFERENCES ${TableTitle.accounts} (id) 
           ON UPDATE CASCADE
@@ -67,8 +69,10 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       account_id INTEGER NOT NULL,
       instrument_id INTEGER NOT NULL,
       lots INTEGER NOT NULL DEFAULT 0,
-      average_purchase_price DOUBLE PRECISION NOT NULL DEFAULT 0,
-      average_exchange_rate DOUBLE PRECISION NOT NULL DEFAULT 1,
+      average_purchase_price_units INTEGER NOT NULL DEFAULT 0,
+      average_purchase_price_nano INTEGER NOT NULL DEFAULT 0,
+      average_exchange_rate_units DOUBLE PRECISION NOT NULL DEFAULT 1,
+      average_exchange_rate_nano DOUBLE PRECISION NOT NULL DEFAULT 0,
       FOREIGN KEY (account_id)
         REFERENCES ${TableTitle.accounts} (id) 
           ON UPDATE CASCADE
@@ -85,8 +89,10 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
       investment_asset_id INTEGER NOT NULL,
       date TEXT NOT NULL,
       lots INTEGER NOT NULL,
-      price DOUBLE PRECISION NOT NULL,
-      commission DOUBLE PRECISION NOT NULL DEFAULT 0,
+      price_units INTEGER NOT NULL,
+      price_nano INTEGER NOT NULL,
+      commission_units INTEGER NOT NULL DEFAULT 0,
+      commission_nano INTEGER NOT NULL DEFAULT 0,
       FOREIGN KEY (investment_asset_id)
         REFERENCES ${TableTitle.investAssets} (id) 
           ON UPDATE CASCADE

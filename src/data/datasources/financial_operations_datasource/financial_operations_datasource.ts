@@ -1,7 +1,9 @@
+import MoneyEntity from '../../../domain/entities/money_entity';
+
 type CreateFinancialOperationData = {
   accountId: number;
   currencyId: number;
-  value: number;
+  value: MoneyEntity;
   date?: string;
 };
 

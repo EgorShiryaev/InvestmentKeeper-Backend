@@ -1,9 +1,12 @@
-import currency from 'currency.js';
+import MoneyEntity, { NANO_VALUE } from '../../../domain/entities/money_entity';
+import aPlusB from '../money_utils/a_plus_b';
+import divisionMoney from '../money_utils/division_money';
+import multiplyMoney from '../money_utils/multiply_money';
 
 type CalcParams = {
-  averagePrice: number;
+  averagePrice: MoneyEntity;
   lots: number;
-  newPrice: number;
+  newPrice: MoneyEntity;
   newLots: number;
 };
 
@@ -12,11 +15,13 @@ const calculateAveragePrice = ({
   lots,
   newPrice,
   newLots,
-}: CalcParams): number => {
+}: CalcParams): MoneyEntity => {
   const totalLots = lots + newLots;
-  return (
-    currency(averagePrice * lots).add(newPrice * newLots).value / totalLots
-  );
+  const currentTotalPrice = multiplyMoney(averagePrice, lots);
+  const newTotalPrice = multiplyMoney(newPrice, newLots);
+  const newAverageTotalPrice = aPlusB(currentTotalPrice, newTotalPrice);
+  const result = divisionMoney(newAverageTotalPrice, totalLots);
+  return result;
 };
 
 export default calculateAveragePrice;

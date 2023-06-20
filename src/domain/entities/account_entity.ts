@@ -4,8 +4,6 @@ import CurrencyDepositEntity from './currency_deposit_entity';
 
 type AccountEntity = BaseEntity & {
   title: string;
-  purchasePrice: number;
-  currentPrice: number;
   items: InvestmentAssetEntity[];
   currencyDeposits: CurrencyDepositEntity[];
 };

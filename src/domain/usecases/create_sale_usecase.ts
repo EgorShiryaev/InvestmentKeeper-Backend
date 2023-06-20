@@ -12,6 +12,7 @@ import AccountModel from '../../data/models/account_model';
 import CurrencyDepositModel from '../../data/models/currency_deposit_model';
 import InvestInstrumentModel from '../../data/models/invest_instrument_model';
 import CreateSaleRequestData from '../../presentation/types/request_data/create_sale_request_data';
+import MoneyEntity from '../entities/money_entity';
 
 type Params = {
   investmentAssetsDatasource: InvestmentAssetsDatasource;
@@ -36,9 +37,9 @@ type CallMethodParams = {
   accountId: number;
   instrumentId: number;
   lots: number;
-  price: number;
+  price: MoneyEntity;
   date?: string;
-  commission?: number;
+  commission?: MoneyEntity;
   addFundsFromSaleToBalance: boolean;
 };
 
@@ -59,7 +60,7 @@ const CreateSaleUsecaseImpl = ({
     instrumentLot,
   }: AddFundsFromSaleToBalanceParams) => {
     const newBalance = calculateBalance({
-      balance: currencyDeposit.value,
+      balance: currencyDeposit,
       price: params.price,
       lots: params.lots * instrumentLot,
       commission: params.commission,

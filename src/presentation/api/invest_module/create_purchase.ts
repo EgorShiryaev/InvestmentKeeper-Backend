@@ -9,6 +9,8 @@ import ApiMethod from '../../types/methods/api_method';
 import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_iso_date_format';
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreatePurchaseUsecase } from '../../../domain/usecases/create_purchase_usecase';
+import checkNotNullableValue from '../../../core/utils/check_not_nullable_value';
+import convertToNumber from '../../../core/utils/convectors/convert_to_number';
 
 type Params = {
   createPurchaseUsecase: CreatePurchaseUsecase;
@@ -33,20 +35,13 @@ const CreatePurchase = ({ createPurchaseUsecase }: Params): ApiMethod => {
           params: requiredParams,
         });
         if (
-          params.date !== null &&
-          params.date !== undefined &&
-          !checkIsIsoDateFormat(params.date)
+          checkNotNullableValue(params.date) &&
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          !checkIsIsoDateFormat(params.date!)
         ) {
           throw BadRequestException(
             'date should be is string to iso date format',
           );
-        }
-        if (
-          params.commission !== null &&
-          params.commission !== undefined &&
-          isNaN(params.commission)
-        ) {
-          throw BadRequestException('commission should be is double');
         }
         getAuthedUser(request.headers);
         await createPurchaseUsecase.call({

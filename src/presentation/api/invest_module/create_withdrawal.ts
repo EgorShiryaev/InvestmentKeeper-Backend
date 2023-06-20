@@ -3,12 +3,12 @@ import { IException } from '../../../core/exception/exception';
 import checkRequiredParams from '../../../core/utils/required_params/check_required_params';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import StatusCode from '../../../domain/entities/status_code';
-import CreateRefillRequestData from '../../types/request_data/create_refill_request_data';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_iso_date_format';
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreateWithdrawalUsecase } from '../../../domain/usecases/create_withdrawal_usecase';
+import CreateWithdrawalRequestData from '../../types/request_data/create_withdrawal_request_data';
 
 type Params = {
   createWithdrawalUsecase: CreateWithdrawalUsecase;
@@ -21,7 +21,7 @@ const CreateWithdrawal = ({ createWithdrawalUsecase }: Params): ApiMethod => {
     handler: async (request, response) => {
       try {
         console.log(request.method, request.url);
-        const params: CreateRefillRequestData = request.body;
+        const params: CreateWithdrawalRequestData = request.body;
         checkRequiredParams({
           body: params,
           params: requiredParams,

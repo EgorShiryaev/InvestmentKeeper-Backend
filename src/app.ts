@@ -45,6 +45,7 @@ const App = ({ port, authApi, investApi }: Params) => {
         //   investApi.getAccountPrice.handler,
         // );
         app.get(`${apiVersion}`, (_, request) => {
+          
           request.send('<h1>It`s works</h1>');
         });
         const server = http.createServer(app);

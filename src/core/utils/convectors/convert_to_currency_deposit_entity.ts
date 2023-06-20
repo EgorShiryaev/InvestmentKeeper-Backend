@@ -6,8 +6,11 @@ const convertToCurrencyDepositEntity = (
   model: CurrencyDepositFullModel,
 ): CurrencyDepositEntity => {
   return {
-    value: model.currency_deposit_value,
-    currency: convertToCurrencyEntity(model.currency_deposit_currency),
+    value: {
+      nano: model.value_nano,
+      units: model.value_units,
+    },
+    currency: convertToCurrencyEntity(model.currency),
   };
 };
 
