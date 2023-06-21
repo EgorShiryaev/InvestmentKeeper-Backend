@@ -1,3 +1,4 @@
+import ExceptionId from '../../core/exception/exception_id';
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
 import checkIdIsCorrect from '../../core/utils/required_params/check_id_is_correct';
@@ -33,7 +34,10 @@ const CreateAccountUsecaseImpl = ({
         value: currencyName,
       });
       if (!currency) {
-        throw NotFoundException('Currency not found');
+        throw NotFoundException({
+          id: ExceptionId.currencyNotFound,
+          message: 'Currency not found',
+        });
       }
       const id = await accountsDatasource.create({
         userId: user.id,

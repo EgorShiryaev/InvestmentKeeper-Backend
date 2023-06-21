@@ -12,6 +12,7 @@ import ApiMethod from '../../types/methods/api_method';
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { GetCandlesUsecase } from '../../../domain/usecases/get_candles_usecase';
 import GetCandlesResponseData from '../../types/response_data/get_candles_response_data';
+import ExceptionId from '../../../core/exception/exception_id';
 
 type Params = {
   getCandlesUsecase: GetCandlesUsecase;
@@ -30,16 +31,23 @@ const GetCandles = ({ getCandlesUsecase }: Params): ApiMethod => {
           params: requiredParams,
         });
         if (!checkIsIsoDateFormat(params.from)) {
-          throw BadRequestException('from parameter value must be valid date');
+          throw BadRequestException({
+            id: ExceptionId.invalidDateDormat,
+            message: 'from parameter value must be valid date',
+          });
         }
         if (!checkIsIsoDateFormat(params.to)) {
-          throw BadRequestException('to parameter value must be valid date');
+          throw BadRequestException({
+            id: ExceptionId.invalidDateDormat,
+            message: 'to parameter value must be valid date',
+          });
         }
         if (!checkCandleTimesizeIsCorrectValue(params.candleTimesize)) {
           const values = getCandleTimesizeValues().join(', ');
-          throw BadRequestException(
-            `candleTimesize parameter value must be one of [${values}]`,
-          );
+          throw BadRequestException({
+            id: ExceptionId.invalidCandleTimesize,
+            message: `candleTimesize parameter value must be one of [${values}]`,
+          });
         }
         getAuthedUser(request.headers);
         const candles = await getCandlesUsecase.call({
@@ -56,6 +64,7 @@ const GetCandles = ({ getCandlesUsecase }: Params): ApiMethod => {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
         const errorResponseData: ErrorResponseData = {
+          id: exception.id,
           message: exception.message,
         };
         response.status(statusCode).json(errorResponseData);

@@ -1,4 +1,5 @@
 import BadRequestException from '../../core/exception/bad_request_exception';
+import ExceptionId from '../../core/exception/exception_id';
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
 import calculateAveragePrice from '../../core/utils/calculate_utils/calculate_average_price';
@@ -130,11 +131,17 @@ const CreatePurchaseUsecaseImpl = ({
         instrumentId,
       );
       if (!instrument) {
-        throw NotFoundException('Invest instrument not found');
+        throw NotFoundException({
+          id: ExceptionId.investInstrumentNotFound,
+          message: 'Invest instrument not found',
+        });
       }
       const account = await accountsDatasource.getById(accountId);
       if (!account) {
-        throw NotFoundException('Account not found');
+        throw NotFoundException({
+          id: ExceptionId.accountNotFound,
+          message: 'Account not found',
+        });
       }
       const currencyDeposit = await getCurrencyDeposit({
         account: account,
@@ -144,12 +151,14 @@ const CreatePurchaseUsecaseImpl = ({
         params.price,
         currencyDeposit,
         instrument.lot * params.lots,
-        params.commission
+        params.commission,
       );
       if (withdrawFundsFromBalance && isGreater) {
-        throw BadRequestException(
-          'You can`t buy this instrument because there are not enough funds on your account',
-        );
+        throw BadRequestException({
+          id: ExceptionId.notEnoughFunds,
+          message:
+            'You can`t buy this instrument because there are not enough funds on your account',
+        });
       }
       const investmentAsset = await getInvestmentAsset(params);
       if (!investmentAsset) {

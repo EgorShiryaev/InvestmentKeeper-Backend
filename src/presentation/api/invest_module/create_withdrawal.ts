@@ -9,6 +9,7 @@ import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_i
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreateWithdrawalUsecase } from '../../../domain/usecases/create_withdrawal_usecase';
 import CreateWithdrawalRequestData from '../../types/request_data/create_withdrawal_request_data';
+import ExceptionId from '../../../core/exception/exception_id';
 
 type Params = {
   createWithdrawalUsecase: CreateWithdrawalUsecase;
@@ -31,9 +32,10 @@ const CreateWithdrawal = ({ createWithdrawalUsecase }: Params): ApiMethod => {
           params.date !== undefined &&
           !checkIsIsoDateFormat(params.date)
         ) {
-          throw BadRequestException(
-            'date should be is string to iso date format',
-          );
+          throw BadRequestException({
+            id: ExceptionId.invalidDateDormat,
+            message: 'date should be is string to iso date format',
+          });
         }
         getAuthedUser(request.headers);
         await createWithdrawalUsecase.call({
@@ -47,6 +49,7 @@ const CreateWithdrawal = ({ createWithdrawalUsecase }: Params): ApiMethod => {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
         const errorResponseData: ErrorResponseData = {
+          id: exception.id,
           message: exception.message,
         };
         response.status(statusCode).json(errorResponseData);

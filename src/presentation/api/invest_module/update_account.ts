@@ -27,13 +27,14 @@ const UpdateAccount = ({ updateAccountUsecase }: Params): ApiMethod => {
         getAuthedUser(request.headers);
         updateAccountUsecase.call({
           id: params.id,
-          title: params.title
+          title: params.title,
         });
         response.sendStatus(StatusCode.noContent);
       } catch (error) {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
         const errorResponseData: ErrorResponseData = {
+          id: exception.id,
           message: exception.message,
         };
         response.status(statusCode).json(errorResponseData);

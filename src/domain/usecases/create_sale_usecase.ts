@@ -1,4 +1,5 @@
 import BadRequestException from '../../core/exception/bad_request_exception';
+import ExceptionId from '../../core/exception/exception_id';
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
 import calculateBalance from '../../core/utils/calculate_utils/calculate_balance';
@@ -107,13 +108,19 @@ const CreateSaleUsecaseImpl = ({
       } = params;
       const account = await accountsDatasource.getById(accountId);
       if (!account) {
-        throw NotFoundException('Account not found');
+        throw NotFoundException({
+          id: ExceptionId.accountNotFound,
+          message: 'Account not found',
+        });
       }
       const instrument = await investInstrumentsDatasource.getById(
         instrumentId,
       );
       if (!instrument) {
-        throw NotFoundException('Invest instrument not found');
+        throw NotFoundException({
+          id: ExceptionId.investInstrumentNotFound,
+          message: 'Invest instrument not found',
+        });
       }
       const investmentAsset =
         await investmentAssetsDatasource.getByAccountIdAndInstrumentId(
@@ -121,14 +128,18 @@ const CreateSaleUsecaseImpl = ({
           instrumentId,
         );
       if (!investmentAsset) {
-        throw BadRequestException(
-          'You can`t sell this instrument because it is not in your account',
-        );
+        throw BadRequestException({
+          id: ExceptionId.assetNotFound,
+          message:
+            'You can`t sell this instrument because it is not in your account',
+        });
       }
       if (lots > investmentAsset.lots) {
-        throw BadRequestException(
-          'You can`t sell this instrument, because the number of lots on the account is less than you want to sell',
-        );
+        throw BadRequestException({
+          id: ExceptionId.notEnoughLots,
+          message:
+            'You can`t sell this instrument, because the number of lots on the account is less than you want to sell',
+        });
       }
       try {
         await investmentAssetsDatasource.update({

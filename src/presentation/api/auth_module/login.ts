@@ -32,6 +32,7 @@ const Login = ({ loginUsecase }: Params): ApiMethod => {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
         const errorResponseData: ErrorResponseData = {
+          id: exception.id,
           message: exception.message,
         };
         response.status(statusCode).json(errorResponseData);

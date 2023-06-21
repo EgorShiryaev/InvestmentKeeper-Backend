@@ -11,9 +11,7 @@ type Params = {
   registrationUsecase: RegistrationUsecase;
 };
 
-const Registration = ({
-  registrationUsecase,
-}: Params): ApiMethod => {
+const Registration = ({ registrationUsecase }: Params): ApiMethod => {
   const requiredParams = ['name', 'password', 'phoneNumber'];
 
   return {
@@ -35,6 +33,7 @@ const Registration = ({
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
         const errorResponseData: ErrorResponseData = {
+          id: exception.id,
           message: exception.message,
         };
         response.status(statusCode).json(errorResponseData);

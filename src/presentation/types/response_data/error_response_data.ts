@@ -1,5 +1,7 @@
+import ExceptionId from '../../../core/exception/exception_id';
+
 type ErrorResponseData = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  id: ExceptionId;
   message: any;
 };
 

@@ -9,6 +9,7 @@ import ApiMethod from '../../types/methods/api_method';
 import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_iso_date_format';
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreateRefillUsecase } from '../../../domain/usecases/create_refill_usecase';
+import ExceptionId from '../../../core/exception/exception_id';
 
 type Params = {
   createRefillUsecase: CreateRefillUsecase;
@@ -31,9 +32,10 @@ const CreateRefill = ({ createRefillUsecase }: Params): ApiMethod => {
           params.date !== undefined &&
           !checkIsIsoDateFormat(params.date)
         ) {
-          throw BadRequestException(
-            'date should be is string to iso date format',
-          );
+          throw BadRequestException({
+            id: ExceptionId.invalidDateDormat,
+            message: 'date should be is string to iso date format',
+          });
         }
         getAuthedUser(request.headers);
         await createRefillUsecase.call({
@@ -47,6 +49,7 @@ const CreateRefill = ({ createRefillUsecase }: Params): ApiMethod => {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
         const errorResponseData: ErrorResponseData = {
+          id: exception.id,
           message: exception.message,
         };
         response.status(statusCode).json(errorResponseData);

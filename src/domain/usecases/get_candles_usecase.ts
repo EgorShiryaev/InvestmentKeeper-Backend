@@ -1,3 +1,4 @@
+import ExceptionId from '../../core/exception/exception_id';
 import NotFoundException from '../../core/exception/not_found_exception';
 import convertToCandleEntity from '../../core/utils/convectors/convert_to_candle_entity';
 import convertToCandleTimesizeModel from '../../core/utils/convectors/convert_to_candle_timesize_model';
@@ -32,7 +33,10 @@ const GetCandlesUsecaseImpl = ({
         instrumentId,
       );
       if (!instrument) {
-        throw NotFoundException('Invest instrument not found');
+        throw NotFoundException({
+          id: ExceptionId.investInstrumentNotFound,
+          message: 'Invest instrument not found',
+        });
       }
       const params = {
         from: new Date(from),

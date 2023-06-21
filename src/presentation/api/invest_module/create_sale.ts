@@ -10,6 +10,7 @@ import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_i
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreateSaleUsecase } from '../../../domain/usecases/create_sale_usecase';
 import checkNotNullableValue from '../../../core/utils/check_not_nullable_value';
+import ExceptionId from '../../../core/exception/exception_id';
 
 type Params = {
   createSaleUsecase: CreateSaleUsecase;
@@ -38,9 +39,10 @@ const CreateSale = ({ createSaleUsecase }: Params): ApiMethod => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           !checkIsIsoDateFormat(params.date!)
         ) {
-          throw BadRequestException(
-            'date should be is string to iso date format',
-          );
+          throw BadRequestException({
+            id: ExceptionId.invalidDateDormat,
+            message: 'date should be is string to iso date format',
+          });
         }
         getAuthedUser(request.headers);
         await createSaleUsecase.call({
@@ -57,6 +59,7 @@ const CreateSale = ({ createSaleUsecase }: Params): ApiMethod => {
         const exception = error as IException;
         const statusCode = getStatusCodeByExceptionCode(exception.code);
         const errorResponseData: ErrorResponseData = {
+          id: exception.id,
           message: exception.message,
         };
         response.status(statusCode).json(errorResponseData);

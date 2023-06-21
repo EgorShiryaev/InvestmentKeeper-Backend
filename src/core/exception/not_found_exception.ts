@@ -1,9 +1,15 @@
 import Exception from './exception';
 import ExceptionCode from './exception_code';
+import ExceptionId from './exception_id';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const NotFoundException = (message: any) => {
+type Params = {
+  id: ExceptionId;
+  message: string;
+};
+
+const NotFoundException = ({ message, id }: Params) => {
   return Exception({
+    id: id,
     code: ExceptionCode.notFound,
     message: message,
   });
