@@ -10,7 +10,6 @@ import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_i
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreatePurchaseUsecase } from '../../../domain/usecases/create_purchase_usecase';
 import checkNotNullableValue from '../../../core/utils/check_not_nullable_value';
-import convertToNumber from '../../../core/utils/convectors/convert_to_number';
 
 type Params = {
   createPurchaseUsecase: CreatePurchaseUsecase;

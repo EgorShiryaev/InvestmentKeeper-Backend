@@ -6,7 +6,6 @@ const InstrumentPriceRemoteDatasource = ({
   api,
 }: RemoteDatasourceParameters): InstrumentPriceDatasource => {
   return {
-    //@ts-ignore
     getAll: (figis: string[]) => {
       const data: GetLastPricesRequest = {
         figi: figis,

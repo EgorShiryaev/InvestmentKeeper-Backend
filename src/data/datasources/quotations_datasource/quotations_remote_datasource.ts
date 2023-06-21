@@ -16,7 +16,6 @@ const QuotationsRemoteDatasource = ({
       };
 
       return api.stream.market.lastPrice(request, (lastPrice) => {
-        //@ts-ignore
         handler(lastPrice);
       });
     },
