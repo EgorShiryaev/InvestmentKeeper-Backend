@@ -32,6 +32,8 @@ import GetAccount from '../../presentation/api/invest_module/get_account';
 import SqlDatabase from '../../data/databases/sql_database';
 import InstrumentPriceRepositoryImpl from '../../domain/repositories/instrument_price_repository_impl';
 import QuotationsRemoteDatasource from '../../data/datasources/quotations_datasource/quotations_remote_datasource';
+import GetInstrumentPrice from '../../presentation/api/invest_module/get_instrument_price';
+import GetInstrumentPriceUsecaseImpl from '../../domain/usecases/get_instrument_price_usecase';
 
 type Params = {
   sqlDatabase: SqlDatabase;
@@ -133,6 +135,10 @@ const investModuleDependencyInjection = async ({
     currencyDepositsDatasource: currencyDepositsDatasource,
     instrumentPriceRepository: instrumentPriceRepository,
   });
+  const getInstrumentPriceUsecase = GetInstrumentPriceUsecaseImpl({
+    instrumentPriceRepository: instrumentPriceRepository,
+    investInstrumentsDatasource: investInstrumentsDatasource,
+  });
 
   const getAllAccounts = GetAllAccounts({
     getAllAccountsUsecase: getAccountsUsecase,
@@ -164,6 +170,9 @@ const investModuleDependencyInjection = async ({
   const getAccount = GetAccount({
     getAccountUsecase: getAccountUsecase,
   });
+  const getInstrumentPrice = GetInstrumentPrice({
+    getInstrumentPriceUsecase: getInstrumentPriceUsecase,
+  });
 
   return {
     getAllAccounts: getAllAccounts,
@@ -176,6 +185,7 @@ const investModuleDependencyInjection = async ({
     createRefill: createRefill,
     createWithdrawal: createWithdrawal,
     getCandles: getCandles,
+    getInstrumentPrice: getInstrumentPrice,
   };
 };
 

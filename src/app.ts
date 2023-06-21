@@ -36,16 +36,11 @@ const App = ({ port, authApi, investApi }: Params) => {
           investApi.searchInvestInstrument.handler,
         );
         app.get(`${apiVersion}/candles`, investApi.getCandles.handler);
-        // app.get(
-        //   `${apiVersion}/instrumentPrice`,
-        //   investApi.getInstrumentPrice.handler,
-        // );
-        // app.get(
-        //   `${apiVersion}/accountPrice`,
-        //   investApi.getAccountPrice.handler,
-        // );
+        app.get(
+          `${apiVersion}/instrumentPrice`,
+          investApi.getInstrumentPrice.handler,
+        );
         app.get(`${apiVersion}`, (_, request) => {
-          
           request.send('<h1>It`s works</h1>');
         });
         const server = http.createServer(app);

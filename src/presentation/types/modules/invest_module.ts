@@ -11,8 +11,7 @@ type InvestModule = {
   createWithdrawal: ApiMethod;
   searchInvestInstrument: ApiMethod;
   getCandles: ApiMethod;
-  // getInstrumentPrice: ApiMethod;
-  // getAccountPrice: ApiMethod;
+  getInstrumentPrice: ApiMethod;
 };
 
 export default InvestModule;
