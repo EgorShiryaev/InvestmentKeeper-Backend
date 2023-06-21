@@ -10,6 +10,7 @@ import ErrorResponseData from '../../types/response_data/error_response_data';
 import checkPhoneNumberIsCorrectFormat from '../../../core/utils/required_params/check_phone_number_format';
 import { IsUserUsecase } from '../../../domain/usecases/is_user_usecase';
 import ExceptionId from '../../../core/exception/exception_id';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   isUserUsecase: IsUserUsecase;
@@ -43,13 +44,10 @@ const IsUser = ({ isUserUsecase }: Params): ApiMethod => {
         }
         response.sendStatus(StatusCode.noContent);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          id: exception.id,
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

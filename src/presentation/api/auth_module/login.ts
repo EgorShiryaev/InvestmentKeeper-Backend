@@ -6,6 +6,7 @@ import { IException } from '../../../core/exception/exception';
 import getStatusCodeByExceptionCode from '../../../core/utils/response_utils/get_status_code_by_exception_code';
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import { LoginUsecase } from '../../../domain/usecases/login_usecase';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   loginUsecase: LoginUsecase;
@@ -29,13 +30,10 @@ const Login = ({ loginUsecase }: Params): ApiMethod => {
         });
         response.status(StatusCode.success).json(responseData);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          id: exception.id,
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

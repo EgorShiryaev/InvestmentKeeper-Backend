@@ -11,6 +11,7 @@ import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreatePurchaseUsecase } from '../../../domain/usecases/create_purchase_usecase';
 import checkNotNullableValue from '../../../core/utils/check_not_nullable_value';
 import ExceptionId from '../../../core/exception/exception_id';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   createPurchaseUsecase: CreatePurchaseUsecase;
@@ -56,13 +57,10 @@ const CreatePurchase = ({ createPurchaseUsecase }: Params): ApiMethod => {
         });
         response.sendStatus(StatusCode.created);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          id: exception.id,
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

@@ -13,6 +13,7 @@ import getAuthedUser from '../../../core/utils/get_auth_user';
 import { GetCandlesUsecase } from '../../../domain/usecases/get_candles_usecase';
 import GetCandlesResponseData from '../../types/response_data/get_candles_response_data';
 import ExceptionId from '../../../core/exception/exception_id';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   getCandlesUsecase: GetCandlesUsecase;
@@ -61,13 +62,10 @@ const GetCandles = ({ getCandlesUsecase }: Params): ApiMethod => {
         };
         response.status(StatusCode.success).json(requestData);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          id: exception.id,
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

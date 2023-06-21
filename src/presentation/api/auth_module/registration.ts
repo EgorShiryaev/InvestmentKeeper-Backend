@@ -6,6 +6,7 @@ import RegistrationRequestData from '../../types/request_data/registration_reque
 import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import { RegistrationUsecase } from '../../../domain/usecases/registration_usecase';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   registrationUsecase: RegistrationUsecase;
@@ -30,13 +31,10 @@ const Registration = ({ registrationUsecase }: Params): ApiMethod => {
         });
         response.status(StatusCode.success).json(responseData);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          id: exception.id,
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

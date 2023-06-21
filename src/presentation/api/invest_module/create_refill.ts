@@ -10,6 +10,7 @@ import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_i
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreateRefillUsecase } from '../../../domain/usecases/create_refill_usecase';
 import ExceptionId from '../../../core/exception/exception_id';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   createRefillUsecase: CreateRefillUsecase;
@@ -46,13 +47,10 @@ const CreateRefill = ({ createRefillUsecase }: Params): ApiMethod => {
         });
         response.sendStatus(StatusCode.created);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          id: exception.id,
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

@@ -8,6 +8,7 @@ import SearchInvestInstrumentResponseData from '../../types/response_data/search
 import ApiMethod from '../../types/methods/api_method';
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { SearchInvestInstrumentUsecase } from '../../../domain/usecases/search_invest_instrument_usecase';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   searchInvestInstrumentUsecase: SearchInvestInstrumentUsecase;
@@ -36,13 +37,10 @@ const SearchInvestInstrument = ({
         };
         response.status(StatusCode.success).json(responseData);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          id: exception.id,
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

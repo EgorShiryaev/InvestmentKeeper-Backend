@@ -127,14 +127,7 @@ const CreateSaleUsecaseImpl = ({
           accountId,
           instrumentId,
         );
-      if (!investmentAsset) {
-        throw BadRequestException({
-          id: ExceptionId.assetNotFound,
-          message:
-            'You can`t sell this instrument because it is not in your account',
-        });
-      }
-      if (lots > investmentAsset.lots) {
+      if (!investmentAsset || lots > investmentAsset.lots) {
         throw BadRequestException({
           id: ExceptionId.notEnoughLots,
           message:

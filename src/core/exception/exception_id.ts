@@ -3,25 +3,24 @@ enum ExceptionId {
   invalidDateDormat = 'invalidDateDormat',
   invalidCandleTimesize = 'invalidCandleTimesize',
 
+  notFoundRequiredParams = 'notFoundRequiredParams',
+  invalidValueRequiredParams = 'invalidValueRequiredParams',
+
   database = 'database',
   failedAuth = 'failedAuth',
   forbidden = 'forbidden',
   serverError = 'serverError',
 
-  notFoundRequiredParams = 'notFoundRequiredParams',
-  invalidValueRequiredParams = 'invalidValueRequiredParams',
-
   userNotFound = 'userNotFound',
-  currencyNotFound = 'currencyNotDound',
+  currencyNotFound = 'currencyNotFound',
   investInstrumentNotFound = 'investInstrumentNotFound',
   accountNotFound = 'accountNotFound',
-  assetNotFound = 'assetNotFound',
 
   notEnoughFunds = 'notEnoughFunds',
   notEnoughLots = 'notEnoughLots',
 
   userIsAlreadyExists = 'userIsAlreadyExists',
-
+  unknown = 'unknown',
 }
 
 export default ExceptionId;
