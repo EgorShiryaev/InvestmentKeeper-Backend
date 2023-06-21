@@ -18,7 +18,7 @@ export type InstrumentPriceEntity = {
 
 export type InstrumentPriceRepository = {
   init: () => Promise<void>;
-  get: (key: string) => MoneyEntity | undefined;
+  get: (figi: string) => MoneyEntity | undefined;
 };
 
 const InstrumentPriceRepositoryImpl = ({
