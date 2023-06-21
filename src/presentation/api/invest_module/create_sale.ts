@@ -10,7 +10,8 @@ import checkIsIsoDateFormat from '../../../core/utils/required_params/check_is_i
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { CreateSaleUsecase } from '../../../domain/usecases/create_sale_usecase';
 import checkNotNullableValue from '../../../core/utils/check_not_nullable_value';
-import convertToNumber from '../../../core/utils/convectors/convert_to_number';
+import ExceptionId from '../../../core/exception/exception_id';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   createSaleUsecase: CreateSaleUsecase;
@@ -39,9 +40,10 @@ const CreateSale = ({ createSaleUsecase }: Params): ApiMethod => {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           !checkIsIsoDateFormat(params.date!)
         ) {
-          throw BadRequestException(
-            'date should be is string to iso date format',
-          );
+          throw BadRequestException({
+            id: ExceptionId.invalidDateDormat,
+            message: 'date should be is string to iso date format',
+          });
         }
         getAuthedUser(request.headers);
         await createSaleUsecase.call({
@@ -55,12 +57,10 @@ const CreateSale = ({ createSaleUsecase }: Params): ApiMethod => {
         }),
         response.sendStatus(StatusCode.created);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

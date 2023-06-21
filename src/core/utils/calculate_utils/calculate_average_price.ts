@@ -1,4 +1,4 @@
-import MoneyEntity, { NANO_VALUE } from '../../../domain/entities/money_entity';
+import MoneyEntity from '../../../domain/entities/money_entity';
 import aPlusB from '../money_utils/a_plus_b';
 import divisionMoney from '../money_utils/division_money';
 import multiplyMoney from '../money_utils/multiply_money';

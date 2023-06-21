@@ -1,3 +1,4 @@
+import ExceptionId from '../../core/exception/exception_id';
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
 import aPlusB from '../../core/utils/money_utils/a_plus_b';
@@ -63,13 +64,19 @@ const CreateRefillUsecaseImpl = ({
     call: async ({ accountId, value, currencyName, date }) => {
       const account = await accountsDatasource.getById(accountId);
       if (!account) {
-        throw NotFoundException('Account not found');
+        throw NotFoundException({
+          id: ExceptionId.accountNotFound,
+          message: 'Account not found',
+        });
       }
       const currency = await currenciesDatasource.get({
         value: currencyName,
       });
       if (!currency) {
-        throw NotFoundException('Currency not found');
+        throw NotFoundException({
+          id: ExceptionId.currencyNotFound,
+          message: 'Currency not found',
+        });
       }
       const id = await financialOperationsDatasource.create({
         accountId: accountId,

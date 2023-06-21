@@ -7,6 +7,7 @@ import ErrorResponseData from '../../types/response_data/error_response_data';
 import ApiMethod from '../../types/methods/api_method';
 import getAuthedUser from '../../../core/utils/get_auth_user';
 import { UpdateAccountUsecase } from '../../../domain/usecases/update_account_usecase';
+import getCodeAndResponseDataByException from '../../../core/utils/response_utils/send_error_reponse_by_exception';
 
 type Params = {
   updateAccountUsecase: UpdateAccountUsecase;
@@ -27,16 +28,14 @@ const UpdateAccount = ({ updateAccountUsecase }: Params): ApiMethod => {
         getAuthedUser(request.headers);
         updateAccountUsecase.call({
           id: params.id,
-          title: params.title
+          title: params.title,
         });
         response.sendStatus(StatusCode.noContent);
       } catch (error) {
-        const exception = error as IException;
-        const statusCode = getStatusCodeByExceptionCode(exception.code);
-        const errorResponseData: ErrorResponseData = {
-          message: exception.message,
-        };
-        response.status(statusCode).json(errorResponseData);
+        const { statusCode, responseData } = getCodeAndResponseDataByException(
+          error as IException,
+        );
+        response.status(statusCode).json(responseData);
       }
     },
   };

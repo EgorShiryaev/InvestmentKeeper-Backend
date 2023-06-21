@@ -1,5 +1,4 @@
 import dependencyInjection from './core/dependency_injection/dependency_injection';
-import calculateAveragePrice from './core/utils/calculate_utils/calculate_average_price';
 import { SqlDatabaseImplParams } from './data/databases/sql_database_impl';
 
 const secretToken = process.env.SANDBOX_TINKOFF_TOKEN;

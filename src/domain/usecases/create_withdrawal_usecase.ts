@@ -1,4 +1,5 @@
 import BadRequestException from '../../core/exception/bad_request_exception';
+import ExceptionId from '../../core/exception/exception_id';
 import NotFoundException from '../../core/exception/not_found_exception';
 import ServerErrorException from '../../core/exception/server_error_exception';
 import aMinusB from '../../core/utils/money_utils/a_minus_b';
@@ -65,13 +66,19 @@ const CreateWithdrawalUsecaseImpl = ({
     call: async ({ accountId, value, currencyName, date }) => {
       const account = await accountsDatasource.getById(accountId);
       if (!account) {
-        throw NotFoundException('Account not found');
+        throw NotFoundException({
+          id: ExceptionId.accountNotFound,
+          message: 'Account not found',
+        });
       }
       const currency = await currenciesDatasource.get({
         value: currencyName,
       });
       if (!currency) {
-        throw NotFoundException('Currency not found');
+        throw NotFoundException({
+          id: ExceptionId.currencyNotFound,
+          message: 'Currency not found',
+        });
       }
       const currencyDeposit = await getCurrencyDeposit({
         account: account,
@@ -84,9 +91,11 @@ const CreateWithdrawalUsecaseImpl = ({
           units: currencyDeposit.value_units,
         })
       ) {
-        throw BadRequestException(
-          'You can`t withdraw this amount because there are not enough funds on your account',
-        );
+        throw BadRequestException({
+          id: ExceptionId.notEnoughFunds,
+          message:
+            'You can`t withdraw this amount because there are not enough funds on your account',
+        });
       }
       const id = await financialOperationsDatasource.create({
         accountId: accountId,

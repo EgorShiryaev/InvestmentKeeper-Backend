@@ -1,4 +1,5 @@
 import BadRequestException from '../../core/exception/bad_request_exception';
+import ExceptionId from '../../core/exception/exception_id';
 import ServerErrorException from '../../core/exception/server_error_exception';
 import generateAuthToken from '../../core/utils/auth_token/generate_auth_token';
 import { encodePassword } from '../../core/utils/encoded_password/encode_password';
@@ -9,7 +10,7 @@ import AuthResponseData from '../../presentation/types/response_data/auth_respon
 import AuthentificatedUsersRepository from '../repositories/authentificated_users_repository';
 
 type Params = {
-    usersDatasource: UsersDatasource;
+  usersDatasource: UsersDatasource;
 };
 
 type CallMethodParams = {
@@ -27,12 +28,13 @@ const RegistrationUsecaseImpl = ({
 }: Params): RegistrationUsecase => {
   return {
     call: async ({ phoneNumber, password, name }) => {
-      const userModel = await usersDatasource.getByPhoneNumber(
-        phoneNumber,
-      );
-      const userIsAlreadyExists = !!(userModel);
+      const userModel = await usersDatasource.getByPhoneNumber(phoneNumber);
+      const userIsAlreadyExists = !!userModel;
       if (userIsAlreadyExists) {
-        throw BadRequestException('User is already exists');
+        throw BadRequestException({
+          id: ExceptionId.userIsAlreadyExists,
+          message: 'User is already exists',
+        });
       }
       const newUser = {
         name: name,
@@ -60,5 +62,4 @@ const RegistrationUsecaseImpl = ({
 };
 
 export default RegistrationUsecaseImpl;
-
 

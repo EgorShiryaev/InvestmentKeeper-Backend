@@ -1,4 +1,5 @@
 import BadRequestException from '../../exception/bad_request_exception';
+import ExceptionId from '../../exception/exception_id';
 import generateNotFoundedRequiredParamsErrorMessage from './generate_not_founded_required_params_error_message';
 import generateRequiredParamsErrorMessage from './generate_required_params_values_error_message';
 
@@ -31,7 +32,10 @@ const checkRequiredParams = ({
   if (requiredParams.length > 0) {
     const message =
       generateNotFoundedRequiredParamsErrorMessage(requiredParams);
-    throw BadRequestException(message);
+    throw BadRequestException({
+      id: ExceptionId.notFoundRequiredParams,
+      message,
+    });
   }
 
   requiredParams = [...params];
@@ -54,7 +58,10 @@ const checkRequiredParams = ({
   if (requiredParams.length > 0) {
     const message = generateRequiredParamsErrorMessage(requiredParams);
 
-    throw BadRequestException(message);
+    throw BadRequestException({
+      id: ExceptionId.invalidValueRequiredParams,
+      message,
+    });
   }
 };
 

@@ -13,7 +13,7 @@ type Params = {
 
 export type InstrumentPriceEntity = {
   figi: string;
-  price: MoneyEntity | undefined;
+  price?: MoneyEntity;
 };
 
 export type InstrumentPriceRepository = {
