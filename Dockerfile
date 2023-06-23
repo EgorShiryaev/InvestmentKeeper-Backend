@@ -14,6 +14,8 @@ COPY ./src ./src
 # Installs all packages
 RUN npm ci
 
-# Runs the dev npm script to build & start the server
+# Runs build server
 RUN npm run build
+
+# Runs start server
 CMD node ./dist/index.js
