@@ -6,7 +6,7 @@ const createTables = async (sqlDatabase: SqlDatabase) => {
     return sqlDatabase.createTable(`CREATE TABLE IF NOT EXISTS ${tableConfig}`);
   };
 
-  const IdColumnConfig = 'id SERIAL PRIMARY KEY';
+  const IdColumnConfig = 'id INTEGER PRIMARY KEY AUTOINCREMENT';
 
   const tablesConfigs = {
     users: `

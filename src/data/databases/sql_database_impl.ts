@@ -1,82 +1,77 @@
-import { Pool, PoolClient } from 'pg';
+import path from 'path';
+import { Database, verbose as initSqlite3 } from 'sqlite3';
 import DatabaseException from '../../core/exception/database_exception';
 import SqlDatabase from './sql_database';
 
-export type SqlDatabaseImplParams = {
-  user: string;
-  host: string;
-  password: string;
-  databaseName: string;
-  port: number;
-};
-
-const SqlDatabaseImpl = async (
-  params: SqlDatabaseImplParams,
-): Promise<SqlDatabase> => {
-  const { user, host, password, databaseName, port } = params;
-
-  const initClient = (): Promise<PoolClient> => {
+const SqlDatabaseImpl = async (): Promise<SqlDatabase> => {
+  const initDatabase = (): Database => {
+    const databasePath = path.resolve(
+      __dirname,
+      '../../../database/database.db',
+    );
     try {
-      return new Pool({
-        user: user,
-        host: host,
-        password: password,
-        database: databaseName,
-        port: port,
-      }).connect();
+      const sqlite3 = initSqlite3();
+      return new sqlite3.Database(databasePath, (error) => {
+        if (error) {
+          console.log('Database failure open', error);
+          return;
+        }
+        console.log('Database success open');
+      });
     } catch (error) {
+      console.log(error, databasePath);
       throw DatabaseException(error);
     }
   };
 
-  const client = await initClient();
+  const database = initDatabase();
 
   return {
-    get: (sqlScript: string) => {
+    get: <T>(sqlScript: string) => {
       console.log('script', sqlScript);
       return new Promise((resolve, reject) => {
-        client.query(sqlScript, (error, results) => {
+        database.get<T>(sqlScript, (error, result) => {
           if (error) {
             console.log('DB Error', error);
             reject(DatabaseException(error.message));
             return;
           }
-          const result =
-            results.rows.length === 0 ? undefined : results.rows[0];
+          //@ts-ignore
           resolve(result);
         });
       });
     },
-    getAll: (sqlScript: string) => {
+    getAll: <T>(sqlScript: string) => {
       console.log('script', sqlScript);
       return new Promise((resolve, reject) => {
-        client.query(sqlScript, (error, result) => {
+        database.all<T>(sqlScript, (error, result) => {
           if (error) {
             console.log('DB Error', error);
             reject(DatabaseException(error.message));
             return;
           }
-          resolve(result.rows);
+          //@ts-ignore
+          resolve(result);
         });
       });
     },
     create: (sqlScript: string) => {
       console.log('script', sqlScript);
       return new Promise((resolve, reject) => {
-        client.query(`${sqlScript} RETURNING *`, (error, results) => {
+        database.run(`${sqlScript}`, function (error) {
           if (error) {
             console.log('DB Error', error);
             reject(DatabaseException(error.message));
             return;
           }
-          resolve(results.rows[0].id);
+          resolve(this.lastID);
         });
       });
     },
     update: (sqlScript: string) => {
       console.log('script', sqlScript);
       return new Promise((resolve, reject) => {
-        client.query(sqlScript, (error) => {
+        database.run(sqlScript, function (error) {
           if (error) {
             console.log('DB Error', error);
             reject(DatabaseException(error.message));
@@ -88,7 +83,7 @@ const SqlDatabaseImpl = async (
     },
     createTable: (sqlScript: string) => {
       return new Promise((resolve, reject) => {
-        client.query(sqlScript, (error) => {
+        database.run(sqlScript, (error) => {
           if (error) {
             console.log('DB Error', error);
             reject(DatabaseException(error.message));
